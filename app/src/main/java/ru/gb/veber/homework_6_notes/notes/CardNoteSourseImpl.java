@@ -14,14 +14,14 @@ public class CardNoteSourseImpl implements CardNoteSourse {
     static CardNoteSourseImpl sourse;
     private ArrayList<CardNote> notes = new ArrayList<>();
 
-    public static CardNoteSourseImpl getInstance()
-    {
-        if(sourse==null)
-        {
-            sourse= new CardNoteSourseImpl();
-        }
-        return sourse;
-    }
+//    public static CardNoteSourseImpl getInstance()
+//    {
+//        if(sourse==null)
+//        {
+//            sourse= new CardNoteSourseImpl();
+//        }
+//        return sourse;
+//    }
 
     public CardNoteSourseImpl()
     {

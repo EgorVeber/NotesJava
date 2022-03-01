@@ -23,6 +23,7 @@ public class EditNoteActivity extends AppCompatActivity {
     EditText edit_population;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_note);
         setTitle("RecyclerViewEdit");

@@ -23,7 +23,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/card_text_size_item</item>
-        <item name="android:textColor">@color/purple_700</item>
+        <item name="android:textColor">@color/card_item_color</item>
     </style>
     <style name="card_item_style.edit_item">
         <item name="android:layout_gravity">center</item>
@@ -45,7 +45,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:textColor">@color/purple_700</item>
+        <item name="android:textColor">@color/card_item_color</item>
         <item name="android:textSize">@dimen/card_text_size_item_edit</item>
         <item name="android:ems">10</item>
     </style>

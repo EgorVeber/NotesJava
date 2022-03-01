@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
     private RecyclerView list;
 
     //нужна ссылка на репозитари и куда буду потом добавлять
-    private CardNoteSourse sourse = CardNoteSourseImpl.getInstance();//
+    private CardNoteSourse sourse ;//
     private AdapterNote adapters;
 
     @Override
@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
         list.addItemDecoration(itemDecoration);
-
     }
     @Override
     public void onNoteClick(CardNote note) {
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
         intent.putExtra(CardNote.NOTE,note);
         startActivityForResult(intent,REQUEST_CODE_SETTING_ACTIVITY);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode != REQUEST_CODE_SETTING_ACTIVITY) {
