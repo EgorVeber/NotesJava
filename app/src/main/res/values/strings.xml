@@ -1,3 +1,100 @@
 <resources>
     <string name="app_name">homework_6_notes</string>
+
+
+    <string-array name="country">
+        <item>@string/country1</item>
+        <item>@string/country2</item>
+        <item>@string/country3</item>
+        <item>@string/country4</item>
+        <item>@string/country5</item>
+        <item>@string/country6</item>
+        <item>@string/country7</item>
+        <item>@string/country8</item>
+        <item>@string/country9</item>
+        <item>@string/country10</item>
+        <item>@string/country11</item>
+        <item>@string/country12</item>
+        <item>@string/country13</item>
+    </string-array>
+    <string-array name="capital">
+        <item>@string/capital1</item>
+        <item>@string/capital2</item>
+        <item>@string/capital3</item>
+        <item>@string/capital4</item>
+        <item>@string/capital5</item>
+        <item>@string/capital6</item>
+        <item>@string/capital7</item>
+        <item>@string/capital8</item>
+        <item>@string/capital9</item>
+        <item>@string/capital10</item>
+        <item>@string/capital11</item>
+        <item>@string/capital12</item>
+        <item>@string/capital13</item>
+    </string-array>
+    <string-array name="population">
+        <item>@string/population1</item>
+        <item>@string/population2</item>
+        <item>@string/population3</item>
+        <item>@string/population4</item>
+        <item>@string/population5</item>
+        <item>@string/population6</item>
+        <item>@string/population7</item>
+        <item>@string/population8</item>
+        <item>@string/population9</item>
+        <item>@string/population10</item>
+        <item>@string/population11</item>
+        <item>@string/population12</item>
+        <item>@string/population13</item>
+    </string-array>
+
+    <string name="country1">Россия</string>
+    <string name="country2">Россия</string>
+    <string name="country3">Россия</string>
+    <string name="country4">Россия</string>
+    <string name="country5">Россия</string>
+    <string name="country6">Россия</string>
+    <string name="country7">Россия</string>
+    <string name="country8">Россия</string>
+    <string name="country9">Россия</string>
+    <string name="country10">Россия</string>
+    <string name="country11">Россия</string>
+    <string name="country12">Россия</string>
+    <string name="country13">Россия</string>
+
+    <string name="capital1">Москва</string>
+    <string name="capital2">Москва</string>
+    <string name="capital3">Москва</string>
+    <string name="capital4">Москва</string>
+    <string name="capital5">Москва</string>
+    <string name="capital6">Москва</string>
+    <string name="capital7">Москва</string>
+    <string name="capital8">Москва</string>
+    <string name="capital9">Москва</string>
+    <string name="capital10">Москва</string>
+    <string name="capital11">Москва</string>
+    <string name="capital12">Москва</string>
+    <string name="capital13">Москва</string>
+
+    <string name="population1">145478097</string>
+    <string name="population2">145478097</string>
+    <string name="population3">145478097</string>
+    <string name="population4">145478097</string>
+    <string name="population5">145478097</string>
+    <string name="population6">145478097</string>
+    <string name="population7">145478097</string>
+    <string name="population8">145478097</string>
+    <string name="population9">145478097</string>
+    <string name="population10">145478097</string>
+    <string name="population11">145478097</string>
+    <string name="population12">145478097</string>
+    <string name="population13">145478097</string>
+
+    <string name="title_text">Список стран</string>
+    <string name="card">Карточка</string>
+    <string name="country">Страна</string>
+    <string name="capital">Столица</string>
+    <string name="population">Население</string>
+
+
 </resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="title_style_main" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/title_text</item>
+        <item name="android:layout_margin">@dimen/margin_title</item>
+        <item name="android:textColor">@color/teal_200</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+    </style>
+    <style name="title_style_edit" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/card</item>
+        <item name="android:layout_margin">@dimen/margin_title</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/teal_200</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">@dimen/title_text_size_edit</item>
+    </style>
+    <style name="card_item_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/card_text_size_item</item>
+        <item name="android:textColor">@color/purple_700</item>
+    </style>
+    <style name="card_item_style.edit_item">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">@dimen/card_text_size_item_edit</item>
+    </style>
+
+    <style name="card_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_marginLeft">@dimen/margin_card_view</item>
+        <item name="android:layout_marginRight">@dimen/margin_card_view</item>
+        <item name="android:backgroundTint">@color/back_card_view</item>
+        <item name="cardCornerRadius">@dimen/radius_card_view</item>
+    </style>
+    <style name="edit_text_card">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/purple_700</item>
+        <item name="android:textSize">@dimen/card_text_size_item_edit</item>
+        <item name="android:ems">10</item>
+    </style>
+</resources>
