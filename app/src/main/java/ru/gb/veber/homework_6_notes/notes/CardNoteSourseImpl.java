@@ -11,7 +11,7 @@ public class CardNoteSourseImpl implements CardNoteSourse {
 
     private int counter = 0;
     private Resources resources;
-    static CardNoteSourseImpl sourse;
+//    static CardNoteSourseImpl sourse;
     private ArrayList<CardNote> notes = new ArrayList<>();
 
 //    public static CardNoteSourseImpl getInstance()

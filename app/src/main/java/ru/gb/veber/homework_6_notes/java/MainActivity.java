@@ -24,8 +24,7 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
 
     private RecyclerView list;
 
-    //нужна ссылка на репозитари и куда буду потом добавлять
-    private CardNoteSourse sourse ;//
+    private CardNoteSourse sourse  ;
     private AdapterNote adapters;
 
     @Override
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("RecyclerView");
+
         sourse = new CardNoteSourseImpl().init(getResources());
 
         list= findViewById(R.id.list);
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
 
         list.setHasFixedSize(true);
         list.setAdapter(adapters);
-        //Нужен layout менеджер за размещение и сколирование элементов отвечает layoutmanager
+
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
         list.addItemDecoration(itemDecoration);
