@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
         setContentView(R.layout.activity_main);
         setTitle("RecyclerView");
 
-        //Вернуть
 
 
         list= findViewById(R.id.list);

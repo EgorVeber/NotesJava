@@ -35,7 +35,7 @@
                 android:text="@string/capital"/>
         <EditText
             android:id="@+id/edit_capital"
-            android:inputType="date"
+            android:inputType="text"
             android:ems="5"
             style="@style/edit_text_card"
             />

@@ -24,14 +24,18 @@ public class CardNoteSourseImpl implements CardNoteSourse {
     }
     public CardNoteSourseImpl()
     {
-        create(new CardNote("Название","Дата","Описание"));
-        create(new CardNote("Название","Дата","Описание"));
-        create(new CardNote("Название","Дата","Описание"));
-        create(new CardNote("Название","Дата","Описание"));
-        create(new CardNote("Название","Дата","Описание"));
-        create(new CardNote("Название","Дата","Описание"));
-        create(new CardNote("Название","Дата","Описание"));
-        create(new CardNote("Название","Дата","Описание"));
+        create(new CardNote("Дом","06.03.22","Убратся дома хотябы раз за неделю"));
+        create(new CardNote("Стоматолог","09.03.22","Записан на 12:00"));
+        create(new CardNote("Кино","15.03.22","Сходить на что нибудь"));
+        create(new CardNote("Спортзал","99.99.99","Мб когда нибудь"));
+        create(new CardNote("Android","10.03.22","Заниматся разработкой, по практиковатся с Intent и приступать к фрагментам + почитать и сделать примеи TextInputLayout "));
+        create(new CardNote("Вебинар","04.03.22","Успеть к  20:00"));
+        create(new CardNote("Работа","11.03.22","Не забыть что отпуск закончился"));
+        create(new CardNote("Дом","06.03.22","Забрать смеситель"));
+        create(new CardNote("Подарки","05.03.22","Подумать о подарках"));
+        create(new CardNote("Отпуск","04.03.22","Подписать заявление на отпуск"));
+        create(new CardNote("8 Марта","07.03.22","Забрать подарки"));
+        create(new CardNote("Врач","11.03.22","Запись к офтальмологу"));
     }
     public CardNoteSourseImpl init(Resources resources){
         this.resources = resources;
