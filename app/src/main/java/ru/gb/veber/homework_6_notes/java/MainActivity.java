@@ -1,5 +1,6 @@
 package ru.gb.veber.homework_6_notes.java;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -24,8 +25,9 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
 
     private RecyclerView list;
 
-    private CardNoteSourse sourse  ;
+    private CardNoteSourse sourse = CardNoteSourseImpl.getInstance() ;
     private AdapterNote adapters;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
         setContentView(R.layout.activity_main);
         setTitle("RecyclerView");
 
-        sourse = new CardNoteSourseImpl().init(getResources());
+        //Вернуть
+
 
         list= findViewById(R.id.list);
 
@@ -55,8 +58,17 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
         intent.putExtra(CardNote.NOTE,note);
         startActivityForResult(intent,REQUEST_CODE_SETTING_ACTIVITY);
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
         if (requestCode != REQUEST_CODE_SETTING_ACTIVITY) {
             super.onActivityResult(requestCode, resultCode, data);
             return;

@@ -2,7 +2,7 @@ package ru.gb.veber.homework_6_notes.notes;
 
 import java.util.List;
 
-public interface CardNoteSourse {
+public interface CardNoteSourse  {
 
     int create(CardNote note);
     CardNote read(int id);

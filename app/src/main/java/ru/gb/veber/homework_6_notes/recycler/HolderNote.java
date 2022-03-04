@@ -33,9 +33,9 @@ public class HolderNote extends RecyclerView.ViewHolder {
     {
         // note содержимым переопределить TextView
         this.note=note;
-        country.setText(note.getCountry()+" ");
+        country.setText(note.getCountry());
         capital.setText(note.getCapital());
-        population.setText(note.getPopulation()+" миллиона");
+        population.setText(note.getPopulation());
     }
 
 }

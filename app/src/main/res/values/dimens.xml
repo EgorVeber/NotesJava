@@ -7,4 +7,6 @@
     <dimen name="card_text_size_item_edit">25sp</dimen>
     <dimen name="radius_card_view">10dp</dimen>
     <dimen name="margin_card_view">10dp</dimen>
+    <dimen name="btn_save_edit">25sp</dimen>
+
 </resources>
