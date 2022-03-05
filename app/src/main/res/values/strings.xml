@@ -1,3 +1,100 @@
 <resources>
     <string name="app_name">homework_6_notes</string>
+    <string name="btn_sava">Save</string>
+    <string-array name="country">
+        <item>@string/country1</item>
+        <item>@string/country2</item>
+        <item>@string/country3</item>
+        <item>@string/country4</item>
+        <item>@string/country5</item>
+        <item>@string/country6</item>
+        <item>@string/country7</item>
+        <item>@string/country8</item>
+        <item>@string/country9</item>
+        <item>@string/country10</item>
+        <item>@string/country11</item>
+        <item>@string/country12</item>
+        <item>@string/country13</item>
+    </string-array>
+    <string-array name="capital">
+        <item>@string/capital1</item>
+        <item>@string/capital2</item>
+        <item>@string/capital3</item>
+        <item>@string/capital4</item>
+        <item>@string/capital5</item>
+        <item>@string/capital6</item>
+        <item>@string/capital7</item>
+        <item>@string/capital8</item>
+        <item>@string/capital9</item>
+        <item>@string/capital10</item>
+        <item>@string/capital11</item>
+        <item>@string/capital12</item>
+        <item>@string/capital13</item>
+    </string-array>
+    <string-array name="population">
+        <item>@string/population1</item>
+        <item>@string/population2</item>
+        <item>@string/population3</item>
+        <item>@string/population4</item>
+        <item>@string/population5</item>
+        <item>@string/population6</item>
+        <item>@string/population7</item>
+        <item>@string/population8</item>
+        <item>@string/population9</item>
+        <item>@string/population10</item>
+        <item>@string/population11</item>
+        <item>@string/population12</item>
+        <item>@string/population13</item>
+    </string-array>
+
+
+
+    <string name="capital1">Париж</string>
+    <string name="capital2">Мадрид</string>
+    <string name="capital3">Москва</string>
+    <string name="capital4">Амстердам</string>
+    <string name="capital5">Рим</string>
+    <string name="capital6">Анкара</string>
+    <string name="capital7">Мехико</string>
+    <string name="capital8">Берлин</string>
+    <string name="capital9">Лондон</string>
+    <string name="capital10">Вена</string>
+    <string name="capital11">Афины</string>
+    <string name="capital12">Лиссабон</string>
+    <string name="capital13">Куала-Лумпур</string>
+
+
+    <string name="country1">Франция</string>
+    <string name="country2">Испания</string>
+    <string name="country3">Россия</string>
+    <string name="country4">Нидерланды</string>
+    <string name="country5">Италия</string>
+    <string name="country6">Турция</string>
+    <string name="country7">Мексика</string>
+    <string name="country8">Германия</string>
+    <string name="country9">Великобритания</string>
+    <string name="country10">Австрия</string>
+    <string name="country11">Греция</string>
+    <string name="country12">Португалия</string>
+    <string name="country13">Малайзия</string>
+
+    <string name="population1">67,39</string>
+    <string name="population2">47,35</string>
+    <string name="population3">144,1</string>
+    <string name="population4">17,44</string>
+    <string name="population5">59,55</string>
+    <string name="population6">84,34</string>
+    <string name="population7">128,9</string>
+    <string name="population8">83,24</string>
+    <string name="population9">67,22</string>
+    <string name="population10">8,917</string>
+    <string name="population11">10,72</string>
+    <string name="population12">10,31</string>
+    <string name="population13">32,37</string>
+
+    <string name="title_text">Заметки</string>
+    <string name="card">Карточка</string>
+    <string name="country">Название заметки</string>
+    <string name="capital">Дата</string>
+    <string name="population">Описание</string>
 </resources>
