@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements AdapterNote.OnNot
         Intent intent = new Intent(this,EditNoteActivity.class);
         intent.putExtra(CardNote.NOTE,note);
         startActivityForResult(intent,REQUEST_CODE_SETTING_ACTIVITY);
+
     }
 
     @Override
