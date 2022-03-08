@@ -26,10 +26,16 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
 
 
     private static final String TAG = "MainFragment";
-    private CardNoteSourse sourse = CardNoteSourseImpl.getInstance() ;
-    List<CardNote> notes =sourse.getAll();
 
+    private CardNoteSourse sourse = CardNoteSourseImpl.getInstance() ;
     AdapterNote adapters;
+    CardNote cardNote;
+
+    private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
+
+    public static  int currentn_not;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,27 +55,35 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
         list.addItemDecoration(itemDecoration);
 
-//        if (savedInstanceState != null) {
-//            currentn_not = savedInstanceState.getInt(CURRENT_CARD_NOTE,0);
-//            Log.d(TAG, String.valueOf(currentn_not));
-//        }
+
+        if (savedInstanceState != null) {
+            currentn_not = savedInstanceState.getInt(CURRENT_CARD_NOTE, -100);
+            Log.d(TAG, String.valueOf(currentn_not));
+        }
+
+        if(isLandscape())
+        {
+            Log.d(TAG, "onNoteClick()");
+            cardNote=sourse.read(currentn_not);
+            requireActivity().
+                    getSupportFragmentManager().
+                    beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
+                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(cardNote)).commit();
+        }
     }
 
     @Override
     public void onNoteClick(CardNote note) {
 
 
-//        currentn_not=note.getId();
-//        Log.d(TAG, " note = [" + note + "]");
-//        Log.d(TAG, " currentn_not = [" + sourse.read(currentn_not) + "]");
+        currentn_not= note.getId();
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
             requireActivity().
                     getSupportFragmentManager().
                     beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(note)).addToBackStack(null).commit();
-          //  Log.d(TAG, " note = [" + note + "]");
-         //   Log.d(TAG, " currentn_not = [" + sourse.read(currentn_not) + "]");
+                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(note)).commit();
+            Log.d(TAG, "onNoteClick() called with: note = [" + note + "]");
         }
         else
         {
@@ -79,10 +93,21 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
                     replace(R.id.fragment_container,EditNoteFragment.newInstance(note)).addToBackStack(null).commit();
         }
     }
-
-
-
-    public void startButtonPressed(String message) {
+    public void startButtonPressed(CardNote note) {
+        sourse.update(note);
         adapters.SetNote(sourse.getAll());
+    }
+
+
+    private boolean isLandscape() {
+        return getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt(CURRENT_CARD_NOTE, currentn_not);
+        Log.d(TAG, String.valueOf(currentn_not));
+        super.onSaveInstanceState(outState);
     }
 }

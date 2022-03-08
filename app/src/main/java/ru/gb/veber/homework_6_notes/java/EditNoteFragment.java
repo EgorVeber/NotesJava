@@ -30,12 +30,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "EditNoteFragment";
 
-    private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
 
-
-    public static  int currentn_not;
-
-    private CardNoteSourse sourse = CardNoteSourseImpl.getInstance() ;
 
     CardNote note;
     Button button;
@@ -52,15 +47,18 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         fragment.setArguments(args);
         return fragment;
     }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null)
+            requireActivity().getSupportFragmentManager().popBackStack();
+
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_edit_note,container,false);
-
     }
-
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
@@ -75,62 +73,39 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
 
         button.setOnClickListener(this);
 
+        Log.d(TAG, "onViewCreated() Аргументов нет");
         if(fragment_arg!=null)
         {
-            if (savedInstanceState != null) {
-                currentn_not = savedInstanceState.getInt(CURRENT_CARD_NOTE,0);
-                Log.d(TAG, String.valueOf(currentn_not));
-                note=sourse.read(currentn_not);
-            }
-            else
-            {
-                note=(CardNote) fragment_arg.getSerializable(CardNoteKey);
-            }
+            note=(CardNote) fragment_arg.getSerializable(CardNoteKey);
+            Log.d(TAG, "onViewCreated note = "+note.toString());
             edit_country.setText(note.getCountry());
             edit_capital.setText(note.getCapital());
             edit_population.setText(note.getPopulation());
-            currentn_not= note.getId();
-            Log.d(TAG, String.valueOf(currentn_not));
         }
         else
         {
             Log.d(TAG, "onViewCreated() Аргументов нет");
         }
-
-
     }
 
     @Override
     public void onClick(View view)
     {
-
-
         MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag("tagg");
 
-
-      //  Log.d(TAG, "onClick");
-        note.setCountry(edit_country.getText().toString());
-        note.setCapital(edit_capital.getText().toString());
-        note.setPopulation(edit_population.getText().toString());
-
-        sourse.update(note);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
-            //requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MainFragment()).commit();
+            note.setCountry(edit_country.getText().toString());
+            note.setCapital(edit_capital.getText().toString());
+            note.setPopulation(edit_population.getText().toString());
         }
         else
         {
+            note.setCountry(edit_country.getText().toString());
+            note.setCapital(edit_capital.getText().toString());
+            note.setPopulation(edit_population.getText().toString());
             requireActivity().getSupportFragmentManager().popBackStack();
         }
-        Log.d(TAG, note.toString());
-
-        fragment.startButtonPressed("asdasdas");
+        fragment.startButtonPressed(note);
     }
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt(CURRENT_CARD_NOTE, currentn_not);
-        Log.d(TAG, String.valueOf(currentn_not));
-        super.onSaveInstanceState(outState);
-    }
-    //ативность должна имплементить
 }

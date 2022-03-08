@@ -14,11 +14,6 @@ import ru.gb.veber.homework_6_notes.notes.CardNoteSourse;
 import ru.gb.veber.homework_6_notes.notes.CardNoteSourseImpl;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
-
-    private CardNoteSourse sourse = CardNoteSourseImpl.getInstance() ;
-    List<CardNote> notes =sourse.getAll();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,21 +22,6 @@ public class MainActivity extends AppCompatActivity {
         setTitle("RecyclerView");
 
         if(savedInstanceState==null)
-        {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MainFragment(),"tagg").commit();
-        }
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-        {
-            if(notes.size()==0)
-            {
-                getSupportFragmentManager().beginTransaction().replace(R.id.edit_fragment_container, new EditNoteFragment()).commit();
-            }
-            else
-            {
-                getSupportFragmentManager().beginTransaction().replace(R.id.edit_fragment_container, EditNoteFragment.newInstance(notes.get(0))).commit();
-            }
-        }
-        else
         {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MainFragment(),"tagg").commit();
         }
