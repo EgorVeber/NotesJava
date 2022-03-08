@@ -9,5 +9,6 @@ public interface CardNoteSourse  {
     void update (CardNote note);
     void delete (int id);
     List<CardNote> getAll();
+    int getSize();
 
 }

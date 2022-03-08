@@ -1,6 +1,7 @@
 package ru.gb.veber.homework_6_notes.recycler;
 
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,5 +38,4 @@ public class HolderNote extends RecyclerView.ViewHolder {
         capital.setText(note.getCapital());
         population.setText(note.getPopulation());
     }
-
 }

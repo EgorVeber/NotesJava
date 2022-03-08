@@ -94,4 +94,9 @@ public class CardNoteSourseImpl implements CardNoteSourse {
     public List<CardNote> getAll() {
         return notes;
     }
+
+    @Override
+    public int getSize() {
+        return notes.size();
+    }
 }

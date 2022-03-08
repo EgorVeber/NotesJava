@@ -26,14 +26,13 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
 
 
     private static final String TAG = "MainFragment";
-
-    private CardNoteSourse sourse = CardNoteSourseImpl.getInstance() ;
-    AdapterNote adapters;
-    CardNote cardNote;
-
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
 
-    public static  int currentn_not;
+    private CardNoteSourse sourse = CardNoteSourseImpl.getInstance() ;
+
+    private AdapterNote adapters;
+    private CardNote currentn_not;
+
 
 
     @Nullable
@@ -48,6 +47,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         RecyclerView list= view.findViewById(R.id.list);
         adapters = new AdapterNote();
         adapters.SetNote(sourse.getAll());
+        Log.d(TAG, sourse.getAll().toString());
         adapters.setOnNoteCliclListner(this);
         list.setHasFixedSize(true);
         list.setAdapter(adapters);
@@ -57,26 +57,39 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
 
 
         if (savedInstanceState != null) {
-            currentn_not = savedInstanceState.getInt(CURRENT_CARD_NOTE, -100);
+            currentn_not = (CardNote) savedInstanceState.getSerializable(CURRENT_CARD_NOTE);
             Log.d(TAG, String.valueOf(currentn_not));
         }
-
+        else
+        {
+            if (sourse.getSize()!=0)
+            {
+                currentn_not=sourse.getAll().get(0);
+                Log.d(TAG, "isEmpty()");
+            }
+        }
         if(isLandscape())
         {
             Log.d(TAG, "onNoteClick()");
-            cardNote=sourse.read(currentn_not);
-            requireActivity().
-                    getSupportFragmentManager().
-                    beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(cardNote)).commit();
+            if (sourse.getSize()==0)
+            {
+
+            }
+            else
+            {
+                requireActivity().
+                        getSupportFragmentManager().
+                        beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
+                        replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(currentn_not)).commit();
+            }
         }
     }
-
     @Override
     public void onNoteClick(CardNote note) {
 
 
-        currentn_not= note.getId();
+        currentn_not= note;
+
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
             requireActivity().
@@ -87,6 +100,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         }
         else
         {
+
             requireActivity().
                     getSupportFragmentManager().
                     beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
@@ -98,7 +112,6 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         adapters.SetNote(sourse.getAll());
     }
 
-
     private boolean isLandscape() {
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
@@ -106,7 +119,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt(CURRENT_CARD_NOTE, currentn_not);
+        outState.putSerializable(CURRENT_CARD_NOTE, currentn_not);
         Log.d(TAG, String.valueOf(currentn_not));
         super.onSaveInstanceState(outState);
     }

@@ -73,14 +73,17 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
 
         button.setOnClickListener(this);
 
-        Log.d(TAG, "onViewCreated() Аргументов нет");
+
         if(fragment_arg!=null)
         {
             note=(CardNote) fragment_arg.getSerializable(CardNoteKey);
-            Log.d(TAG, "onViewCreated note = "+note.toString());
-            edit_country.setText(note.getCountry());
-            edit_capital.setText(note.getCapital());
-            edit_population.setText(note.getPopulation());
+
+           if(note!=null) {
+               Log.d(TAG, "onViewCreated note = " + note.toString());
+               edit_country.setText(note.getCountry());
+               edit_capital.setText(note.getCapital());
+               edit_population.setText(note.getPopulation());
+           }
         }
         else
         {
@@ -92,6 +95,10 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view)
     {
         MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag("tagg");
+
+
+        if(note!=null)
+        {
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
@@ -107,5 +114,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
             requireActivity().getSupportFragmentManager().popBackStack();
         }
         fragment.startButtonPressed(note);
+        }
     }
 }
