@@ -73,6 +73,15 @@
         <item name="android:text">@string/btn_sava</item>
         <item name="cornerRadius">@dimen/radius_card_view</item>
     </style>
+    <style name="btn_save_edit_land">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/btn_save_edit</item>
+        <item name="android:layout_marginStart">@dimen/margin_btn_save</item>
+        <item name="android:layout_marginEnd">@dimen/margin_btn_save</item>
+        <item name="android:text">@string/btn_sava</item>
+        <item name="cornerRadius">@dimen/radius_card_view</item>
+    </style>
 
 
 </resources>

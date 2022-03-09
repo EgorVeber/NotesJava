@@ -57,22 +57,18 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         // если у нас нет данных даже не будем показывать макет
         if(isLandscape()&&source.getSize()!=0) {
             if (savedInstanceState != null) {
-
                 current_card_note = (CardNote) savedInstanceState.getSerializable(CURRENT_CARD_NOTE);
-
-                if(current_card_note==null)
-                    current_card_note = source.getAll().get(0);
             }
             else
                 current_card_note = source.getAll().get(0);
-
             //Показываем без BackStack
             showLandEditFragment(current_card_note,false);
         }
     }
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        if(current_card_note==null)
+            current_card_note = source.getAll().get(0);
         outState.putSerializable(CURRENT_CARD_NOTE, current_card_note);
         super.onSaveInstanceState(outState);
     }

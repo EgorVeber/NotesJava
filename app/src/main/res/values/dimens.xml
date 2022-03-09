@@ -3,12 +3,13 @@
     <dimen name="margin_title">5dp</dimen>
     <dimen name="radius_card_view">10dp</dimen>
     <dimen name="margin_card_view">10dp</dimen>
+
     <dimen name="btn_save_edit">25sp</dimen>
 
 
     <dimen name="margin_btn_save">@dimen/margin_btn_save_port</dimen>
     <dimen name="margin_btn_save_port">10dp</dimen>
-    <dimen name="margin_btn_save_land">2dp</dimen>
+    <dimen name="margin_btn_save_land">10dp</dimen>
 
     <dimen name="card_text_size_item_edit">@dimen/card_text_size_item_edit_port</dimen>
     <dimen name="card_text_size_item_edit_port">25sp</dimen>
@@ -25,4 +26,5 @@
     <dimen name="card_text_size_item">@dimen/card_text_size_item_port</dimen>
     <dimen name="card_text_size_item_port">20sp</dimen>
     <dimen name="card_text_size_item_land">18sp</dimen>
+    <dimen name="margin_linner_card_view_item">2dp</dimen>
 </resources>
