@@ -18,13 +18,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <TextView
                     style="@style/card_item_style.edit_item.title"
                     android:text="@string/country"/>
+
                 <EditText
                     android:id="@+id/edit_country"
                     style="@style/edit_text_card.Title"
                     />
+                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <TextView
                     style="@style/card_item_style.edit_item"
                     android:text="@string/capital"/>
@@ -34,13 +42,14 @@
                     android:ems="5"
                     style="@style/edit_text_card"
                     />
+            </LinearLayout>
                 <TextView
                     style="@style/card_item_style.edit_item"
+                    android:layout_gravity="left"
                     android:text="@string/population"/>
                 <EditText
                     android:id="@+id/edit_population"
                     style="@style/edit_text_card.multiline"
-                    android:ems="20"
                     />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -49,7 +58,7 @@
             android:layout_height="wrap_content">
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/save_edit_note"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 style="@style/btn_save_edit"
                 />
         </LinearLayout>

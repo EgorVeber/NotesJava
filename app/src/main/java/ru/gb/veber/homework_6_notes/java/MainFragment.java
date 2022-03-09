@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
 import ru.gb.veber.homework_6_notes.notes.CardNoteSourse;
@@ -24,103 +22,99 @@ import ru.gb.veber.homework_6_notes.recycler.AdapterNote;
 
 public class MainFragment extends Fragment implements AdapterNote.OnNoteClickListner {
 
-
-    private static final String TAG = "MainFragment";
+    //Сохранение состояния
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
+    private CardNote current_card_note;
 
-    private CardNoteSourse sourse = CardNoteSourseImpl.getInstance() ;
-
+    private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;
     private AdapterNote adapters;
-    private CardNote currentn_not;
 
-
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main,container,false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
+    private void init(View view)
+    {
         RecyclerView list= view.findViewById(R.id.list);
         adapters = new AdapterNote();
-        adapters.SetNote(sourse.getAll());
-        Log.d(TAG, sourse.getAll().toString());
+        adapters.SetNote(source.getAll());
         adapters.setOnNoteCliclListner(this);
         list.setHasFixedSize(true);
         list.setAdapter(adapters);
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
         list.addItemDecoration(itemDecoration);
+    }
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_main,container,false);
+    }
 
 
-        if (savedInstanceState != null) {
-            currentn_not = (CardNote) savedInstanceState.getSerializable(CURRENT_CARD_NOTE);
-            Log.d(TAG, String.valueOf(currentn_not));
-        }
-        else
-        {
-            if (sourse.getSize()!=0)
-            {
-                currentn_not=sourse.getAll().get(0);
-                Log.d(TAG, "isEmpty()");
-            }
-        }
-        if(isLandscape())
-        {
-            Log.d(TAG, "onNoteClick()");
-            if (sourse.getSize()==0)
-            {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        init(view);//RecyclerView adapter и тд.
 
+        //Берем ту ноту которую редактировали. Сохраняем при перевороте экранна редактируем при клике.
+        // Если состояние не менялось то первый элемент из данных. Если менялось то первый элемент из данных. Если менялосьи ничего не выбирали то тоже первый.
+        // если у нас нет данных даже не будем показывать макет
+        if(isLandscape()&&source.getSize()!=0) {
+            if (savedInstanceState != null) {
+
+                current_card_note = (CardNote) savedInstanceState.getSerializable(CURRENT_CARD_NOTE);
+
+                if(current_card_note==null)
+                    current_card_note = source.getAll().get(0);
             }
             else
-            {
-                requireActivity().
-                        getSupportFragmentManager().
-                        beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-                        replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(currentn_not)).commit();
-            }
+                current_card_note = source.getAll().get(0);
+
+            //Показываем без BackStack
+            showLandEditFragment(current_card_note,false);
         }
-    }
-    @Override
-    public void onNoteClick(CardNote note) {
-
-
-        currentn_not= note;
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-        {
-            requireActivity().
-                    getSupportFragmentManager().
-                    beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(note)).commit();
-            Log.d(TAG, "onNoteClick() called with: note = [" + note + "]");
-        }
-        else
-        {
-
-            requireActivity().
-                    getSupportFragmentManager().
-                    beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-                    replace(R.id.fragment_container,EditNoteFragment.newInstance(note)).addToBackStack(null).commit();
-        }
-    }
-    public void startButtonPressed(CardNote note) {
-        sourse.update(note);
-        adapters.SetNote(sourse.getAll());
-    }
-
-    private boolean isLandscape() {
-        return getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putSerializable(CURRENT_CARD_NOTE, currentn_not);
-        Log.d(TAG, String.valueOf(currentn_not));
+        outState.putSerializable(CURRENT_CARD_NOTE, current_card_note);
         super.onSaveInstanceState(outState);
+    }
+    @Override
+    public void onNoteClick(CardNote note) {
+        //Сохраняем выбранную заметку
+        current_card_note = note;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            showLandEditFragment(note,true); //показываем уже с BackStack
+        else
+            showPortEditFragment(note);
+    }
+    public void updateSourseAdapter(CardNote note) {
+        source.update(note);
+        adapters.SetNote(source.getAll());
+    }
+    public void showLandEditFragment(CardNote note,boolean check)
+    {
+        if(check==false)
+        {
+            requireActivity().
+                    getSupportFragmentManager().
+                    beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
+                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note)).commit();
+        }
+        else
+        {
+            requireActivity().
+                    getSupportFragmentManager().
+                    beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
+                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note)).addToBackStack(null).commit();
+        }
+    }
+    public void showPortEditFragment(CardNote note)
+    {
+        requireActivity().
+                getSupportFragmentManager().
+                beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
+                replace(R.id.fragment_container,EditNoteFragment.newInstance(note)).addToBackStack(null).commit();
+    }
+    public boolean isLandscape() {
+        return getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
     }
 }
