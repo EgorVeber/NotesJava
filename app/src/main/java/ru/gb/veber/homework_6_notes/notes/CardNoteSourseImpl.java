@@ -1,6 +1,7 @@
 package ru.gb.veber.homework_6_notes.notes;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import ru.gb.veber.homework_6_notes.R;
 
 public class CardNoteSourseImpl implements CardNoteSourse {
 
+    private static final String TAG = "sdfdsf";
     private int counter = 0;
     private Resources resources;
     static CardNoteSourseImpl sourse;
@@ -20,6 +22,7 @@ public class CardNoteSourseImpl implements CardNoteSourse {
         {
             sourse= new CardNoteSourseImpl();
         }
+        Log.d(TAG, "getInstance() called");
         return sourse;
     }
     public CardNoteSourseImpl()
@@ -90,5 +93,10 @@ public class CardNoteSourseImpl implements CardNoteSourse {
     @Override
     public List<CardNote> getAll() {
         return notes;
+    }
+
+    @Override
+    public int getSize() {
+        return notes.size();
     }
 }

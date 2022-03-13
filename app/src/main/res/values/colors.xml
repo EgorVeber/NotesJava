@@ -4,9 +4,10 @@
     <color name="purple_500">#66bb6a</color>
     <color name="purple_700">#338a3e</color>
     <color name="card_item_color">#087f23</color>
+    <color name="title_card_color">#086500</color>
     <color name="teal_200">#66bb6a</color>
     <color name="teal_700">#b2fab4</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="back_card_view">#a5d6a7</color>
+    <color name="back_card_view">#A9CFA5</color>
 </resources>

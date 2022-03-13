@@ -94,7 +94,7 @@
 
     <string name="title_text">Заметки</string>
     <string name="card">Карточка</string>
-    <string name="country">Название заметки</string>
-    <string name="capital">Дата</string>
-    <string name="population">Описание</string>
+    <string name="country">Название заметки:</string>
+    <string name="capital">Дата:</string>
+    <string name="population">Описание:</string>
 </resources>

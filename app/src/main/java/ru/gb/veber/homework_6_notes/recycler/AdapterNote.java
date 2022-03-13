@@ -43,8 +43,6 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> {
         this.notes= notes;
         notifyDataSetChanged();// Нужео перерисвать уведомление
     }
-
-
     public interface OnNoteClickListner
     {
         void onNoteClick(CardNote note);
