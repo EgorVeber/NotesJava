@@ -24,6 +24,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
 
     //Сохранение состояния
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
+    private static final String TAG = "EditNoteFragment";
     private CardNote current_card_note;
 
     private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;
@@ -84,6 +85,16 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public void updateSourseAdapter(CardNote note) {
         source.update(note);
         adapters.SetNote(source.getAll());
+    }
+    public void deleteSourseAdapter(CardNote note_del) {
+        source.delete(note_del.getId());
+        // TODO  дописать првоерку и поджумать как сделать по лучше, а то много проверок на get(0)
+        current_card_note=source.getAll().get(0);
+        adapters.SetNote(source.getAll());
+    }
+    public void addSourseAdapter(CardNote note_add) {
+        source.create(note_add);
+        current_card_note=note_add;
     }
     public void showLandEditFragment(CardNote note,boolean check)
     {

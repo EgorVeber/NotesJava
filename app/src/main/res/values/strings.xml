@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">homework_6_notes</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_delete">Delete</string>
     <string name="btn_sava">Save</string>
     <string-array name="country">
         <item>@string/country1</item>

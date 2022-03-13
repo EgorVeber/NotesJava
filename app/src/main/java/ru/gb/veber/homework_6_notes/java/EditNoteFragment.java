@@ -22,9 +22,12 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
 
     //Ключ для аргументов фрагмента
     private static final String CardNoteKey = "CardNoteKey";
+    private static final String TAG = "EditNoteFragment";
 
     CardNote note;
     Button save_button;
+    Button delete_button;
+    Button add_button;
     EditText edit_country;
     EditText edit_capital;
     EditText edit_population;
@@ -53,15 +56,40 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     }
     private void init(View view) {
         save_button = view.findViewById(R.id.save_edit_note);
+        delete_button = view.findViewById(R.id.delete_edit_note);
+        add_button = view.findViewById(R.id.add_edit_note);
         edit_country = view.findViewById(R.id.edit_country);
         edit_capital = view.findViewById(R.id.edit_capital);
         edit_population = view.findViewById(R.id.edit_population);
         save_button.setOnClickListener(this);
+        if (delete_button!=null)
+        {
+            delete_button.setOnClickListener(view1 -> {
+                deleteCardNote();
+            });
+            add_button.setOnClickListener(view12 -> {
+                addCardNote();
+            });
+        }
     }
+    private void deleteCardNote() {
+        MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
+        fragment.deleteSourseAdapter(note);
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+    private void addCardNote() {
+
+        CardNote cardNote= new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString());
+        MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
+        fragment.addSourseAdapter(cardNote);
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Bundle fragment_arg = getArguments();
         init(view);
+
         //В данном случии нулевые непускаем сюда сделали так что аргументы и заментка они у нас никогда не будут равны 0 ну оставим на всякий сулчай.
         if(fragment_arg!=null)
         {
@@ -78,6 +106,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     {
         //Вся логика у нас в MainFragmetn будем обновлять дынные через его метод.
         MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
+
         if(note!=null&&fragment!=null)
         {
             if (isLandscape())

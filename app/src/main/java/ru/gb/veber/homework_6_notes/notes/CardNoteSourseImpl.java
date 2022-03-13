@@ -85,7 +85,7 @@ public class CardNoteSourseImpl implements CardNoteSourse {
         for (int i = 0; i <notes.size() ; i++) {
             if(notes.get(i).getId()==id)
             {
-                notes.remove(id);
+                notes.remove(i);
                 break;
             }
         }
