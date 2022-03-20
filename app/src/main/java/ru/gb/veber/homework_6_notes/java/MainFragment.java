@@ -47,14 +47,12 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main,container,false);
     }
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         init(view);//RecyclerView adapter и тд.
 
         //Берем ту ноту которую редактировали. Сохраняем при перевороте экранна редактируем при клике.
-        // Если состояние не менялось то первый элемент из данных. Если менялось то первый элемент из данных. Если менялосьи ничего не выбирали то тоже первый.
+        // Если состояние не менялось то первый элемент из данных. Если менялось то выбранный элемент из данных. Если менялосьи ничего не выбирали то тоже первый.
         // если у нас нет данных даже не будем показывать макет
         if(isLandscape()&&source.getSize()!=0) {
             if (savedInstanceState != null) {
@@ -76,11 +74,19 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     @Override
     public void onNoteClick(CardNote note) {
         //Сохраняем выбранную заметку
-        current_card_note = note;
+
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            showLandEditFragment(note,true); //показываем уже с BackStack
+        {
+            if(current_card_note!=note)//Не хочу чтобы текущий всегда заново показывался
+            {
+                showLandEditFragment(note,true); //показываем уже с BackStack
+            }
+        }
         else
+        {
             showPortEditFragment(note);
+        }
+        current_card_note = note;
     }
     public void updateSourseAdapter(CardNote note) {
         source.update(note);
@@ -103,14 +109,14 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
             requireActivity().
                     getSupportFragmentManager().
                     beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note)).commit();
+                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(note)).commit();
         }
         else
         {
             requireActivity().
                     getSupportFragmentManager().
                     beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note)).addToBackStack(null).commit();
+                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(note)).addToBackStack(null).commit();
         }
     }
     public void showPortEditFragment(CardNote note)

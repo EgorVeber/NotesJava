@@ -66,8 +66,6 @@
                         android:layout_width="match_parent"
                         android:id="@+id/edit_population"
                         style="@style/edit_text_card.multiline"
-                        android:lines="2"
-                        android:gravity="top"
                         android:backgroundTint="@color/back_card_view"
                         android:layout_height="wrap_content"
                         />
