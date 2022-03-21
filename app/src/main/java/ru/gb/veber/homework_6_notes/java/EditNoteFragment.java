@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
 
+
+
 public class EditNoteFragment extends Fragment implements View.OnClickListener {
 
     //Ключ для аргументов фрагмента
@@ -32,6 +34,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     EditText edit_capital;
     EditText edit_population;
 
+
     public static EditNoteFragment newInstance(CardNote note)
     {
         //Фабричный метод с аргументами
@@ -40,6 +43,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         Bundle args = new Bundle();
         args.putSerializable(CardNoteKey,note);
         fragment.setArguments(args);
+
         return fragment;
     }
     @Override
@@ -73,8 +77,9 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         }
     }
     private void deleteCardNote() {
-        MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
-        fragment.deleteSourseAdapter(note);
+       MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
+       fragment.deleteSourseAdapter(note);
+
         requireActivity().getSupportFragmentManager().popBackStack();
     }
     private void addCardNote() {
@@ -120,6 +125,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
             }
             //Можно конечно обновить replace фрагментов. Ну так наверное по лучше.Не знаю правда можно так или нет.
              fragment.updateSourseAdapter(note);
+
         }
     }
     public void SetText()

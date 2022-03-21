@@ -20,7 +20,8 @@ import ru.gb.veber.homework_6_notes.notes.CardNoteSourse;
 import ru.gb.veber.homework_6_notes.notes.CardNoteSourseImpl;
 import ru.gb.veber.homework_6_notes.recycler.AdapterNote;
 
-public class MainFragment extends Fragment implements AdapterNote.OnNoteClickListner {
+
+public class MainFragment extends Fragment implements AdapterNote.OnNoteClickListner{
 
     //Сохранение состояния
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
@@ -88,6 +89,8 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         }
         current_card_note = note;
     }
+
+
     public void updateSourseAdapter(CardNote note) {
         source.update(note);
         adapters.SetNote(source.getAll());
@@ -102,10 +105,13 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         source.create(note_add);
         current_card_note=note_add;
     }
+
+
     public void showLandEditFragment(CardNote note,boolean check)
     {
         if(check==false)
         {
+
             requireActivity().
                     getSupportFragmentManager().
                     beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
@@ -130,4 +136,5 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
     }
+
 }

@@ -49,10 +49,6 @@ public class CardNote implements Serializable {
         this.population = population;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, country, capital, population);
-    }
 
     @Override
     public String toString() {
