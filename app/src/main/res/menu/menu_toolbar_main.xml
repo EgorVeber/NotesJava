@@ -8,14 +8,19 @@
     android:title="item_1"
     android:icon="@drawable/ic_baseline_plus_one_24"/>
     <item
-        android:id="@+id/item_2_toolbar_main"
+        android:id="@+id/sort_reverse_toolbar_main"
         app:showAsAction="ifRoom"
         android:title="item_2"
         android:orderInCategory="2"
         android:icon="@drawable/ic_baseline_notes_24"/>
     <item
-        android:id="@+id/item_3_toolbar_main"
+        android:id="@+id/sort_name_toolbar_main"
         app:showAsAction="never"
-        android:title="item_3"
+        android:title="Сортировка по названию"
+        />
+    <item
+        android:id="@+id/sort_id_toolbar_main"
+        app:showAsAction="never"
+        android:title="Изначальный список"
         />
 </menu>

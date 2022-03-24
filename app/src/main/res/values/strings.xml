@@ -102,4 +102,8 @@
     <string name="main">Главная</string>
     <string name="exit">Выход</string>
     <string name="settings">Настройки</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="my_cool_style">Стандартная</string>
+    <string name="material_light">Тестовая</string>
 </resources>

@@ -1,11 +1,14 @@
 package ru.gb.veber.homework_6_notes.java;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +17,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
@@ -31,9 +36,18 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     private static final String TAG = "EditNoteFragment";
     private CardNote current_card_note;
 
+
+
     private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;
     private AdapterNote adapters;
 
+    public static final String FILE_PROFILE = "FILE_PROFILE";
+    public static final String PROFILE_NAME = "PROFILE_NAME";
+    private SharedPreferences prefs;
+    private String getProfileName="Profile_name";
+
+
+    TextView item_count;
     private void init(View view)
     {
         RecyclerView list= view.findViewById(R.id.list);
@@ -55,8 +69,9 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         init(view);//RecyclerView adapter и тд.
 
-
-
+        prefs = requireActivity().getSharedPreferences(FILE_PROFILE, Context.MODE_PRIVATE);
+        getProfileName= prefs.getString(PROFILE_NAME,"");
+        //profile_name.setText(getProfileName);
         //Берем ту ноту которую редактировали. Сохраняем при перевороте экранна редактируем при клике.
         // Если состояние не менялось то первый элемент из данных. Если менялось то выбранный элемент из данных. Если менялосьи ничего не выбирали то тоже первый.
         // если у нас нет данных даже не будем показывать макет
@@ -71,16 +86,6 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
             //Показываем без BackStack
             showLandEditFragment(current_card_note,false);
         }
-
-
-//        final FragmentManager fragmentManager =
-//                requireActivity().getSupportFragmentManager();
-//        final List<Fragment> fragments = fragmentManager.getFragments();
-//        for (Fragment fragment : fragments) {
-//            if (fragment instanceof EditNoteFragment && fragment.isVisible())
-//                fragmentManager.beginTransaction().remove(fragment).commit();
-//            Log.d(TAG, fragment.getClass().getName());
-//        }
     }
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -92,6 +97,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     @Override
     public void onNoteClick(CardNote note) {
         //Сохраняем выбранную заметку
+
 
         if (isLandscape())
         {
@@ -114,16 +120,41 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     }
     public void deleteSourseAdapter(CardNote note_del) {
         source.delete(note_del.getId());
-        current_card_note=source.getAll().get(0);
+        if(source.getSize()!=0)
+        {
+            current_card_note=source.getAll().get(0);
+        }
         adapters.SetNote(source.getAll());
+        item_count = requireActivity().findViewById(R.id.item_count);
+        item_count.setText(String.valueOf(getItemCount()));
+    }
+    public int getItemCount()
+    {
+        return source.getSize();
     }
     public void addSourseAdapter(CardNote note_add) {
         source.create(note_add);
         current_card_note=note_add;
+
+        if(item_count!=null)
+        {
+            item_count = requireActivity().findViewById(R.id.item_count);
+            item_count.setText(String.valueOf(source.getSize()));
+        }
+        adapters.SetNote(source.getAll());
     }
-
-
-
+    public void sortReverse() {
+        source.sortReverse();
+        adapters.SetNote(source.getAll());
+    }
+    public void sortName() {
+        source.sortName();
+        adapters.SetNote(source.getAll());
+    }
+    public void sortId() {
+        source.sortId();
+        adapters.SetNote(source.getAll());
+    }
     public void showLandEditFragment(CardNote note,boolean check)
     {
         if(check==false)
@@ -152,6 +183,4 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
     }
-
-
 }

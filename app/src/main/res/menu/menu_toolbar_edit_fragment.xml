@@ -7,4 +7,10 @@
     android:orderInCategory="1"
     android:title="item_1"
     android:icon="@drawable/ic_baseline_arrow_back_24"/>
+    <item
+        android:id="@+id/repost_memu_item_edit_note_fargment"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="10"
+        android:title="repost"
+        />
 </menu>

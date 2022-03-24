@@ -48,7 +48,7 @@
                         style="@style/edit_text_card"
                         android:id="@+id/edit_capital"
                         android:maxLength="8"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:inputType="date"
                         android:backgroundTint="@color/back_card_view"
                         android:layout_height="wrap_content"

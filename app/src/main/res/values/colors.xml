@@ -10,4 +10,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="back_card_view">#A9CFA5</color>
+
+
+
+
+
+
+    <color name="ThemeCustom2colorPrimary">#7e57c2</color>
+    <color name="ThemeCustom2colorPrimaryVariant">#4d2c91</color>
+    <color name="ThemeCustom2colorOnPrimary">#b085f5</color>
+    <color name="ThemeCustom2colorAccent">#65499c</color>
 </resources>

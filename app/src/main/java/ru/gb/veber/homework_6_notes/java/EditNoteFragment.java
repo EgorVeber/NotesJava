@@ -2,8 +2,10 @@ package ru.gb.veber.homework_6_notes.java;
 
 import static ru.gb.veber.homework_6_notes.java.MainActivity.MainFragmentTag;
 
+import android.app.blob.BlobHandle;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,7 +41,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     EditText edit_capital;
     EditText edit_population;
     Boolean check_saveInstance_menu=false;
-
     public static EditNoteFragment newInstance(CardNote note)
     {
         //Фабричный метод с аргументами
@@ -72,10 +74,10 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         if (actionBar != null) {
             actionBar.setSubtitle("CardNote");
         }
-
         return inflater.inflate(R.layout.fragment_edit_note,container,false);
     }
     private void init(View view) {
+
         save_button = view.findViewById(R.id.save_edit_note);
         delete_button = view.findViewById(R.id.delete_edit_note);
         add_button = view.findViewById(R.id.add_edit_note);
@@ -83,6 +85,8 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         edit_capital = view.findViewById(R.id.edit_capital);
         edit_population = view.findViewById(R.id.edit_population);
         save_button.setOnClickListener(this);
+
+
         if (delete_button!=null)
         {
             delete_button.setOnClickListener(view1 -> {
@@ -97,16 +101,27 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 
+        Log.d(TAG, "onCreateOptionsMenu() ");
         if(!check_saveInstance_menu)
         {
             //скрываем всегда, надуваем новое меню только если порт
-            if (!isLandscape())
+            MenuItem item = menu.findItem(R.id.item_1_toolbar_main);//Скрываем новый
+            MenuItem item2 = menu.findItem(R.id.sort_reverse_toolbar_main);//Скрываем новый
+            MenuItem item3 = menu.findItem(R.id.sort_name_toolbar_main);//Скрываем новый
+            MenuItem item4 = menu.findItem(R.id.sort_id_toolbar_main);//Скрываем новый
+            if(!isLandscape())
             {
                 inflater.inflate(R.menu.menu_toolbar_edit_fragment, menu);//добавляем назад
+                if (item != null) {
+                    item.setVisible(false);
+                    item2.setVisible(false);
+                    item3.setVisible(false);
+                    item4.setVisible(false);
+                }
             }
-            MenuItem item = menu.findItem(R.id.item_1_toolbar_main);//Скрываем новый
-            if (item != null) {
-                item.setVisible(false);
+            else
+            {
+
             }
         }
     }
@@ -118,6 +133,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
         if(item.getItemId()==R.id.back_memu_item_edit_note_fargment)
         {
             requireActivity().getSupportFragmentManager().popBackStack();
@@ -147,6 +163,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
         fragment.addSourseAdapter(cardNote);
         requireActivity().getSupportFragmentManager().popBackStack();
+
     }
 
     @Override
@@ -155,7 +172,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         if(savedInstanceState!=null)
         {
             check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);
-
         }
         init(view);
         setHasOptionsMenu(true);
@@ -169,19 +185,26 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
                edit_population.setText(note.getPopulation());
            }
         }
+        else
+        {
+
+        }
     }
     @Override
     public void onClick(View view)
     {
         //Вся логика у нас в MainFragmetn будем обновлять дынные через его метод.
         MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
-
+        Log.d(TAG, "onClick()");
         if(getArguments()!=null)
         {
-
+            Log.d(TAG, "fragment_arg!=null");
         if(note!=null&&fragment!=null)
         {
-            if (isLandscape()){}
+            if (isLandscape())
+            {
+           //     fragment.addSourseAdapter(new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString()));
+            }
             else
             {
                 requireActivity().getSupportFragmentManager().popBackStack();
@@ -193,8 +216,12 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         }
         else
         {
+            Log.d(TAG, "fragment_arg=null");
             fragment.addSourseAdapter(new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString()));
-            requireActivity().getSupportFragmentManager().popBackStack();
+           if(!isLandscape())
+           {
+               requireActivity().getSupportFragmentManager().popBackStack();
+           }
         }
     }
     public void SetText()
