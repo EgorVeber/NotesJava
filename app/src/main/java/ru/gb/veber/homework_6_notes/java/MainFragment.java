@@ -10,9 +10,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
 
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -52,6 +55,8 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         init(view);//RecyclerView adapter и тд.
 
+
+
         //Берем ту ноту которую редактировали. Сохраняем при перевороте экранна редактируем при клике.
         // Если состояние не менялось то первый элемент из данных. Если менялось то выбранный элемент из данных. Если менялосьи ничего не выбирали то тоже первый.
         // если у нас нет данных даже не будем показывать макет
@@ -60,10 +65,22 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
                 current_card_note = (CardNote) savedInstanceState.getSerializable(CURRENT_CARD_NOTE);
             }
             else
+            {
                 current_card_note = source.getAll().get(0);
+            }
             //Показываем без BackStack
             showLandEditFragment(current_card_note,false);
         }
+
+
+//        final FragmentManager fragmentManager =
+//                requireActivity().getSupportFragmentManager();
+//        final List<Fragment> fragments = fragmentManager.getFragments();
+//        for (Fragment fragment : fragments) {
+//            if (fragment instanceof EditNoteFragment && fragment.isVisible())
+//                fragmentManager.beginTransaction().remove(fragment).commit();
+//            Log.d(TAG, fragment.getClass().getName());
+//        }
     }
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -76,7 +93,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public void onNoteClick(CardNote note) {
         //Сохраняем выбранную заметку
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        if (isLandscape())
         {
             if(current_card_note!=note)//Не хочу чтобы текущий всегда заново показывался
             {
@@ -97,7 +114,6 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     }
     public void deleteSourseAdapter(CardNote note_del) {
         source.delete(note_del.getId());
-        // TODO  дописать првоерку и поджумать как сделать по лучше, а то много проверок на get(0)
         current_card_note=source.getAll().get(0);
         adapters.SetNote(source.getAll());
     }
@@ -107,11 +123,11 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     }
 
 
+
     public void showLandEditFragment(CardNote note,boolean check)
     {
         if(check==false)
         {
-
             requireActivity().
                     getSupportFragmentManager().
                     beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
@@ -136,5 +152,6 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
     }
+
 
 }

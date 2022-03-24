@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">homework_6_notes</string>
+    <string name="app_name">Notes</string>
     <string name="btn_add">Add</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_sava">Save</string>
@@ -99,4 +99,7 @@
     <string name="country">Название заметки:</string>
     <string name="capital">Дата:</string>
     <string name="population">Описание:</string>
+    <string name="main">Главная</string>
+    <string name="exit">Выход</string>
+    <string name="settings">Настройки</string>
 </resources>

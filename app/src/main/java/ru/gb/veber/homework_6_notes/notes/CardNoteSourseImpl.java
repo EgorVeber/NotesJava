@@ -4,6 +4,9 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ru.gb.veber.homework_6_notes.R;
@@ -99,4 +102,6 @@ public class CardNoteSourseImpl implements CardNoteSourse {
     public int getSize() {
         return notes.size();
     }
+
+
 }

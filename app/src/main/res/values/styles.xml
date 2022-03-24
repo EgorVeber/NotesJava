@@ -83,5 +83,7 @@
         <item name="cornerRadius">@dimen/radius_card_view</item>
     </style>
 
-
+    <style name="toolbar_main_style" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/white</item>
+    </style>
 </resources>

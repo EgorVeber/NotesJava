@@ -4,8 +4,10 @@ import static ru.gb.veber.homework_6_notes.java.MainActivity.MainFragmentTag;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,6 +15,8 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import ru.gb.veber.homework_6_notes.R;
@@ -25,7 +29,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     //Ключ для аргументов фрагмента
     private static final String CardNoteKey = "CardNoteKey";
     private static final String TAG = "EditNoteFragment";
-
+    private static final String MENU_ITEM = "MENU_ITEM";
     CardNote note;
     Button save_button;
     Button delete_button;
@@ -33,7 +37,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     EditText edit_country;
     EditText edit_capital;
     EditText edit_population;
-
+    Boolean check_saveInstance_menu=false;
 
     public static EditNoteFragment newInstance(CardNote note)
     {
@@ -46,16 +50,29 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
 
         return fragment;
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Очищаем стек тк при перевороче экрана воссаздает всеь стек, в даннм случии один лишний будет
         if (savedInstanceState != null)
+        {
             requireActivity().getSupportFragmentManager().popBackStack();
+        }
     }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+
+        //В onCreate с помощью setHasOptionsMenu включаем режим вывода элементов фрагмента в ActionBar.
+        setHasOptionsMenu(true);//Эта строчка говорит о том, что у фрагмента должен быть доступ к меню Активити.
+
+        ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setSubtitle("CardNote");
+        }
+
         return inflater.inflate(R.layout.fragment_edit_note,container,false);
     }
     private void init(View view) {
@@ -76,10 +93,52 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
             });
         }
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+
+        if(!check_saveInstance_menu)
+        {
+            //скрываем всегда, надуваем новое меню только если порт
+            if (!isLandscape())
+            {
+                inflater.inflate(R.menu.menu_toolbar_edit_fragment, menu);//добавляем назад
+            }
+            MenuItem item = menu.findItem(R.id.item_1_toolbar_main);//Скрываем новый
+            if (item != null) {
+                item.setVisible(false);
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean(MENU_ITEM, true);
+        super.onSaveInstanceState(outState);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.back_memu_item_edit_note_fargment)
+        {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onDetach() {
+        ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setSubtitle("ListNotes");
+        }
+        super.onDetach();
+    }
+
     private void deleteCardNote() {
        MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
-       fragment.deleteSourseAdapter(note);
-
+       if(note!=null)
+       {
+           fragment.deleteSourseAdapter(note);
+       }
         requireActivity().getSupportFragmentManager().popBackStack();
     }
     private void addCardNote() {
@@ -93,8 +152,13 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Bundle fragment_arg = getArguments();
-        init(view);
+        if(savedInstanceState!=null)
+        {
+            check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);
 
+        }
+        init(view);
+        setHasOptionsMenu(true);
         //В данном случии нулевые непускаем сюда сделали так что аргументы и заментка они у нас никогда не будут равны 0 ну оставим на всякий сулчай.
         if(fragment_arg!=null)
         {
@@ -112,20 +176,25 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         //Вся логика у нас в MainFragmetn будем обновлять дынные через его метод.
         MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
 
+        if(getArguments()!=null)
+        {
+
         if(note!=null&&fragment!=null)
         {
-            if (isLandscape())
-            {
-                SetText();
-            }
+            if (isLandscape()){}
             else
             {
-                SetText();
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
+            SetText();
             //Можно конечно обновить replace фрагментов. Ну так наверное по лучше.Не знаю правда можно так или нет.
              fragment.updateSourseAdapter(note);
-
+        }
+        }
+        else
+        {
+            fragment.addSourseAdapter(new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString()));
+            requireActivity().getSupportFragmentManager().popBackStack();
         }
     }
     public void SetText()

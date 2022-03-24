@@ -1,9 +1,10 @@
 package ru.gb.veber.homework_6_notes.notes;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Objects;
 
-public class CardNote implements Serializable {
+public class CardNote implements Serializable,Comparable<CardNote> {
 
     public static final String NOTE="NOTE";
     private int id;
@@ -58,5 +59,10 @@ public class CardNote implements Serializable {
                 ", capital='" + capital + '\'' +
                 ", population='" + population + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(CardNote note) {
+        return country.compareTo(note.getCountry());
     }
 }
