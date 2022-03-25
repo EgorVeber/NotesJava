@@ -81,6 +81,17 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         outState.putSerializable(CURRENT_CARD_NOTE, current_card_note);
         super.onSaveInstanceState(outState);
     }
+
+    //Popum click delete
+    @Override
+    public void onLondNoteClick(CardNote note)
+    {
+        source.delete(note.getId());
+        adapters.SetNote(source.getAll());
+        item_count = requireActivity().findViewById(R.id.item_count);
+        item_count.setText(String.valueOf(getItemCount()));
+    }
+    //Click
     @Override
     public void onNoteClick(CardNote note) {
         //Сохраняем выбранную заметку
@@ -93,14 +104,9 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
             showPortEditFragment(note);
         current_card_note = note;
     }
-    @Override
-    public void onLondNoteClick(CardNote note)
-    {
-        source.delete(note.getId());
-        adapters.SetNote(source.getAll());
-        item_count = requireActivity().findViewById(R.id.item_count);
-        item_count.setText(String.valueOf(getItemCount()));
-    }
+
+
+    //CRUD
     public void updateSourseAdapter(CardNote note) {
         source.update(note);
         adapters.SetNote(source.getAll());
@@ -108,24 +114,30 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public void deleteSourseAdapter(CardNote note_del) {
         source.delete(note_del.getId());
         if(source.getSize()!=0)
-        {
             current_card_note=source.getAll().get(0);
-        }
         adapters.SetNote(source.getAll());
-        item_count = requireActivity().findViewById(R.id.item_count);
-        item_count.setText(String.valueOf(getItemCount()));
+        updateCount();
     }
     public void addSourseAdapter(CardNote note_add) {
         source.create(note_add);
         current_card_note=note_add;
-
+        adapters.SetNote(source.getAll());
+        updateCount();
+    }
+    public void updateCount()
+    {
+        item_count = requireActivity().findViewById(R.id.item_count);
         if(item_count!=null)
         {
-            item_count = requireActivity().findViewById(R.id.item_count);
-            item_count.setText(String.valueOf(source.getSize()));
+            item_count.setText(String.valueOf(getItemCount()));
         }
-        adapters.SetNote(source.getAll());
     }
+    public int getItemCount()
+    {
+        return source.getSize();
+    }
+
+    //Сортировки
     public void sortReverse() {
         source.sortReverse();
         adapters.SetNote(source.getAll());
@@ -138,27 +150,17 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         source.sortId();
         adapters.SetNote(source.getAll());
     }
-    public int getItemCount()
-    {
-        return source.getSize();
-    }
+    //Фрагменты TODO передалать на один Show
     public void showLandEditFragment(CardNote note,boolean check)
     {
-        if(check==false)
-        {
-//            requireActivity().
-//                    getSupportFragmentManager().
-//                    beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-//                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(note)).commit();
-            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(note),false);
-        }
+        if(check)
+            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(note),true);
         else
-        {
-            requireActivity().
-                    getSupportFragmentManager().
-                    beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(note)).addToBackStack(null).commit();
-        }
+            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(note),false);
+    }
+    public void showPortEditFragment(CardNote note)
+    {
+        showFragment(R.id.fragment_container,EditNoteFragment.newInstance(note),true);
     }
     public void showFragment(int container, Fragment fragment,boolean flag)
     {
@@ -167,13 +169,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         else
             fragmentManager.beginTransaction().replace(container,fragment).commit();
     }
-    public void showPortEditFragment(CardNote note)
-    {
-        requireActivity().
-                getSupportFragmentManager().
-                beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-                replace(R.id.fragment_container,EditNoteFragment.newInstance(note)).addToBackStack(null).commit();
-    }
+
     public boolean isLandscape() {
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;

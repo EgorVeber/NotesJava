@@ -31,14 +31,14 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     private static final String CardNoteKey = "CardNoteKey";
     private static final String TAG = "EditNoteFragment";
     private static final String MENU_ITEM = "MENU_ITEM";
-    CardNote note;
-    Button save_button;
-    Button delete_button;
-    Button add_button;
-    EditText edit_country;
-    EditText edit_capital;
-    EditText edit_population;
-    Boolean check_saveInstance_menu=false;
+
+   private CardNote note;
+   private Button save_button;
+   private EditText edit_country;
+   private EditText edit_capital;
+   private EditText edit_population;
+   private Boolean check_saveInstance_menu=false;
+
     public static EditNoteFragment newInstance(CardNote note)
     {
         //Фабричный метод с аргументами
@@ -47,10 +47,8 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         Bundle args = new Bundle();
         args.putSerializable(CardNoteKey,note);
         fragment.setArguments(args);
-
         return fragment;
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,11 +61,8 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
         //В onCreate с помощью setHasOptionsMenu включаем режим вывода элементов фрагмента в ActionBar.
         setHasOptionsMenu(true);//Эта строчка говорит о том, что у фрагмента должен быть доступ к меню Активити.
-
         ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setSubtitle("CardNote");
@@ -75,27 +70,12 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         return inflater.inflate(R.layout.fragment_edit_note,container,false);
     }
     private void init(View view) {
-
         save_button = view.findViewById(R.id.save_edit_note);
-        delete_button = view.findViewById(R.id.delete_edit_note);
-        add_button = view.findViewById(R.id.add_edit_note);
         edit_country = view.findViewById(R.id.edit_country);
         edit_capital = view.findViewById(R.id.edit_capital);
         edit_population = view.findViewById(R.id.edit_population);
         save_button.setOnClickListener(this);
-
-
-        if (delete_button!=null)
-        {
-            delete_button.setOnClickListener(view1 -> {
-                deleteCardNote();
-            });
-            add_button.setOnClickListener(view12 -> {
-                addCardNote();
-            });
-        }
     }
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 
@@ -147,24 +127,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         }
         super.onDetach();
     }
-
-    private void deleteCardNote() {
-       MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
-       if(note!=null)
-       {
-           fragment.deleteSourseAdapter(note);
-       }
-        requireActivity().getSupportFragmentManager().popBackStack();
-    }
-    private void addCardNote() {
-
-        CardNote cardNote= new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString());
-        MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
-        fragment.addSourseAdapter(cardNote);
-        requireActivity().getSupportFragmentManager().popBackStack();
-
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Bundle fragment_arg = getArguments();
@@ -233,4 +195,23 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
     }
+
+//  TODO Стыре кнопки потом посмотреть
+//
+//    private void deleteCardNote() {
+//       MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
+//       if(note!=null)
+//       {
+//           fragment.deleteSourseAdapter(note);
+//       }
+//        requireActivity().getSupportFragmentManager().popBackStack();
+//    }
+//    private void addCardNote() {
+//
+//        CardNote cardNote= new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString());
+//        MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
+//        fragment.addSourseAdapter(cardNote);
+//        requireActivity().getSupportFragmentManager().popBackStack();
+//
+//    }
 }
