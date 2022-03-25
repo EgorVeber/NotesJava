@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,192 +23,151 @@ import ru.gb.veber.homework_6_notes.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String MainFragmentTag ="MainFragmentTag";
-    public static final String EditNoteFragmentTag ="EditNoteFragmentTag";
-    private static final String TAG = "MainActivityTag";
-
-    private Toolbar toolbar;
-    private  MainFragment fragment;
-    private TextView item_count;
-    private TextView profile_name;
-
+    //SharedPreferences
     public static final String ThemeFile ="ThemeFile";
     public static final String KeyTheme="KeyTheme";
-
     public static final String FILE_PROFILE = "FILE_PROFILE";
     public static final String PROFILE_NAME = "PROFILE_NAME";
     private SharedPreferences prefs;
     String getProfileName="Profile_name";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    //Новое
+    public static final String MainFragmentTag ="MainFragmentTag";
 
-        setTheme(getThemePref());
-        setContentView(R.layout.activity_main);
-        fragment= new MainFragment();
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
+    private  MainFragment fragment;
+    private  FragmentManager fragmentManager;
 
-
-        prefs = getSharedPreferences(FILE_PROFILE, MODE_PRIVATE);
-        getProfileName= prefs.getString(PROFILE_NAME,"");
-        Log.d(TAG, getProfileName);
-
-        initToolbar();
-
-        //Нам нужно создать фрагмент со списком всего лишь один раз — при первом запуске. Задачу по
-        //пересозданию фрагментов после поворота экрана берет на себя FragmentManager.
-        if(savedInstanceState==null)
-        {
-            //Запускаем с тегом будет надо потом.
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment,MainFragmentTag).commit();
-        }
-
-
-
-
-    }
-
-    private int getThemePref() {
-
-        SharedPreferences sharedPref = getSharedPreferences(ThemeFile, MODE_PRIVATE);
-        int NumTheme = sharedPref.getInt(KeyTheme, 0);
-
-        switch(NumTheme){
-            case 0:
-                return R.style.Theme_Homework_6_notes;
-            case 1:
-                return R.style.Theme_Homework_6_notes_Test;
-            default:
-                return R.style.Theme_Homework_6_notes;
-        }
-    }
-
-    private void initToolbar() {
-        toolbar = findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-
-        if(!isLandscape())
-        {
-            initDraver();
-        }
-    }
-
-
-    private void initDraver()
-    {
-
-        DrawerLayout drawerLayout= findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView view = findViewById(R.id.navigation_view);
-        view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                switch (id) {
-                    case R.id.main_item_draver:
-                        for (int i=0;i<getSupportFragmentManager().getBackStackEntryCount();i++) {
-                            getSupportFragmentManager().popBackStack();
-                        }
-                        drawerLayout.close();
-                        return true;
-                    case R.id.settings_drawer_exit:
-                        getSupportFragmentManager().
-                                beginTransaction().
-                                replace(R.id.fragment_container,new SettingFragment()).
-                                addToBackStack(null).commit();
-                        drawerLayout.close();
-                       // getSupportActionBar().hide();
-                        return true;
-                    case R.id.exit_item_draver:
-                        finish();
-                        return true;
-                }
-                return false;
-            }
-        });
-
-        View header = view.getHeaderView(0);
-        item_count = (TextView) header.findViewById(R.id.item_count);
-        item_count.setText(""+fragment.getItemCount());
-        profile_name=(TextView) header.findViewById(R.id.profile_name);
-        profile_name.setText(getProfileName);
-
-        //prefs.edit().putString(NUM1, calState.getNum1()).commit();
-    }
+    private TextView item_count;
+    private TextView profile_name;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_main,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //TODO можно убрать
+        setTheme(getThemePref());
+        setContentView(R.layout.activity_main);
 
+        prefs = getSharedPreferences(FILE_PROFILE, MODE_PRIVATE);
+        getProfileName= prefs.getString(PROFILE_NAME,getProfileName);
 
+        init();
+        if(savedInstanceState==null)
+            fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment,MainFragmentTag).commit();
+    }
+    private void init() {
 
+        fragmentManager= getSupportFragmentManager();
+        fragment= new MainFragment();
+        toolbar = findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        if(!isLandscape())
+        {
+            initDraver();//Пока только для PORT
+
+            //Обновляем кол-во заметок и профиль
+            View header = navigationView.getHeaderView(0);
+
+            item_count = header.findViewById(R.id.item_count);
+            item_count.setText(""+fragment.getItemCount());
+
+            profile_name= header.findViewById(R.id.profile_name);
+            profile_name.setText(getProfileName);
+        }
+    }
+    private void initDraver()
+    {
+        //DrawerLayout + гамбургер и привязка к toolbar
+        drawerLayout= findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView= findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+           return metodSetNavigationItemSelectedListener(id);
+        });
+    }
+    //Меню Драйвера
+    public boolean metodSetNavigationItemSelectedListener (int id)
+    {
+        // getSupportActionBar().hide();
+        switch (id) {
+            case R.id.main_item_draver:
+                for (int i=0;i<fragmentManager.getBackStackEntryCount();i++)
+                    fragmentManager.popBackStack();//Очищаем все в стеке
+                break;
+            case R.id.settings_drawer_exit:
+                showFragment(R.id.fragment_container,new SettingFragment(),true);
+            break;
+            case R.id.exit_item_draver:
+                    finish();
+              break;
+        }
+        drawerLayout.close();
+        return false;
+    }
+    public void showFragment(int container, Fragment fragment,boolean flag)
+    {
+        if(flag)
+            fragmentManager.beginTransaction().replace(container,fragment).addToBackStack(null).commit();
+        else
+            fragmentManager.beginTransaction().replace(container,fragment).commit();
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-
-        fragment= (MainFragment)getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
+        fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
         switch (item.getItemId())
         {
-            case R.id.item_1_toolbar_main:
-                Log.d(TAG, "item_1_toolbar_main");
+            case R.id.add_item_toolbar_main:
                 if(isLandscape())
-                {
-                    getSupportFragmentManager().
-                            beginTransaction().
-                            replace(R.id.edit_fragment_container,new EditNoteFragment(),EditNoteFragmentTag).
-                            addToBackStack(null).commit();
-                }
+                    showFragment(R.id.edit_fragment_container,new EditNoteFragment(),true);
                 else
-                {
-                    getSupportFragmentManager().
-                            beginTransaction().
-                            replace(R.id.fragment_container,new EditNoteFragment(),EditNoteFragmentTag).
-                            addToBackStack(null).commit();
-                }
+                    showFragment(R.id.fragment_container,new EditNoteFragment(),true);
                 return true;
             case R.id.sort_reverse_toolbar_main:
                 fragment.sortReverse();
-                Toast.makeText(this,"Сортировка в обратном порядке",Toast.LENGTH_SHORT).show();
-                return true;
+                return toastMessage("Сортировка в обратном порядке");
             case R.id.sort_name_toolbar_main:
                 fragment.sortName();
-                Toast.makeText(this,"Сортировка по названию заметки",Toast.LENGTH_SHORT).show();
-                return true;
+                return toastMessage("Сортировка по названию заметки");
             case R.id.sort_id_toolbar_main:
                 fragment.sortId();
-                Toast.makeText(this,"Изначальный список",Toast.LENGTH_SHORT).show();
-                return true;
+                return toastMessage("Изначальный список");
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-    @Override
-    public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount()==0)
-        {
-            //TODO 9 ДЗ
-            finish();
+    private int getThemePref() {
+        prefs = getSharedPreferences(ThemeFile, MODE_PRIVATE);
+        int NumTheme = prefs.getInt(KeyTheme, 0);
+        switch(NumTheme){
+            case 0: return R.style.Theme_Homework_6_notes;
+            case 1: return R.style.Theme_Homework_6_notes_Test;
+            default: return R.style.Theme_Homework_6_notes;
         }
-        super.onBackPressed();
-        //Метод getFragments Менеджера фрагментов возвращает нам список фрагментов в нашем стеке
-//        for (Fragment f: fragments) {
-//            Log.d(TAG, String.valueOf(f.getClass().getName()));
-//        }
     }
-
     public boolean isLandscape() {
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
+    }
+    public boolean toastMessage(String s)
+    {
+        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+        return true;
+    }
+    @Override
+    public void onBackPressed() {
+        if(fragmentManager.getBackStackEntryCount()==0)
+            finish(); //TODO 9 ДЗ
+        super.onBackPressed();
     }
 }

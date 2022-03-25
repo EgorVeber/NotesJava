@@ -13,9 +13,11 @@
         android:textColor="@color/card_item_color"
         android:text="Выбор темы"
         android:gravity="center"/>
+
+
     <RadioGroup
         android:id="@+id/radioButtons"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -34,6 +36,14 @@
             android:layout_height="wrap_content"
             android:text="@string/material_light" />
     </RadioGroup>
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:layout_width="wrap_content"
+            android:id="@+id/checkbox_settings"
+            android:gravity="center"
+            android:text="Скрыть меню"
+            android:textColor="@color/title_card_color"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
         android:layout_marginLeft="32dp"

@@ -2,7 +2,6 @@ package ru.gb.veber.homework_6_notes.java;
 
 import static ru.gb.veber.homework_6_notes.java.MainActivity.MainFragmentTag;
 
-import android.app.blob.BlobHandle;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -105,10 +103,11 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         if(!check_saveInstance_menu)
         {
             //скрываем всегда, надуваем новое меню только если порт
-            MenuItem item = menu.findItem(R.id.item_1_toolbar_main);//Скрываем новый
+            MenuItem item = menu.findItem(R.id.add_item_toolbar_main);//Скрываем новый
             MenuItem item2 = menu.findItem(R.id.sort_reverse_toolbar_main);//Скрываем новый
             MenuItem item3 = menu.findItem(R.id.sort_name_toolbar_main);//Скрываем новый
             MenuItem item4 = menu.findItem(R.id.sort_id_toolbar_main);//Скрываем новый
+            MenuItem item5 = menu.findItem(R.id.search_toolbar_main);//Скрываем новый
             if(!isLandscape())
             {
                 inflater.inflate(R.menu.menu_toolbar_edit_fragment, menu);//добавляем назад
@@ -117,11 +116,11 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
                     item2.setVisible(false);
                     item3.setVisible(false);
                     item4.setVisible(false);
+                    item5.setVisible(false);
                 }
             }
-            else
-            {
-
+            else{
+                item5.setVisible(false);
             }
         }
     }

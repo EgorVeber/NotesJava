@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -31,23 +33,15 @@ import ru.gb.veber.homework_6_notes.recycler.AdapterNote;
 
 public class MainFragment extends Fragment implements AdapterNote.OnNoteClickListner{
 
-    //Сохранение состояния
+
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
-    private static final String TAG = "EditNoteFragment";
     private CardNote current_card_note;
-
-
-
     private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;
     private AdapterNote adapters;
-
-    public static final String FILE_PROFILE = "FILE_PROFILE";
-    public static final String PROFILE_NAME = "PROFILE_NAME";
-    private SharedPreferences prefs;
-    private String getProfileName="Profile_name";
-
-
     TextView item_count;
+
+    FragmentManager fragmentManager;
+
     private void init(View view)
     {
         RecyclerView list= view.findViewById(R.id.list);
@@ -59,6 +53,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
         list.addItemDecoration(itemDecoration);
+        fragmentManager=requireActivity().getSupportFragmentManager();
     }
     @Nullable
     @Override
@@ -67,23 +62,15 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        init(view);//RecyclerView adapter и тд.
-
-        prefs = requireActivity().getSharedPreferences(FILE_PROFILE, Context.MODE_PRIVATE);
-        getProfileName= prefs.getString(PROFILE_NAME,"");
-        //profile_name.setText(getProfileName);
-        //Берем ту ноту которую редактировали. Сохраняем при перевороте экранна редактируем при клике.
-        // Если состояние не менялось то первый элемент из данных. Если менялось то выбранный элемент из данных. Если менялосьи ничего не выбирали то тоже первый.
-        // если у нас нет данных даже не будем показывать макет
-        if(isLandscape()&&source.getSize()!=0) {
-            if (savedInstanceState != null) {
+        init(view);
+        //Берем ту ноту которую редактировали. Сохраняем при перевороте экранна редактируем при клике.Если состояние не менялось то первый элемент из данных. Если менялось то выбранный элемент из данных. Если менялосьи ничего не выбирали то тоже первый.если у нас нет данных даже не будем показывать макет
+        if(isLandscape()&&source.getSize()!=0)
+        {
+            if (savedInstanceState != null)
                 current_card_note = (CardNote) savedInstanceState.getSerializable(CURRENT_CARD_NOTE);
-            }
             else
-            {
                 current_card_note = source.getAll().get(0);
-            }
-            //Показываем без BackStack
+            //Показываем без BackStack один раз при перевороте чтобы пересоздавался
             showLandEditFragment(current_card_note,false);
         }
     }
@@ -97,23 +84,23 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     @Override
     public void onNoteClick(CardNote note) {
         //Сохраняем выбранную заметку
-
-
         if (isLandscape())
         {
             if(current_card_note!=note)//Не хочу чтобы текущий всегда заново показывался
-            {
                 showLandEditFragment(note,true); //показываем уже с BackStack
-            }
         }
         else
-        {
             showPortEditFragment(note);
-        }
         current_card_note = note;
     }
-
-
+    @Override
+    public void onLondNoteClick(CardNote note)
+    {
+        source.delete(note.getId());
+        adapters.SetNote(source.getAll());
+        item_count = requireActivity().findViewById(R.id.item_count);
+        item_count.setText(String.valueOf(getItemCount()));
+    }
     public void updateSourseAdapter(CardNote note) {
         source.update(note);
         adapters.SetNote(source.getAll());
@@ -127,10 +114,6 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         adapters.SetNote(source.getAll());
         item_count = requireActivity().findViewById(R.id.item_count);
         item_count.setText(String.valueOf(getItemCount()));
-    }
-    public int getItemCount()
-    {
-        return source.getSize();
     }
     public void addSourseAdapter(CardNote note_add) {
         source.create(note_add);
@@ -155,14 +138,19 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         source.sortId();
         adapters.SetNote(source.getAll());
     }
+    public int getItemCount()
+    {
+        return source.getSize();
+    }
     public void showLandEditFragment(CardNote note,boolean check)
     {
         if(check==false)
         {
-            requireActivity().
-                    getSupportFragmentManager().
-                    beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
-                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(note)).commit();
+//            requireActivity().
+//                    getSupportFragmentManager().
+//                    beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
+//                    replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(note)).commit();
+            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(note),false);
         }
         else
         {
@@ -171,6 +159,13 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
                     beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).
                     replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(note)).addToBackStack(null).commit();
         }
+    }
+    public void showFragment(int container, Fragment fragment,boolean flag)
+    {
+        if(flag)
+            fragmentManager.beginTransaction().replace(container,fragment).addToBackStack(null).commit();
+        else
+            fragmentManager.beginTransaction().replace(container,fragment).commit();
     }
     public void showPortEditFragment(CardNote note)
     {

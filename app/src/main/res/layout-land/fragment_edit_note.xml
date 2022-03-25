@@ -12,8 +12,7 @@
             />
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view"
-            style="@style/card_style"
-            >
+            style="?attr/cardViewStyle">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

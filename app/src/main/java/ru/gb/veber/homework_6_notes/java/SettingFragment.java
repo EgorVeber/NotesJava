@@ -2,8 +2,6 @@ package ru.gb.veber.homework_6_notes.java;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,19 +13,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.logging.LogManager;
 import java.util.regex.Pattern;
 
 import ru.gb.veber.homework_6_notes.R;
@@ -51,6 +51,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     private EditText profile_name;
     private Button save_button_profile_name;
     private  TextInputLayout layout;
+
+    CheckBox checkBox;
 
 
     RadioButton rbD;
@@ -83,7 +85,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         prefs = requireActivity().getSharedPreferences(FILE_PROFILE, MODE_PRIVATE);
         getProfileName= prefs.getString(PROFILE_NAME,"");
         profile_name.setText(getProfileName);
-
+        checkBox= view.findViewById(R.id.checkbox_settings);
+        checkBox.setOnClickListener(this);
 
         save_button_profile_name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +97,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
 
                 if(checkLogin.matcher(profileName).matches())
                 {
+                    //TODO проверка на длинну
                     prefs.edit().putString(PROFILE_NAME,profileName).commit();
                     layout.setError(null);
                     textView.setText(profileName);
@@ -130,17 +134,19 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         {
             inflater.inflate(R.menu.menu_toolbar_edit_fragment, menu);//добавляем назад
         }
-        MenuItem item = menu.findItem(R.id.item_1_toolbar_main);//Скрываем новый
+
+        MenuItem item = menu.findItem(R.id.add_item_toolbar_main);//Скрываем новый
         MenuItem item2 = menu.findItem(R.id.sort_reverse_toolbar_main);//Скрываем новый
         MenuItem item3 = menu.findItem(R.id.sort_name_toolbar_main);//Скрываем новый
         MenuItem item4 = menu.findItem(R.id.sort_id_toolbar_main);//Скрываем новый
         MenuItem item5 = menu.findItem(R.id.repost_memu_item_edit_note_fargment);//Скрываем новый
+        MenuItem item6 = menu.findItem(R.id.search_toolbar_main);//Скрываем новый
             if (item != null ) {
                 item.setVisible(false);
                 item2.setVisible(false);
                 item3.setVisible(false);
                 item4.setVisible(false);
-
+                item6.setVisible(false);
             }
             if(item5 != null )
             {
@@ -151,6 +157,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.back_memu_item_edit_note_fargment)
         {
+            //TODO удалять весь стек
             requireActivity().getSupportFragmentManager().popBackStack();
         }
         return super.onOptionsItemSelected(item);
@@ -173,7 +180,18 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                  setThemePref(1);
                 requireActivity().recreate();
                 break;
-
+            case R.id.checkbox_settings:
+                //TODO доделать сохранение настроек
+                if(!checkBox.isChecked())
+                {
+                    ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+                }
+                else
+                {
+                    ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+                    Toast.makeText(requireActivity(),"При перевороте настройки не сохранятся",Toast.LENGTH_SHORT).show();
+                }
+                break;
             default:break;
         }
     }
