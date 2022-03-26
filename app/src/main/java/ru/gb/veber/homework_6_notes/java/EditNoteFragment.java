@@ -39,6 +39,8 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
    private EditText edit_population;
    private Boolean check_saveInstance_menu=false;
 
+    ActionBar actionBar;
+
     public static EditNoteFragment newInstance(CardNote note)
     {
         //Фабричный метод с аргументами
@@ -56,25 +58,41 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         if (savedInstanceState != null)
         {
             requireActivity().getSupportFragmentManager().popBackStack();
+            check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);//Нужно чтобы не рисовать меню занова если переворачиваем
         }
+    }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean(MENU_ITEM, true);
+        super.onSaveInstanceState(outState);
     }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //В onCreate с помощью setHasOptionsMenu включаем режим вывода элементов фрагмента в ActionBar.
-        setHasOptionsMenu(true);//Эта строчка говорит о том, что у фрагмента должен быть доступ к меню Активити.
-        ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setSubtitle("CardNote");
-        }
         return inflater.inflate(R.layout.fragment_edit_note,container,false);
     }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        init(view);
+        if(getArguments()!=null)
+        {
+            note=(CardNote)getArguments().getSerializable(CardNoteKey);
+            SetText();
+        }
+    }
     private void init(View view) {
+        setHasOptionsMenu(true);
+        //В onCreate с помощью setHasOptionsMenu включаем режим вывода элементов фрагмента в ActionBar.
+        //Эта строчка говорит о том, что у фрагмента должен быть доступ к меню Активити.
+        actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setSubtitle("CardNote");
+
         save_button = view.findViewById(R.id.save_edit_note);
+        save_button.setOnClickListener(this);
         edit_country = view.findViewById(R.id.edit_country);
         edit_capital = view.findViewById(R.id.edit_capital);
         edit_population = view.findViewById(R.id.edit_population);
-        save_button.setOnClickListener(this);
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -105,11 +123,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putBoolean(MENU_ITEM, true);
-        super.onSaveInstanceState(outState);
-    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -118,38 +132,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
             requireActivity().getSupportFragmentManager().popBackStack();
         }
         return super.onOptionsItemSelected(item);
-    }
-    @Override
-    public void onDetach() {
-        ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setSubtitle("ListNotes");
-        }
-        super.onDetach();
-    }
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Bundle fragment_arg = getArguments();
-        if(savedInstanceState!=null)
-        {
-            check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);
-        }
-        init(view);
-        setHasOptionsMenu(true);
-        //В данном случии нулевые непускаем сюда сделали так что аргументы и заментка они у нас никогда не будут равны 0 ну оставим на всякий сулчай.
-        if(fragment_arg!=null)
-        {
-            note=(CardNote) fragment_arg.getSerializable(CardNoteKey);
-            if(note!=null) {
-               edit_country.setText(note.getCountry());
-               edit_capital.setText(note.getCapital());
-               edit_population.setText(note.getPopulation());
-           }
-        }
-        else
-        {
-
-        }
     }
     @Override
     public void onClick(View view)
@@ -170,7 +152,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
             {
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
-            SetText();
+            SetNote();
             //Можно конечно обновить replace фрагментов. Ну так наверное по лучше.Не знаю правда можно так или нет.
              fragment.updateSourseAdapter(note);
         }
@@ -185,33 +167,30 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
            }
         }
     }
-    public void SetText()
+    public void SetNote()
     {
         note.setCountry(edit_country.getText().toString());
         note.setCapital(edit_capital.getText().toString());
         note.setPopulation(edit_population.getText().toString());
     }
+    public void SetText()
+    {
+        if(note!=null)
+        {
+            edit_country.setText(note.getCountry());
+            edit_capital.setText(note.getCapital());
+            edit_population.setText(note.getPopulation());
+        }
+    }
     public boolean isLandscape() {
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
     }
-
-//  TODO Стыре кнопки потом посмотреть
-//
-//    private void deleteCardNote() {
-//       MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
-//       if(note!=null)
-//       {
-//           fragment.deleteSourseAdapter(note);
-//       }
-//        requireActivity().getSupportFragmentManager().popBackStack();
-//    }
-//    private void addCardNote() {
-//
-//        CardNote cardNote= new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString());
-//        MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
-//        fragment.addSourseAdapter(cardNote);
-//        requireActivity().getSupportFragmentManager().popBackStack();
-//
-//    }
+    @Override
+    public void onDetach() {
+        if (actionBar != null) {
+            actionBar.setSubtitle("ListNotes");
+        }
+        super.onDetach();
+    }
 }

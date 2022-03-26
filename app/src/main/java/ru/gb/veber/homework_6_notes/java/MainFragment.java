@@ -71,7 +71,8 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
             else
                 current_card_note = source.getAll().get(0);
             //Показываем без BackStack один раз при перевороте чтобы пересоздавался
-            showLandEditFragment(current_card_note,false);
+            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),false);
+            //showLandEditFragment(current_card_note,false);
         }
     }
     @Override
@@ -99,14 +100,12 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         if (isLandscape())
         {
             if(current_card_note!=note)//Не хочу чтобы текущий всегда заново показывался
-                showLandEditFragment(note,true); //показываем уже с BackStack
+                showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(note),true);
         }
         else
-            showPortEditFragment(note);
+            showFragment(R.id.fragment_container,EditNoteFragment.newInstance(note),true);
         current_card_note = note;
     }
-
-
     //CRUD
     public void updateSourseAdapter(CardNote note) {
         source.update(note);
@@ -144,18 +143,6 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         source.sortId();
         adapters.SetNote(source.getAll());
     }
-    //Фрагменты TODO передалать на один Show
-    public void showLandEditFragment(CardNote note,boolean check)
-    {
-        if(check)
-            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(note),true);
-        else
-            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(note),false);
-    }
-    public void showPortEditFragment(CardNote note)
-    {
-        showFragment(R.id.fragment_container,EditNoteFragment.newInstance(note),true);
-    }
     public void showFragment(int container, Fragment fragment,boolean flag)
     {
         if(flag)
@@ -163,7 +150,6 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         else
             fragmentManager.beginTransaction().replace(container,fragment).commit();
     }
-
     public boolean isLandscape() {
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;

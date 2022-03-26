@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager= getSupportFragmentManager();
         fragment= new MainFragment();
         toolbar = findViewById(R.id.toolbar_main);
+
         setSupportActionBar(toolbar);
         if(!isLandscape())
         {
