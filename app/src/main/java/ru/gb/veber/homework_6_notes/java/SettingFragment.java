@@ -22,9 +22,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -34,104 +36,102 @@ import ru.gb.veber.homework_6_notes.R;
 
 public class SettingFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "SettingFragment";
-
-
     Pattern checkLogin = Pattern.compile("^[A-Z][a-z]{2,}$");
-    public static final String FILE_PROFILE = "FILE_PROFILE";
-    public static final String PROFILE_NAME = "PROFILE_NAME";
-
-    public static final String ThemeFile ="ThemeFile";
-    public static final String KeyTheme="KeyTheme";
-
 
     private SharedPreferences prefs;
-    private String getProfileName="Profile_name";
-    public  static int NumTheme=0;
+    public static final String FILE_PROFILE = "FILE_PROFILE";
+    public static final String KEY_PROFILE = "PROFILE_NAME";
+    public static final String KEY_THEME = "KeyTheme";
+    public static final String KEY_CHECKBOX = "KeyCheckbox";
+
+    private String getProfileName = "Profile_name";
+    private boolean getCheckBox = false;
+    public static int getNumTheme = 0;
 
     private EditText profile_name;
     private Button save_button_profile_name;
-    private  TextInputLayout layout;
+    private TextInputLayout textInputLayout;
 
-    CheckBox checkBox;
-
-
-    RadioButton rbD;
-    RadioButton rbV1;
-
+    private CheckBox checkBox;
+    private RadioGroup radioGroup;
+    private RadioButton radioButtonStandart;
+    private RadioButton radioButtonTest;
+    private TextView headerProfileName;
+    private ActionBar actionBar;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState!=null)
-        {
-            requireActivity().getSupportFragmentManager().popBackStack();
+        if (savedInstanceState != null&&isLandscape()) {
+            requireActivity().getSupportFragmentManager().popBackStack();//При перевороте показваем списки
         }
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateOptionsMenu() ");
-        return inflater.inflate(R.layout.fragment_setting,container,false);
+        return inflater.inflate(R.layout.fragment_setting, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         setHasOptionsMenu(true);
-
-        layout = view.findViewById(R.id.textInputLayout2);
-        profile_name= view.findViewById(R.id.profile_name_edit_text);
-        save_button_profile_name=view.findViewById(R.id.save_profile_name);
+        actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setSubtitle("Profile");
+        init(view);
+    }
+    public void init(View view)
+    {
         prefs = requireActivity().getSharedPreferences(FILE_PROFILE, MODE_PRIVATE);
-        getProfileName= prefs.getString(PROFILE_NAME,"");
+
+        textInputLayout = view.findViewById(R.id.textInputLayout2);
+        profile_name = view.findViewById(R.id.profile_name_edit_text);
+        save_button_profile_name = view.findViewById(R.id.save_profile_name);
+        checkBox = view.findViewById(R.id.checkbox_settings);
+        radioGroup = view.findViewById(R.id.radioButtons);
+        radioButtonStandart = view.findViewById(R.id.standart_button);
+        radioButtonTest = view.findViewById(R.id.test_button);
+
+        getProfileName = prefs.getString(KEY_PROFILE, "");
+        getCheckBox =prefs.getBoolean(KEY_CHECKBOX,false);
+        getNumTheme = prefs.getInt(KEY_THEME, 0);
+
         profile_name.setText(getProfileName);
-        checkBox= view.findViewById(R.id.checkbox_settings);
+        checkBox.setChecked(getCheckBox);
+        ((MaterialRadioButton) radioGroup.getChildAt(getNumTheme)).setChecked(true);
+
+
         checkBox.setOnClickListener(this);
-
-        save_button_profile_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               String profileName= profile_name.getText().toString();
-
-                TextView textView = requireActivity().findViewById(R.id.profile_name);
-
-                if(checkLogin.matcher(profileName).matches())
-                {
-                    //TODO проверка на длинну
-                    prefs.edit().putString(PROFILE_NAME,profileName).commit();
-                    layout.setError(null);
-                    textView.setText(profileName);
-                    requireActivity().getSupportFragmentManager().popBackStack();
-                }
-                else
-                {
-                    layout.setError("Неправильно");
-                }
-            }
-        });
-
-
-        requireActivity().setTheme(getThemePref());
-        RadioGroup rg = view.findViewById(R.id.radioButtons);
-        ((MaterialRadioButton)rg.getChildAt(NumTheme)).setChecked(true);
-        rbD= view.findViewById(R.id.standart_button);
-        rbV1= view.findViewById(R.id.test_button);
-        rbD.setOnClickListener(this);
-        rbV1.setOnClickListener(this);
-
-
+        radioButtonStandart.setOnClickListener(this);
+        radioButtonTest.setOnClickListener(this);
+        save_button_profile_name.setOnClickListener(view1 -> save_button_profile_name_click());
     }
+    public void save_button_profile_name_click()
+    {
+        getProfileName = profile_name.getText().toString();
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
+        if (checkLogin.matcher(getProfileName).matches())
+        {
+            textInputLayout.setError(null);
+            prefs.edit().putString(KEY_PROFILE, getProfileName).commit();
 
+            NavigationView navigationView = requireActivity().findViewById(R.id.navigation_view);
+            View header = navigationView.getHeaderView(0);
+            headerProfileName  = header.findViewById(R.id.profile_name);
+            headerProfileName.setText(getProfileName);
+
+            requireActivity().getSupportFragmentManager().popBackStack();
+        }
+        else
+        {
+            textInputLayout.setError("Неправильно");
+        }
     }
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        if (!isLandscape())
-        {
+
+
+        if (!isLandscape()) {
             inflater.inflate(R.menu.menu_toolbar_edit_fragment, menu);//добавляем назад
         }
 
@@ -141,79 +141,66 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         MenuItem item4 = menu.findItem(R.id.sort_id_toolbar_main);//Скрываем новый
         MenuItem item5 = menu.findItem(R.id.repost_memu_item_edit_note_fargment);//Скрываем новый
         MenuItem item6 = menu.findItem(R.id.search_toolbar_main);//Скрываем новый
-            if (item != null ) {
-                item.setVisible(false);
-                item2.setVisible(false);
-                item3.setVisible(false);
-                item4.setVisible(false);
-                item6.setVisible(false);
-            }
-            if(item5 != null )
-            {
-                item5.setVisible(false);
-            }
+        if (item != null) {
+            item.setVisible(false);
+            item2.setVisible(false);
+            item3.setVisible(false);
+            item4.setVisible(false);
+            item6.setVisible(false);
+        }
+        if (item5 != null) {
+            item5.setVisible(false);
+        }
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==R.id.back_memu_item_edit_note_fargment)
-        {
+        if (item.getItemId() == R.id.back_memu_item_edit_note_fargment) {
             //TODO удалять весь стек
             requireActivity().getSupportFragmentManager().popBackStack();
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public boolean isLandscape() {
-        return getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE;
-    }
-
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.standart_button:
                 setThemePref(0);
                 requireActivity().recreate();
                 break;
             case R.id.test_button:
-                 setThemePref(1);
+                setThemePref(1);
                 requireActivity().recreate();
                 break;
             case R.id.checkbox_settings:
-                //TODO доделать сохранение настроек
-                if(!checkBox.isChecked())
+                if (!checkBox.isChecked())
                 {
-                    ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+                    prefs.edit().putBoolean(KEY_CHECKBOX, false).commit();
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().show();
                 }
                 else
                 {
-                    ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-                    Toast.makeText(requireActivity(),"При перевороте настройки не сохранятся",Toast.LENGTH_SHORT).show();
+                    prefs.edit().putBoolean(KEY_CHECKBOX, true).commit();
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+                    Toast.makeText(requireActivity(), "При перевороте настройки не сохранятся", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            default:break;
+            default:
+                break;
         }
     }
     private void setThemePref(int codeStyle) {
-        SharedPreferences sharedPref = requireActivity().getSharedPreferences(ThemeFile, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(KeyTheme, codeStyle);
-        editor.apply();
+        prefs.edit().putInt(KEY_THEME, codeStyle).commit();
     }
-
-    private int getThemePref()
-    {
-        SharedPreferences sharedPref = requireActivity().getSharedPreferences(ThemeFile, MODE_PRIVATE);
-        NumTheme = sharedPref.getInt(KeyTheme, 0);
-
-        switch(NumTheme){
-            case 0:
-                return R.style.Theme_Homework_6_notes;
-            case 1:
-                return R.style.Theme_Homework_6_notes_Test;
-            default:
-                return R.style.Theme_Homework_6_notes;
+    public boolean isLandscape() {
+        return getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+    }
+    @Override
+    public void onDetach() {
+        if (actionBar != null) {
+            actionBar.setSubtitle("ListNotes");
         }
+        super.onDetach();
     }
 }

@@ -32,7 +32,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
 
     //Ключ для аргументов фрагмента
     private static final String CardNoteKey = "CardNoteKey";
-    private static final String TAG = "EditNoteFragment";
     private static final String MENU_ITEM = "MENU_ITEM";
 
    private CardNote note;
@@ -42,7 +41,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
    private EditText edit_population;
    private Boolean check_saveInstance_menu=false;
 
-    ActionBar actionBar;
+    private ActionBar actionBar;
 
     public static EditNoteFragment newInstance(CardNote note)
     {
@@ -62,7 +61,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         {
             requireActivity().getSupportFragmentManager().popBackStack();
             check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);//Нужно чтобы не рисовать меню занова если переворачиваем
-            Log.d(TAG, check_saveInstance_menu.toString());
         }
     }
     @Override
@@ -82,7 +80,12 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         if(getArguments()!=null)
         {
             note=(CardNote)getArguments().getSerializable(CardNoteKey);
-            SetText();
+            if(note!=null)
+            {
+                edit_country.setText(note.getCountry());
+                edit_capital.setText(note.getCapital());
+                edit_population.setText(note.getPopulation());
+            }
         }
     }
     private void init(View view) {
@@ -135,49 +138,25 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view)
     {
-        //Вся логика у нас в MainFragmetn будем обновлять дынные через его метод.
+        //TODO переделать на интерфейсы
         MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
-
         if(getArguments()!=null)
         {
-            if(note!=null&&fragment!=null)
+            if(note!=null && fragment!=null)
             {
-                if (isLandscape())
-                {
-
-                }
-                else
-                {
-                    requireActivity().getSupportFragmentManager().popBackStack();
-                }
-                SetNote();
+                note.setCountry(edit_country.getText().toString());
+                note.setCapital(edit_capital.getText().toString());
+                note.setPopulation(edit_population.getText().toString());
                 fragment.updateSourseAdapter(note);
             }
         }
         else
         {
-           fragment.addSourseAdapter(new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString()));
-           if(!isLandscape())
-           {
-               requireActivity().getSupportFragmentManager().popBackStack();
-           }
+           note= new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString());
+           fragment.addSourseAdapter(note);
         }
-    }
-
-    public void SetNote()
-    {
-        note.setCountry(edit_country.getText().toString());
-        note.setCapital(edit_capital.getText().toString());
-        note.setPopulation(edit_population.getText().toString());
-    }
-    public void SetText()
-    {
-        if(note!=null)
-        {
-            edit_country.setText(note.getCountry());
-            edit_capital.setText(note.getCapital());
-            edit_population.setText(note.getPopulation());
-        }
+        if(!isLandscape())
+            requireActivity().getSupportFragmentManager().popBackStack();
     }
     public boolean isLandscape() {
         return getResources().getConfiguration().orientation

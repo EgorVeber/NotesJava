@@ -23,23 +23,21 @@ import ru.gb.veber.homework_6_notes.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String MainFragmentTag ="MainFragmentTag";
     //SharedPreferences
-    public static final String ThemeFile ="ThemeFile";
-    public static final String KeyTheme="KeyTheme";
-    public static final String FILE_PROFILE = "FILE_PROFILE";
-    public static final String PROFILE_NAME = "PROFILE_NAME";
     private SharedPreferences prefs;
+    public static final String FILE_PROFILE = "FILE_PROFILE";
+    public static final String KEY_THEME ="KeyTheme";
+    public static final String KEY_PROFILE = "PROFILE_NAME";
+    public static final String KEY_CHECKBOX = "KeyCheckbox";
     String getProfileName="Profile_name";
 
-    //Новое
-    public static final String MainFragmentTag ="MainFragmentTag";
+    private  MainFragment fragment;
+    private  FragmentManager fragmentManager;
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-
-    private  MainFragment fragment;
-    private  FragmentManager fragmentManager;
 
     private TextView item_count;
     private TextView profile_name;
@@ -52,14 +50,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO можно убрать
+        prefs = getSharedPreferences(FILE_PROFILE, MODE_PRIVATE);
         setTheme(getThemePref());
         setContentView(R.layout.activity_main);
 
-        prefs = getSharedPreferences(FILE_PROFILE, MODE_PRIVATE);
-        getProfileName= prefs.getString(PROFILE_NAME,getProfileName);
+
+        getProfileName= prefs.getString(KEY_PROFILE,getProfileName);
 
         init();
+        showToolBar();
         if(savedInstanceState==null)
             fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment,MainFragmentTag).commit();
     }
@@ -101,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
     //Меню Драйвера
     public boolean metodSetNavigationItemSelectedListener (int id)
     {
-        // getSupportActionBar().hide();
         switch (id) {
             case R.id.main_item_draver:
                 for (int i=0;i<fragmentManager.getBackStackEntryCount();i++)
@@ -120,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
     public void showFragment(int container, Fragment fragment,boolean flag)
     {
         if(flag)
-            fragmentManager.beginTransaction().replace(container,fragment).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).addToBackStack(null).commit();
         else
-            fragmentManager.beginTransaction().replace(container,fragment).commit();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).commit();
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -148,12 +146,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private int getThemePref() {
-        prefs = getSharedPreferences(ThemeFile, MODE_PRIVATE);
-        int NumTheme = prefs.getInt(KeyTheme, 0);
+        int NumTheme = prefs.getInt(KEY_THEME, 0);
         switch(NumTheme){
             case 0: return R.style.Theme_Homework_6_notes;
             case 1: return R.style.Theme_Homework_6_notes_Test;
             default: return R.style.Theme_Homework_6_notes;
+        }
+    }
+    private void showToolBar() {
+        boolean chechBox = prefs.getBoolean(KEY_CHECKBOX,false);
+        if(chechBox)
+        {
+            getSupportActionBar().hide();
         }
     }
     public boolean isLandscape() {

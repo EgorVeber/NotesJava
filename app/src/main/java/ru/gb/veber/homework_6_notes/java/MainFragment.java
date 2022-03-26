@@ -116,10 +116,8 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         current_card_note=note_add;
         adapters.SetNote(source.getAll());
         updateCount();
-        if(isLandscape())
-        {
-            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),true);
-        }
+        if(isLandscape())//Без анимации так надо сохранится от бесконечного добавления
+            fragmentManager.beginTransaction().replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note)).addToBackStack(null).commit();
     }
     public void updateCount()
     {
@@ -150,9 +148,9 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public void showFragment(int container, Fragment fragment,boolean flag)
     {
         if(flag)
-            fragmentManager.beginTransaction().replace(container,fragment).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).addToBackStack(null).commit();
         else
-            fragmentManager.beginTransaction().replace(container,fragment).commit();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).commit();
     }
     public boolean isLandscape() {
         return getResources().getConfiguration().orientation

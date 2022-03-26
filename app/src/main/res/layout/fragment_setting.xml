@@ -13,8 +13,6 @@
         android:textColor="@color/card_item_color"
         android:text="Выбор темы"
         android:gravity="center"/>
-
-
     <RadioGroup
         android:id="@+id/radioButtons"
         android:layout_width="wrap_content"
@@ -25,7 +23,6 @@
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/standart_button"
             android:layout_width="wrap_content"
-            android:checked="true"
             android:textColor="@color/title_card_color"
             android:layout_height="wrap_content"
             android:text="@string/my_cool_style" />
