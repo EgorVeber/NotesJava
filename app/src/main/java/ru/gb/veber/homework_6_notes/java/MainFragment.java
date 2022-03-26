@@ -87,9 +87,10 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public void onLondNoteClick(CardNote note)
     {
         source.delete(note.getId());
+        if(source.getSize()!=0)
+            current_card_note=source.getAll().get(0);
         adapters.SetNote(source.getAll());
-        item_count = requireActivity().findViewById(R.id.item_count);
-        item_count.setText(String.valueOf(getItemCount()));
+        updateCount();
     }
     //Click
     @Override
@@ -110,13 +111,6 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public void updateSourseAdapter(CardNote note) {
         source.update(note);
         adapters.SetNote(source.getAll());
-    }
-    public void deleteSourseAdapter(CardNote note_del) {
-        source.delete(note_del.getId());
-        if(source.getSize()!=0)
-            current_card_note=source.getAll().get(0);
-        adapters.SetNote(source.getAll());
-        updateCount();
     }
     public void addSourseAdapter(CardNote note_add) {
         source.create(note_add);
