@@ -116,6 +116,10 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         current_card_note=note_add;
         adapters.SetNote(source.getAll());
         updateCount();
+        if(isLandscape())
+        {
+            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),true);
+        }
     }
     public void updateCount()
     {

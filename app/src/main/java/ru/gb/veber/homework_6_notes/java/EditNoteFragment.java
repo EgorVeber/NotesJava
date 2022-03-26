@@ -13,12 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import java.util.logging.LogManager;
 
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -59,11 +62,13 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         {
             requireActivity().getSupportFragmentManager().popBackStack();
             check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);//Нужно чтобы не рисовать меню занова если переворачиваем
+            Log.d(TAG, check_saveInstance_menu.toString());
         }
     }
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putBoolean(MENU_ITEM, true);
+        check_saveInstance_menu=true;
+        outState.putBoolean(MENU_ITEM, check_saveInstance_menu);
         super.onSaveInstanceState(outState);
     }
     @Nullable
@@ -96,77 +101,69 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-
-        Log.d(TAG, "onCreateOptionsMenu() ");
-        if(!check_saveInstance_menu)
+        if(!isLandscape()&& !check_saveInstance_menu)
         {
-            //скрываем всегда, надуваем новое меню только если порт
-            MenuItem item = menu.findItem(R.id.add_item_toolbar_main);//Скрываем новый
-            MenuItem item2 = menu.findItem(R.id.sort_reverse_toolbar_main);//Скрываем новый
-            MenuItem item3 = menu.findItem(R.id.sort_name_toolbar_main);//Скрываем новый
-            MenuItem item4 = menu.findItem(R.id.sort_id_toolbar_main);//Скрываем новый
-            MenuItem item5 = menu.findItem(R.id.search_toolbar_main);//Скрываем новый
-            if(!isLandscape())
-            {
-                inflater.inflate(R.menu.menu_toolbar_edit_fragment, menu);//добавляем назад
-                if (item != null) {
-                    item.setVisible(false);
-                    item2.setVisible(false);
-                    item3.setVisible(false);
-                    item4.setVisible(false);
-                    item5.setVisible(false);
-                }
-            }
-            else{
-                item5.setVisible(false);
-            }
+            inflater.inflate(R.menu.menu_toolbar_edit_fragment, menu);//добавляем назад
+            initMenu(menu);
         }
+        //скрываем всегда, надуваем новое меню только если порт    /Создаем новое меню только когда Port и конфигурация  не менялась
     }
-
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if(item.getItemId()==R.id.back_memu_item_edit_note_fargment)
-        {
             requireActivity().getSupportFragmentManager().popBackStack();
-        }
+        else
+            Toast.makeText(requireActivity(),"Repost",Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
+    }
+    public void initMenu(Menu menu)
+    {
+        MenuItem item_plus = menu.findItem(R.id.add_item_toolbar_main);
+        MenuItem item_reverse = menu.findItem(R.id.sort_reverse_toolbar_main);
+        MenuItem item_name = menu.findItem(R.id.sort_name_toolbar_main);
+        MenuItem item_id = menu.findItem(R.id.sort_id_toolbar_main);
+        MenuItem item_search = menu.findItem(R.id.search_toolbar_main);
+        if (item_plus != null)
+        {
+            item_plus.setVisible(false);
+            item_reverse.setVisible(false);
+            item_name.setVisible(false);
+            item_id.setVisible(false);
+            item_search.setVisible(false);
+        }
     }
     @Override
     public void onClick(View view)
     {
         //Вся логика у нас в MainFragmetn будем обновлять дынные через его метод.
         MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
-        Log.d(TAG, "onClick()");
+
         if(getArguments()!=null)
         {
-            Log.d(TAG, "fragment_arg!=null");
-        if(note!=null&&fragment!=null)
-        {
-            if (isLandscape())
+            if(note!=null&&fragment!=null)
             {
-           //     fragment.addSourseAdapter(new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString()));
+                if (isLandscape())
+                {
+
+                }
+                else
+                {
+                    requireActivity().getSupportFragmentManager().popBackStack();
+                }
+                SetNote();
+                fragment.updateSourseAdapter(note);
             }
-            else
-            {
-                requireActivity().getSupportFragmentManager().popBackStack();
-            }
-            SetNote();
-            //Можно конечно обновить replace фрагментов. Ну так наверное по лучше.Не знаю правда можно так или нет.
-             fragment.updateSourseAdapter(note);
-        }
         }
         else
         {
-            Log.d(TAG, "fragment_arg=null");
-            fragment.addSourseAdapter(new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString()));
+           fragment.addSourseAdapter(new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString()));
            if(!isLandscape())
            {
                requireActivity().getSupportFragmentManager().popBackStack();
            }
         }
     }
+
     public void SetNote()
     {
         note.setCountry(edit_country.getText().toString());
