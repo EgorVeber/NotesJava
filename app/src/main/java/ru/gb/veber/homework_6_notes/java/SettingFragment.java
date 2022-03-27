@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 import ru.gb.veber.homework_6_notes.R;
 
 public class SettingFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "SettingFragment";
     private Pattern checkLogin = Pattern.compile("^[A-Z][a-z]{2,}$");
 
     private SharedPreferences prefs;
@@ -57,10 +58,15 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     private RadioButton radioButtonTest;
     private TextView headerProfileName;
     private ActionBar actionBar;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
+        //TODO isLandscape что не вкидывалдо на главную после применения темы.
+        // Надо подуамть что можно с этим сделать
+        // Скорее всего просто очиститьв все и выдрать сеттингс фрагмент
+        Log.d(TAG, String.valueOf(requireActivity().getSupportFragmentManager().getBackStackEntryCount()));
+        if (isLandscape()) // Возможно дело не в этом
             requireActivity().getSupportFragmentManager().popBackStack();//При перевороте показваем списки
     }
     @Nullable

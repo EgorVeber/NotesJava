@@ -55,8 +55,8 @@
         app:counterTextColor="@color/black"
         app:endIconMode="clear_text"
         app:startIconDrawable="@drawable/ic_baseline_person_24"
-        app:hintTextColor="@color/purple_700"
-        android:textColorHint="@color/purple_700"
+        app:hintTextColor="@color/status_bar_color"
+        android:textColorHint="@color/status_bar_color"
         app:errorEnabled="true"
         >
         <com.google.android.material.textfield.TextInputEditText

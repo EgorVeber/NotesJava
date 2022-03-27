@@ -34,7 +34,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     private static final String CardNoteKey = "CardNoteKey";
     private static final String MENU_ITEM = "MENU_ITEM";
 
-   private CardNote note;
+    private CardNote note;
    private Button save_button;
    private EditText edit_country;
    private EditText edit_capital;
@@ -57,10 +57,19 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Очищаем стек тк при перевороче экрана воссаздает всеь стек, в даннм случии один лишний будет
+//        if (savedInstanceState != null&&isLandscape())
+//        {
+//            requireActivity().getSupportFragmentManager().popBackStack();
+//            check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);//Нужно чтобы не рисовать меню занова если переворачиваем
+//        }
+        //При рекреете попробывать очищать весть стек кроме последней транзакции
         if (savedInstanceState != null)
         {
-            requireActivity().getSupportFragmentManager().popBackStack();
             check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);//Нужно чтобы не рисовать меню занова если переворачиваем
+            if(isLandscape())
+            {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
         }
     }
     @Override
@@ -109,7 +118,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
             inflater.inflate(R.menu.menu_toolbar_edit_fragment, menu);//добавляем назад
             initMenu(menu);
         }
-        //скрываем всегда, надуваем новое меню только если порт    /Создаем новое меню только когда Port и конфигурация  не менялась
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

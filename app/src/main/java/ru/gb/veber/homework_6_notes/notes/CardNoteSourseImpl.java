@@ -43,16 +43,6 @@ public class CardNoteSourseImpl implements CardNoteSourse {
         create(new CardNote("8 Марта","07.03.22","Забрать подарки"));
         create(new CardNote("Врач","11.03.22","Запись к офтальмологу"));
     }
-    public CardNoteSourseImpl init(Resources resources){
-        this.resources = resources;
-        String[] country = resources.getStringArray(R.array.country);
-        String[] capital = resources.getStringArray(R.array.capital);
-        String[] population = resources.getStringArray(R.array.population);
-        for (int i = 0; i < country.length; i++) {
-            create(new CardNote(country[i],capital[i],population[i]));
-        }
-        return this;
-    }
     @Override
     public int create(CardNote note) {
         int id= counter++;

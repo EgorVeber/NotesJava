@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/main_item_draver"
-        android:icon="@drawable/ic_baseline_domain_24"
+        android:icon="@drawable/main_page"
         android:title="@string/main" />
     <item
         android:id="@+id/settings_drawer_exit"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/settings_black"
         android:title="@string/settings" />
     <item
         android:id="@+id/exit_item_draver"

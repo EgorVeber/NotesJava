@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
    private MenuItem searchItem;
    private SearchView searchView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +75,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         toolbar = findViewById(R.id.toolbar_main);
 
         setSupportActionBar(toolbar);
-        if(!isLandscape())
-        {
+
             initDraver();//Пока только для PORT
 
             //Обновляем кол-во заметок и профиль
@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
             profile_name= header.findViewById(R.id.profile_name);
             profile_name.setText(getProfileName);
-        }
     }
     private void initDraver()
     {
@@ -115,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             break;
             case R.id.exit_item_draver:
                     finish();
+
               break;
         }
         drawerLayout.close();
@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         item_reverse = menu.findItem(R.id.sort_reverse_toolbar_main);
         item_sort_id = menu.findItem(R.id.sort_id_toolbar_main);
         item_sort_name= menu.findItem(R.id.sort_name_toolbar_main);
+
+
 
         searchItem = menu.findItem(R.id.search_toolbar_main);
         searchView = (SearchView) searchItem.getActionView();

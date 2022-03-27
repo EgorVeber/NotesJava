@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@color/purple_200"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/toolbar_color"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
+        android:backgroundTint="@color/white"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_baseline_tag_faces_24"/>
+        app:srcCompat="@drawable/ic_baseline_android_24" />
+
     <TextView
         android:id="@+id/profile_name"
         android:layout_width="wrap_content"
-        android:textColor="@color/teal_700"
-        android:layout_marginLeft="20dp"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:text="Профиль"/>
+        android:layout_marginLeft="10dp"
+        android:text="Профиль"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <TextView
-        android:layout_width="wrap_content"
-        android:textColor="@color/teal_700"
-        android:layout_marginLeft="20dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="Заметок:"/>
-    <TextView
-        android:id="@+id/item_count"
-        android:layout_width="wrap_content"
-        android:textColor="@color/teal_700"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Заметок:"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/item_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:openDrawer="start">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,32 +18,16 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_main"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:menu="@menu/menu_toolbar_main"
-                android:theme="@style/ActionBarThemeOverlay"
-                app:subtitle="ListNotes"
-                app:subtitleTextColor="@color/white"
-                app:title="@string/app_name"
-                app:titleTextColor="@color/white" />
+                style="@style/toolbar_style" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".java.MainActivity" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:backgroundTint="@color/back_card_view"
-        app:headerLayout="@layout/header_draver"
-        app:itemIconTint="@color/card_item_color"
-        app:itemTextColor="@color/card_item_color"
-        app:menu="@menu/menu_drawer" />
+        style="@style/navigation_view_style" />
 </androidx.drawerlayout.widget.DrawerLayout>
