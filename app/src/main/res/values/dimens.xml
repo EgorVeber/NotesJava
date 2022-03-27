@@ -32,4 +32,5 @@
 
     <dimen name="profile_name_text_size">30sp</dimen>
     <dimen name="notes_name_text_size">22sp</dimen>
+    <dimen name="settings_fragmetn_left_margin">10dp</dimen>
 </resources>

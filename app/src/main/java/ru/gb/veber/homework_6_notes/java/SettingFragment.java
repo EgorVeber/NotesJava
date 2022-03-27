@@ -79,7 +79,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         setHasOptionsMenu(true);
         actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
         if (actionBar != null)
-            actionBar.setSubtitle("Profile");
+            actionBar.setSubtitle("Settings");
         init(view);
     }
     public void init(View view)

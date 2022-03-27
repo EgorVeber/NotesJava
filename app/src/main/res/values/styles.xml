@@ -67,7 +67,7 @@
         <item name="title">@string/app_name</item>
         <item name="titleTextColor">@color/white</item>
     </style>
-    <!-- Меню поиска -->
+    <!-- Меню поискаВВВВВВВВВВВВВВВВВ -->
     <style name="search_icon_text_color">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
@@ -167,69 +167,78 @@
     </style>
     <style name="fragment_textview_title.big" >
         <item name="android:text">@string/card</item>
-        <item name="android:textSize">@dimen/title_text_size_edit</item>
+    </style>
+    <style name="fragment_textview_title.settings" >
+        <item name="android:text">@string/settings</item>
     </style>
     <!-- /TitileTextFragment -->
 
     <!-- ButtonSaveCard -->
     <style name="btn_save_card_fragment">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/btn_save_edit</item>
         <item name="android:layout_margin">@dimen/margin_btn_save</item>
         <item name="android:text">@string/btn_sava</item>
+        <item name="android:layout_gravity">right</item>
         <item name="android:backgroundTint">@color/toolbar_color</item>
         <item name="cornerRadius">@dimen/radius_card_view</item>
     </style>
     <!-- /ButtonSaveCard -->
 
-
-
-    <style name="card_item_style.edit_item">
-        <item name="android:layout_gravity">center</item>
-        <item name="android:textSize">@dimen/card_text_size_item_edit</item>
-    </style>
-    <style name="card_item_style.edit_item.title">
-        <item name="android:textColor">@color/title_card_color</item>
-    </style>
-
-
-
-    <style name="text_edit_layout_card.Title">
-        <item name="android:textColor">@color/title_card_color</item>
-    </style>
-
-    <style name="btn_save_card_fragment.setting">
+    <!-- RadioButtonSettings -->
+    <style name="radio_button_settings">
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/settings_fragmetn_left_margin</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/btn_save_edit</item>
-        <item name="android:layout_margin">@dimen/margin_btn_save</item>
-        <item name="android:text">@string/btn_sava</item>
-        <item name="android:layout_gravity">right</item>
-        <item name="cornerRadius">@dimen/radius_card_view</item>
+        <item name="android:textColor">@color/title_card_color</item>
+        <item name="android:textSize">15sp</item>
     </style>
-    <style name="btn_save_edit_land">
+    <!-- /RadioButtonSettings -->
+    <!-- CheckBoxSettings -->
+    <style name="radio_button_settings.check_box">
+        <item name="android:text">@string/hide_menu</item>
+    </style>
+    <!-- /CheckBoxSettings -->
+
+    <!-- TextInput -->
+    <!-- TextEdit -->
+    <style name="TextInputLayoutProfileName" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/btn_save_edit</item>
-        <item name="android:layout_marginStart">@dimen/margin_btn_save</item>
-        <item name="android:layout_marginEnd">@dimen/margin_btn_save</item>
-        <item name="android:text">@string/btn_sava</item>
-        <item name="cornerRadius">@dimen/radius_card_view</item>
+        <item name="android:layout_marginLeft">32dp</item>
+        <item name="android:layout_marginRight">32dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:hint">@string/profile</item>
+        <item name="android:textColorHint">@color/status_bar_color</item>
+        <item name="counterMaxLength">12</item>
+        <item name="counterEnabled">true</item>
+        <item name="counterTextColor">@color/black</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="startIconDrawable">@drawable/ic_baseline_person_24</item>
+        <item name="hintTextColor">@color/status_bar_color</item>
+        <item name="errorEnabled">true</item>
     </style>
+    <style name="TextInputEditTextProfileName" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLength">13</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/title_card_color</item>
+    </style>
+    <!-- /TextInput -->
 
+
+
+
+    <!-- /ПОТОМ ПОСМОТРЕТЬ -->
     <style name="toolbar_main_style" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/white</item>
     </style>
     <style name="toolbar_main_style_theme2" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/black</item>
     </style>
-    <style name="MyTextInputV1" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-    </style>
-
-
     <style name="OverflowMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
         <item name="overlapAnchor">false</item>
         <!-- Required for Lollipop. -->
@@ -242,7 +251,6 @@
     <style name="DrawerIconStyleTheme2" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">#9263D3</item>
     </style>
-
     <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
         <!-- Background for the search query section (e.g. EditText) -->
         <item name="actionMenuTextColor">@color/white</item>
@@ -251,6 +259,4 @@
         <item name="autoCompleteTextViewStyle">@color/white</item>
         <item name="android:textAppearanceSearchResultTitle">@color/white</item>
     </style>
-
-
 </resources>

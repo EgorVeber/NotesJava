@@ -20,4 +20,6 @@
     <string name="hint_name_note">Название заметки</string>
     <string name="Data">Дата</string>
     <string name="description">Описание</string>
+    <string name="hide_menu">Скрыть меню</string>
+    <string name="profile">Имя профиля</string>
 </resources>
