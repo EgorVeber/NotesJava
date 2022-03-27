@@ -3,6 +3,7 @@ package ru.gb.veber.homework_6_notes.java;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +23,10 @@ import com.google.android.material.navigation.NavigationView;
 
 import ru.gb.veber.homework_6_notes.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     public static final String MainFragmentTag ="MainFragmentTag";
+    private static final String TAG = "MainActivity";
     //SharedPreferences
     private SharedPreferences prefs;
     public static final String FILE_PROFILE = "FILE_PROFILE";
@@ -41,11 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView item_count;
     private TextView profile_name;
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar_main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setTheme(getThemePref());
         setContentView(R.layout.activity_main);
 
-
         getProfileName= prefs.getString(KEY_PROFILE,getProfileName);
-
         init();
         showToolBar();
         if(savedInstanceState==null)
@@ -122,6 +118,15 @@ public class MainActivity extends AppCompatActivity {
         else
             fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).commit();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar_main,menu);
+        final MenuItem searchItem = menu.findItem(R.id.search_toolbar_main);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
@@ -174,5 +179,15 @@ public class MainActivity extends AppCompatActivity {
         if(fragmentManager.getBackStackEntryCount()==0)
             finish(); //TODO 9 ДЗ
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

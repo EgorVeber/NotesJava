@@ -16,15 +16,18 @@
     <item
         android:id="@+id/search_toolbar_main"
         app:showAsAction="always"
-        android:title="item_2"
+        android:title="Search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         android:orderInCategory="3"
-        android:icon="@drawable/ic_baseline_search_24"/>
+        />
     <item
         android:id="@+id/sort_name_toolbar_main"
+        app:showAsAction="never"
         android:title="Сортировка по названию"
         />
     <item
         android:id="@+id/sort_id_toolbar_main"
+        app:showAsAction="never"
         android:title="Изначальный список"
         />
 </menu>

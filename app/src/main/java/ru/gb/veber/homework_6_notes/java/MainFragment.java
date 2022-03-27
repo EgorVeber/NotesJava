@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,9 +39,9 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     private CardNote current_card_note;
     private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;
     private AdapterNote adapters;
-    TextView item_count;
+    private TextView item_count;
 
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
     private void init(View view)
     {

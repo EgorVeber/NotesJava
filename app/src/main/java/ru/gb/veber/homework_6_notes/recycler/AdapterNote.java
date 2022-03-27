@@ -49,12 +49,10 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> {
         //TODO потом убрать
         void onLondNoteClick(CardNote note);
     }
-
     private OnNoteClickListner listner;//Экземпляр
 
     public void setOnNoteCliclListner(OnNoteClickListner listner)
     {
         this.listner=listner;
     }
-
 }
