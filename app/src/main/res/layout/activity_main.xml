@@ -23,6 +23,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:menu="@menu/menu_toolbar_main"
+                android:theme="@style/ActionBarThemeOverlay"
                 app:subtitle="ListNotes"
                 app:subtitleTextColor="@color/white"
                 app:title="@string/app_name"

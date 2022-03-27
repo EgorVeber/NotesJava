@@ -15,8 +15,9 @@
         android:icon="@drawable/ic_baseline_notes_24"/>
     <item
         android:id="@+id/search_toolbar_main"
-        app:showAsAction="always"
+        app:showAsAction="always|collapseActionView"
         android:title="Search"
+        android:icon="@drawable/ic_baseline_search_24"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         android:orderInCategory="3"
         />

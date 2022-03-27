@@ -125,4 +125,19 @@
         <item name="color">#9263D3</item>
     </style>
 
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!-- Background for the search query section (e.g. EditText) -->
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <!-- Background for the actions section (e.g. voice, submit) -->
+        <item name="autoCompleteTextViewStyle">@color/white</item>
+        <item name="android:textAppearanceSearchResultTitle">@color/white</item>
+    </style>
+
+    <style name="ActionBarThemeOverlay">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
 </resources>

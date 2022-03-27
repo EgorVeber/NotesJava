@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -44,6 +45,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private TextView item_count;
     private TextView profile_name;
+
+    MenuItem item_plus;
+    MenuItem item_reverse;
+    MenuItem item_sort_id;
+    MenuItem item_sort_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,9 +128,31 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_main,menu);
+        item_plus = menu.findItem(R.id.add_item_toolbar_main);
+        item_reverse = menu.findItem(R.id.sort_reverse_toolbar_main);
+        item_sort_id = menu.findItem(R.id.sort_id_toolbar_main);
+        item_sort_name= menu.findItem(R.id.sort_name_toolbar_main);
+
         final MenuItem searchItem = menu.findItem(R.id.search_toolbar_main);
         final SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
+        Log.d(TAG, "onCreateOptionsMenu() called with: menu = [" + menu + "]");
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                item_plus.setVisible(true);
+                item_reverse.setVisible(true);
+                item_sort_id.setVisible(true);
+                item_sort_name.setVisible(true);
+                return true;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -147,6 +175,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             case R.id.sort_id_toolbar_main:
                 fragment.sortId();
                 return toastMessage("Изначальный список");
+            case R.id.search_toolbar_main:
+                item_plus.setVisible(false);
+                item_reverse.setVisible(false);
+                item_sort_name.setVisible(false);
+                item_sort_id.setVisible(false);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -180,14 +214,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             finish(); //TODO 9 ДЗ
         super.onBackPressed();
     }
-
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
+        Log.d(TAG, "onQueryTextSubmit() called with: query = [" + query + "]");
+        return true;
     }
-
     @Override
     public boolean onQueryTextChange(String newText) {
-        return false;
+        fragment.getAdapter().getFilter().filter(newText);
+        return true;
     }
 }
