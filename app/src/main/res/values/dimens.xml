@@ -27,4 +27,9 @@
     <dimen name="card_text_size_item_port">20sp</dimen>
     <dimen name="card_text_size_item_land">18sp</dimen>
     <dimen name="margin_linner_card_view_item">2dp</dimen>
+
+
+
+    <dimen name="profile_name_text_size">30sp</dimen>
+    <dimen name="notes_name_text_size">22sp</dimen>
 </resources>

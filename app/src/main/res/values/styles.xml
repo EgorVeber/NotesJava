@@ -12,9 +12,6 @@
         <item name="android:backgroundTint">@color/back_card_view</item>
         <item name="cardCornerRadius">@dimen/radius_card_view</item>
     </style>
-    <style name="card_style.theme2" >
-        <item name="android:backgroundTint">@color/ThemeCustom2colorOnPrimary</item>
-    </style>
     <!-- Карточка item -->
     <style name="card_item_style">
         <item name="android:layout_width">wrap_content</item>
@@ -30,6 +27,33 @@
         <item name="android:textColor">@color/title_card_color</item>
     </style>
     <!-- /Карточка -->
+
+    <!-- TextInput -->
+    <!-- TextEdit -->
+    <style name="text_input_layout_card" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="android:textColorHint">@color/title_card_color</item>
+        <item name="hintTextColor">@color/title_card_color</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="text_edit_layout_card" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/card_item_color</item>
+        <item name="android:textSize">@dimen/card_text_size_item_edit</item>
+        <item name="android:backgroundTint">@color/back_card_view</item>
+    </style>
+    <style name="text_edit_layout_card.description">
+        <item name="android:gravity">top|start</item>
+        <item name="android:minLines">2</item>
+    </style>
+    <style name="text_edit_layout_card.date">
+        <item name="android:maxLength">10</item>
+    </style>
+    <!-- /TextEdit -->
+    <!-- /TextInput -->
 
     <!-- Toolbar -->
     <style name="toolbar_style" >
@@ -50,6 +74,11 @@
         <item name="colorControlHighlight">@color/white</item>
         <item name="android:textColorHint">@color/white</item>
     </style>
+    <!-- Выпадающий список -->
+    <style name="myCustomMenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/status_bar_color</item>
+        <item name="android:textSize">15sp</item>
+    </style>
     <!-- /Toolbar -->
 
     <!-- NavigationViewDrawer -->
@@ -61,28 +90,101 @@
         <item name="headerLayout">@layout/header_draver</item>
         <item name="menu">@menu/menu_drawer</item>
         <item name="itemIconTint">@color/drawer_text_color</item>
+
         <item name="itemTextColor">@color/drawer_text_color</item>
     </style>
     <!-- /NavigationViewDrawer -->
 
-    <style name="title_style_main" >
+    <!-- layout/header_draver -->
+    <!-- CardViewCircle -->
+    <style name="circle_card_view" >
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="elevation">12dp</item>
+        <item name="cardCornerRadius">50dp</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintHorizontal_bias">0.1</item>
+        <item name="layout_constraintVertical_bias">0.04</item>
+    </style>
+    <!-- /CardViewCircle -->
+    <!-- ImageView -->
+    <style name="circle_card_view_image" >
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="srcCompat">@drawable/type</item>
+    </style>
+    <!-- /ImageView -->
+    <!-- ProfileName -->
+    <style name="profile_name_header" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/profile_name</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/profile_name_text_size</item>
+        <item name="layout_constraintStart_toStartOf">@+id/circle_card_view</item>
+        <item name="layout_constraintTop_toBottomOf">@+id/circle_card_view</item>
+    </style>
+    <!-- /ProfileName -->
+    <!-- NoteStyle -->
+    <style name="notes_text" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/notes_text</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/notes_name_text_size</item>
+        <item name="android:textStyle">italic</item>
+        <item name="layout_constraintStart_toStartOf">@+id/profile_name</item>
+        <item name="layout_constraintTop_toBottomOf">@+id/profile_name</item>
+    </style>
+    <style name="notes_text_num" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/notes_name_text_size</item>
+        <item name="android:textStyle">italic</item>
+        <item name="layout_constraintStart_toEndOf">@+id/notes_header_textview</item>
+        <item name="layout_constraintTop_toTopOf">@+id/notes_header_textview</item>
+    </style>
+    <!-- /NoteStyle -->
+    <!-- /layout/header_draver -->
+
+    <!-- TitileTextFragment -->
+    <style name="fragment_textview_title" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:text">@string/title_text</item>
         <item name="android:layout_margin">@dimen/margin_title</item>
-        <item name="android:textColor">@color/teal_200</item>
         <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/teal_200</item>
         <item name="android:textSize">@dimen/title_text_size</item>
     </style>
-    <style name="title_style_edit" >
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="fragment_textview_title.big" >
         <item name="android:text">@string/card</item>
-        <item name="android:layout_margin">@dimen/margin_title</item>
-        <item name="android:textColor">@color/teal_200</item>
-        <item name="android:layout_gravity">center</item>
         <item name="android:textSize">@dimen/title_text_size_edit</item>
     </style>
+    <!-- /TitileTextFragment -->
+
+    <!-- ButtonSaveCard -->
+    <style name="btn_save_card_fragment">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/btn_save_edit</item>
+        <item name="android:layout_margin">@dimen/margin_btn_save</item>
+        <item name="android:text">@string/btn_sava</item>
+        <item name="android:backgroundTint">@color/toolbar_color</item>
+        <item name="cornerRadius">@dimen/radius_card_view</item>
+    </style>
+    <!-- /ButtonSaveCard -->
+
+
 
     <style name="card_item_style.edit_item">
         <item name="android:layout_gravity">center</item>
@@ -92,32 +194,13 @@
         <item name="android:textColor">@color/title_card_color</item>
     </style>
 
-    <style name="edit_text_card">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:textColor">@color/card_item_color</item>
-        <item name="android:textSize">@dimen/card_text_size_item_edit</item>
-        <item name="android:ems">10</item>
-    </style>
-    <style name="edit_text_card.multiline">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:gravity">top|start</item>
-        <item name="android:minLines">2</item>
-        <item name="android:maxLines">5</item>
-    </style>
-    <style name="edit_text_card.Title">
+
+
+    <style name="text_edit_layout_card.Title">
         <item name="android:textColor">@color/title_card_color</item>
     </style>
-    <style name="btn_save_edit">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/btn_save_edit</item>
-        <item name="android:layout_margin">@dimen/margin_btn_save</item>
-        <item name="android:text">@string/btn_sava</item>
-        <item name="cornerRadius">@dimen/radius_card_view</item>
-    </style>
-    <style name="btn_save_edit.setting">
+
+    <style name="btn_save_card_fragment.setting">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/btn_save_edit</item>
@@ -145,14 +228,8 @@
     <style name="MyTextInputV1" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
     </style>
-    <style name="myCustomMenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
-        <item name="android:textColor">@color/status_bar_color</item>
-        <item name="android:textSize">15sp</item>
-    </style>
-    <style name="myCustomMenuTextAppearanceTheme2" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
-        <item name="android:textColor">@color/ThemeCustom2colorPrimaryVariant</item>
-        <item name="android:textSize">15sp</item>
-    </style>
+
+
     <style name="OverflowMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
         <item name="overlapAnchor">false</item>
         <!-- Required for Lollipop. -->

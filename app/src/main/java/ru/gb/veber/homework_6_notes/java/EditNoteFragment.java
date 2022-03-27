@@ -21,6 +21,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.LogManager;
 
 import ru.gb.veber.homework_6_notes.R;
@@ -95,6 +97,11 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
                 edit_capital.setText(note.getCapital());
                 edit_population.setText(note.getPopulation());
             }
+        }
+        else
+        {
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            edit_capital.setText(format.format(new Date()));
         }
     }
     private void init(View view) {

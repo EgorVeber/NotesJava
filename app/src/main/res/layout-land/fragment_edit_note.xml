@@ -1,70 +1,50 @@
-<androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
         <TextView
-            style="@style/title_style_edit"
+            style="@style/fragment_textview_title.big"
             />
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view"
-            style="?attr/cardViewStyle">
+            style="card_style">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:hint="Название заметки"
-                    android:textColorHint="@color/title_card_color"
-                    app:hintTextColor="@color/title_card_color"
-                    android:layout_height="wrap_content"
+                    style="@style/text_input_layout_card"
+                    android:hint="@string/hint_name_note"
                     >
                     <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
                         android:id="@+id/edit_country"
-                        style="@style/edit_text_card"
-                        android:backgroundTint="@color/back_card_view"
-                        android:layout_height="wrap_content"
+                        style="@style/text_edit_layout_card"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/title_card_color"
-                    app:hintTextColor="@color/title_card_color"
-                    android:layout_height="wrap_content"
+                    style="@style/text_input_layout_card"
+                    android:hint="@string/Data"
                     >
                     <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        style="@style/edit_text_card"
                         android:id="@+id/edit_capital"
-                        android:maxLength="8"
-                        android:textSize="18sp"
-                        android:inputType="date"
-                        android:backgroundTint="@color/back_card_view"
-                        android:layout_height="wrap_content"
-                        android:hint="Дата" />
+                        style="@style/text_edit_layout_card.date"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/title_card_color"
-                    app:hintTextColor="@color/title_card_color"
-                    android:hint="Описание"
-                    android:layout_height="wrap_content"
+                    style="@style/text_input_layout_card"
+                    android:hint="@string/description"
                     >
                     <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
                         android:id="@+id/edit_population"
-                        style="@style/edit_text_card.multiline"
-                        android:backgroundTint="@color/back_card_view"
-                        android:layout_height="wrap_content"
+                        style="@style/text_edit_layout_card.description"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>

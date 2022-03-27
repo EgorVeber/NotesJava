@@ -70,6 +70,6 @@
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_profile_name"
-        style="@style/btn_save_edit.setting"
+        style="@style/btn_save_card_fragment.setting"
         />
 </LinearLayout>
