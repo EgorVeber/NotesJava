@@ -35,8 +35,7 @@ import java.util.regex.Pattern;
 import ru.gb.veber.homework_6_notes.R;
 
 public class SettingFragment extends Fragment implements View.OnClickListener {
-    private static final String TAG = "SettingFragment";
-    Pattern checkLogin = Pattern.compile("^[A-Z][a-z]{2,}$");
+    private Pattern checkLogin = Pattern.compile("^[A-Z][a-z]{2,}$");
 
     private SharedPreferences prefs;
     public static final String FILE_PROFILE = "FILE_PROFILE";
@@ -61,17 +60,14 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null&&isLandscape()) {
+        if (savedInstanceState != null)
             requireActivity().getSupportFragmentManager().popBackStack();//При перевороте показваем списки
-        }
     }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateOptionsMenu() ");
         return inflater.inflate(R.layout.fragment_setting, container, false);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -120,45 +116,42 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
             headerProfileName  = header.findViewById(R.id.profile_name);
             headerProfileName.setText(getProfileName);
 
-            requireActivity().getSupportFragmentManager().popBackStack();
+            popBackStack();
         }
         else
-        {
-            textInputLayout.setError("Неправильно");
-        }
+            textInputLayout.setError("Английский 6 букв первая заглавная");
+    }
+
+    private void popBackStack() {
+        for (int i=0;i<requireActivity().getSupportFragmentManager().getBackStackEntryCount();i++)
+            requireActivity().getSupportFragmentManager().popBackStack();//Очищаем все в стеке
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 
+        inflater.inflate(R.menu.menu_toolbar_edit_fragment, menu);//добавляем назад
 
-        if (!isLandscape()) {
-            inflater.inflate(R.menu.menu_toolbar_edit_fragment, menu);//добавляем назад
-        }
-
-        MenuItem item = menu.findItem(R.id.add_item_toolbar_main);//Скрываем новый
-        MenuItem item2 = menu.findItem(R.id.sort_reverse_toolbar_main);//Скрываем новый
-        MenuItem item3 = menu.findItem(R.id.sort_name_toolbar_main);//Скрываем новый
-        MenuItem item4 = menu.findItem(R.id.sort_id_toolbar_main);//Скрываем новый
-        MenuItem item5 = menu.findItem(R.id.repost_memu_item_edit_note_fargment);//Скрываем новый
-        MenuItem item6 = menu.findItem(R.id.search_toolbar_main);//Скрываем новый
-        if (item != null) {
+        MenuItem item = menu.findItem(R.id.add_item_toolbar_main);
+        MenuItem item2 = menu.findItem(R.id.sort_reverse_toolbar_main);
+        MenuItem item3 = menu.findItem(R.id.sort_name_toolbar_main);
+        MenuItem item4 = menu.findItem(R.id.sort_id_toolbar_main);
+        MenuItem item5 = menu.findItem(R.id.repost_memu_item_edit_note_fargment);
+        MenuItem item6 = menu.findItem(R.id.search_toolbar_main);
+        if (item == null) {}
+        else
+        {
             item.setVisible(false);
             item2.setVisible(false);
             item3.setVisible(false);
             item4.setVisible(false);
             item6.setVisible(false);
-        }
-        if (item5 != null) {
             item5.setVisible(false);
         }
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.back_memu_item_edit_note_fargment) {
-            //TODO удалять весь стек
-            requireActivity().getSupportFragmentManager().popBackStack();
-        }
+        if (item.getItemId() == R.id.back_memu_item_edit_note_fargment)
+            popBackStack();
         return super.onOptionsItemSelected(item);
     }
     @Override

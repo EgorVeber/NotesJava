@@ -46,10 +46,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private TextView item_count;
     private TextView profile_name;
 
-    MenuItem item_plus;
-    MenuItem item_reverse;
-    MenuItem item_sort_id;
-    MenuItem item_sort_name;
+   private MenuItem item_plus;
+   private MenuItem item_reverse;
+   private MenuItem item_sort_id;
+   private MenuItem item_sort_name;
+   private MenuItem searchItem;
+   private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +60,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setTheme(getThemePref());
         setContentView(R.layout.activity_main);
 
-        getProfileName= prefs.getString(KEY_PROFILE,getProfileName);
         init();
         showToolBar();
         if(savedInstanceState==null)
             fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment,MainFragmentTag).commit();
     }
     private void init() {
+
+        getProfileName= prefs.getString(KEY_PROFILE,getProfileName);
 
         fragmentManager= getSupportFragmentManager();
         fragment= new MainFragment();
@@ -117,43 +120,43 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         drawerLayout.close();
         return false;
     }
-    public void showFragment(int container, Fragment fragment,boolean flag)
-    {
-        if(flag)
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).addToBackStack(null).commit();
-        else
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).commit();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_main,menu);
+
         item_plus = menu.findItem(R.id.add_item_toolbar_main);
         item_reverse = menu.findItem(R.id.sort_reverse_toolbar_main);
         item_sort_id = menu.findItem(R.id.sort_id_toolbar_main);
         item_sort_name= menu.findItem(R.id.sort_name_toolbar_main);
 
-        final MenuItem searchItem = menu.findItem(R.id.search_toolbar_main);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchItem = menu.findItem(R.id.search_toolbar_main);
+        searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
-        Log.d(TAG, "onCreateOptionsMenu() called with: menu = [" + menu + "]");
 
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 return true;
             }
-
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                item_plus.setVisible(true);
-                item_reverse.setVisible(true);
-                item_sort_id.setVisible(true);
-                item_sort_name.setVisible(true);
+                hideTollbarItem(true);
                 return true;
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void hideTollbarItem(boolean flag) {
+        item_plus.setVisible(flag);
+        item_reverse.setVisible(flag);
+        item_sort_id.setVisible(flag);
+        item_sort_name.setVisible(flag);
+    }
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        fragment.getAdapter().getFilter().filter(newText);
+        return true;
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -176,13 +179,22 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 fragment.sortId();
                 return toastMessage("Изначальный список");
             case R.id.search_toolbar_main:
-                item_plus.setVisible(false);
-                item_reverse.setVisible(false);
-                item_sort_name.setVisible(false);
-                item_sort_id.setVisible(false);
+                hideTollbarItem(false);
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void showFragment(int container, Fragment fragment,boolean flag)
+    {
+        if(flag)
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).addToBackStack(null).commit();
+        else
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).commit();
+    }
+    private void showToolBar() {
+        boolean chechBox = prefs.getBoolean(KEY_CHECKBOX,false);
+        if(chechBox)
+            getSupportActionBar().hide();
     }
     private int getThemePref() {
         int NumTheme = prefs.getInt(KEY_THEME, 0);
@@ -190,13 +202,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             case 0: return R.style.Theme_Homework_6_notes;
             case 1: return R.style.Theme_Homework_6_notes_Test;
             default: return R.style.Theme_Homework_6_notes;
-        }
-    }
-    private void showToolBar() {
-        boolean chechBox = prefs.getBoolean(KEY_CHECKBOX,false);
-        if(chechBox)
-        {
-            getSupportActionBar().hide();
         }
     }
     public boolean isLandscape() {
@@ -216,12 +221,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Log.d(TAG, "onQueryTextSubmit() called with: query = [" + query + "]");
-        return true;
-    }
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        fragment.getAdapter().getFilter().filter(newText);
         return true;
     }
 }

@@ -2,6 +2,7 @@ package ru.gb.veber.homework_6_notes.java;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,10 +80,15 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public void onLondNoteClick(CardNote note)
     {
         source.delete(note.getId());
-        if(source.getSize()!=0)
-            current_card_note=source.getAll().get(0);
+        if(current_card_note==note)
+        {
+            if(source.getSize()!=0)
+                current_card_note=source.getAll().get(0);
+        }
         adapters.SetNote(source.getAll());
         updateCount();
+        if(isLandscape())
+            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),true);
     }
     //Click
     @Override
