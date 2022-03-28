@@ -39,7 +39,6 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
     public void onBindViewHolder(@NonNull HolderNote holder, int position) {
         holder.bind(notes.get(position));
     }
-
     @Override
     public int getItemCount() {
         return notes.size();

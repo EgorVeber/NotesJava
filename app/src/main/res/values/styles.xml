@@ -260,4 +260,11 @@
         <item name="android:textAppearanceSearchResultTitle">@color/new_color_7</item>
     </style>-->
 
+    <!--  AlertDialog-->
+    <style name="CustomDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="colorAccent">@color/drawer_text_color</item>
+        <item name="android:textColorPrimary">@color/drawer_text_color</item>
+        <item name="colorOnPrimary">@color/drawer_text_color</item>
+    </style>
 </resources>

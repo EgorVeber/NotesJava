@@ -55,7 +55,7 @@ public class DialogDeleteNote extends DialogFragment {
         dialogDate.setText(date);
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(),R.style.CustomDialogTheme);
 
         builder.setTitle("Удалить заметку ?");
         builder.setView(dialog).setCancelable(true);
