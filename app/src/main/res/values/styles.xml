@@ -52,7 +52,6 @@
     <style name="text_edit_layout_card.date">
         <item name="android:maxLength">10</item>
     </style>
-    <!-- /TextEdit -->
     <!-- /TextInput -->
 
     <!-- Toolbar -->
@@ -67,7 +66,7 @@
         <item name="title">@string/app_name</item>
         <item name="titleTextColor">@color/white</item>
     </style>
-    <!-- Меню поискаВВВВВВВВВВВВВВВВВ -->
+    <!-- Меню поискаВВВВВВВВВВВВВВВВВ SearchView и не надо переопределять получается-->
     <style name="search_icon_text_color">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
@@ -225,38 +224,36 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:maxLength">13</item>
         <item name="android:textSize">25sp</item>
-        <item name="android:textColor">@color/title_card_color</item>
+        <item name="android:textColor">@color/card_item_color</item>
     </style>
     <!-- /TextInput -->
 
 
 
 
-    <!-- /ПОТОМ ПОСМОТРЕТЬ -->
+    <!-- Цвет кнопок toolbar три точки -->
     <style name="toolbar_main_style" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/white</item>
     </style>
-    <style name="toolbar_main_style_theme2" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@color/black</item>
-    </style>
+    <!-- Меню списка чуть вних-->
     <style name="OverflowMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
         <item name="overlapAnchor">false</item>
         <!-- Required for Lollipop. -->
         <item name="android:overlapAnchor">false</item>
         <item name="android:dropDownVerticalOffset">4.0dip</item>
     </style>
+    <!-- Цвет гамбургера -->
     <style name="DrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/white</item>
     </style>
-    <style name="DrawerIconStyleTheme2" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">#9263D3</item>
-    </style>
-    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <!-- Background for the search query section (e.g. EditText) -->
-        <item name="actionMenuTextColor">@color/white</item>
-        <item name="android:statusBarColor">@color/white</item>
-        <!-- Background for the actions section (e.g. voice, submit) -->
-        <item name="autoCompleteTextViewStyle">@color/white</item>
-        <item name="android:textAppearanceSearchResultTitle">@color/white</item>
-    </style>
+
+
+    <!--  Мб потом пригодится
+        <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="actionMenuTextColor">@color/new_color_4</item>
+        <item name="android:statusBarColor">@color/new_color_5</item>
+        <item name="autoCompleteTextViewStyle">@color/new_color_6</item>
+        <item name="android:textAppearanceSearchResultTitle">@color/new_color_7</item>
+    </style>-->
+
 </resources>

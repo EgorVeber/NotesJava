@@ -153,7 +153,6 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
     }
-
     public AdapterNote getAdapter() {
         return adapters;
     }

@@ -13,8 +13,8 @@
     <string name="settings">Настройки</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
-    <string name="my_cool_style">Стандартная</string>
-    <string name="material_light">Тестовая</string>
+    <string name="my_cool_style">Стандартная тема</string>
+    <string name="material_light">Тестовая тема</string>
     <string name="profile_name">Профиль</string>
     <string name="notes_text">Заметок:</string>
     <string name="hint_name_note">Название заметки</string>
