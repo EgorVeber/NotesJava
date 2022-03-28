@@ -21,6 +21,8 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
 
     private List<CardNote> notes = new ArrayList<>();//
     private List<CardNote> notesFull;
+    private OnNoteClickListner listner;
+
 
     @NonNull
     @Override
@@ -50,21 +52,18 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
     }
 
 
-    public interface OnNoteClickListner {
-        void onNoteClick(CardNote note);
-
-        //TODO потом убрать
-        void onLondNoteClick(CardNote note);
-    }
-
-    private OnNoteClickListner listner;//Экземпляр
-
     public void setOnNoteCliclListner(OnNoteClickListner listner) {
         this.listner = listner;
     }
 
+    public interface OnNoteClickListner
+    {
+        void onNoteClick(CardNote note);
+        void onLondNoteClick(CardNote note);
+    }
 
-    //New
+
+
 
     @Override
     public Filter getFilter() {

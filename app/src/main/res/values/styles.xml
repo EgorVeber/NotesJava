@@ -52,6 +52,10 @@
     <style name="text_edit_layout_card.date">
         <item name="android:maxLength">10</item>
     </style>
+    <style name="text_edit_layout_card.dialog" >
+        <item name="android:enabled">false</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
     <!-- /TextInput -->
 
     <!-- Toolbar -->

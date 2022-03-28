@@ -4,7 +4,6 @@ import static ru.gb.veber.homework_6_notes.java.MainActivity.MainFragmentTag;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +22,6 @@ import androidx.fragment.app.Fragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.LogManager;
 
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -36,7 +34,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     private static final String CardNoteKey = "CardNoteKey";
     private static final String MENU_ITEM = "MENU_ITEM";
 
-    private CardNote note;
+   private CardNote note;
    private Button save_button;
    private EditText edit_country;
    private EditText edit_capital;
@@ -163,6 +161,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
                 note.setCapital(edit_capital.getText().toString());
                 note.setPopulation(edit_population.getText().toString());
                 fragment.updateSourseAdapter(note);
+
             }
         }
         else

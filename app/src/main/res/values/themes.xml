@@ -19,11 +19,10 @@
 
         <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
 
-
         <!-- <item name="cardViewStyle">@style/card_style</item> -->
         <!-- <item name="android:textViewStyle">@style/fragment_textview_title.big</item> -->
        <!-- <item name=“materialButtonStyle”>@Widget.MyApp.ButtonStyle</item> -->
-        <!-- <item name="searchViewStyle">@style/MySearchViewStyle</item>-->
+        <!-- <item name="searchViewStyle">@style/MySearchVieswStyle</item>-->
   </style>
   <style name="Theme.Homework_6_notes.Test" >
       <item name="colorPrimary">@color/ThemeCustom2colorPrimary</item>

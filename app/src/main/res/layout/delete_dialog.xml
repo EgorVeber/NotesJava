@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/card_style">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input_layout_card"
+                android:hint="@string/hint_name_note"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_country"
+                    style="@style/text_edit_layout_card.dialog"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input_layout_card"
+                android:hint="@string/Data"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_capital"
+                    style="@style/text_edit_layout_card.dialog"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>

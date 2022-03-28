@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +22,11 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 import ru.gb.veber.homework_6_notes.R;
+import ru.gb.veber.homework_6_notes.hom_9.DialogController;
+import ru.gb.veber.homework_6_notes.hom_9.DialogFragmentCansel;
+import ru.gb.veber.homework_6_notes.notes.CardNote;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, DialogController {
 
     public static final String MainFragmentTag ="MainFragmentTag";
     private static final String TAG = "MainActivity";
@@ -129,8 +131,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         item_sort_id = menu.findItem(R.id.sort_id_toolbar_main);
         item_sort_name= menu.findItem(R.id.sort_name_toolbar_main);
 
-
-
         searchItem = menu.findItem(R.id.search_toolbar_main);
         searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
@@ -186,6 +186,25 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
+        if(fragmentManager.getBackStackEntryCount()==0)
+        {
+            DialogFragmentCansel cansel = new DialogFragmentCansel();
+            cansel.show(getSupportFragmentManager(),null);
+        }
+        else
+            super.onBackPressed();
+    }
+    @Override
+    public void delete(CardNote note) {
+        fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
+        fragment.deleteNote(note);
+    }
+    @Override
+    public void backClick() {
+        finish();
+    }
     public void showFragment(int container, Fragment fragment,boolean flag)
     {
         if(flag)
@@ -214,12 +233,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     {
         Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
         return true;
-    }
-    @Override
-    public void onBackPressed() {
-        if(fragmentManager.getBackStackEntryCount()==0)
-            finish(); //TODO 9 ДЗ
-        super.onBackPressed();
     }
     @Override
     public boolean onQueryTextSubmit(String query) {

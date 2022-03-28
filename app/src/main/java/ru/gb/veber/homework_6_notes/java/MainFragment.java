@@ -17,16 +17,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ru.gb.veber.homework_6_notes.R;
+import ru.gb.veber.homework_6_notes.hom_9.DialogDeleteNote;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
 import ru.gb.veber.homework_6_notes.notes.CardNoteSourse;
 import ru.gb.veber.homework_6_notes.notes.CardNoteSourseImpl;
 import ru.gb.veber.homework_6_notes.recycler.AdapterNote;
 
 
-public class MainFragment extends Fragment implements AdapterNote.OnNoteClickListner{
+public class MainFragment extends Fragment implements AdapterNote.OnNoteClickListner {
 
 
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
+    private static final String TAG = "sdsd";
     private CardNote current_card_note;
     private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;
     private AdapterNote adapters;
@@ -79,16 +81,9 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     @Override
     public void onLondNoteClick(CardNote note)
     {
-        source.delete(note.getId());
-        if(current_card_note==note)
-        {
-            if(source.getSize()!=0)
-                current_card_note=source.getAll().get(0);
-        }
-        adapters.SetNote(source.getAll());
-        updateCount();
-        if(isLandscape())
-            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),true);
+        DialogDeleteNote.getInstance(note,-1).
+                show(requireActivity().getSupportFragmentManager(),null);
+
     }
     //Click
     @Override
@@ -116,6 +111,19 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         if(isLandscape())//Без анимации так надо сохранится от бесконечного добавления
             fragmentManager.beginTransaction().replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note)).addToBackStack(null).commit();
     }
+    public void deleteNote(CardNote note)
+    {
+        source.delete(note.getId());
+        if(current_card_note==note)
+        {
+            if(source.getSize()!=0)
+                current_card_note=source.getAll().get(0);
+        }
+        adapters.SetNote(source.getAll());
+        updateCount();
+        if(isLandscape())
+            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),true);
+    }
     public void updateCount()
     {
         item_count = requireActivity().findViewById(R.id.item_count);
@@ -128,7 +136,6 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     {
         return source.getSize();
     }
-
     //Сортировки
     public void sortReverse() {
         source.sortReverse();
