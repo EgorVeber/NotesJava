@@ -52,6 +52,7 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
     }
     public void delete(List<CardNote> notes, int position) {
         this.notes=notes;
+        notesFull = new ArrayList<>(notes);
         notifyItemRemoved(position);
     }
     public void setOnNoteCliclListner(OnNoteClickListner listner) {
