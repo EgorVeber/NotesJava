@@ -4,5 +4,5 @@ import ru.gb.veber.homework_6_notes.notes.CardNote;
 
 public interface DialogController {
     void backClick();
-    void delete(CardNote city);
+    void delete(CardNote city,int position);
 }

@@ -79,11 +79,10 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
 
     //Popum click delete
     @Override
-    public void onLondNoteClick(CardNote note)
+    public void onLondNoteClick(CardNote note,int position)
     {
-        DialogDeleteNote.getInstance(note,-1).
+        DialogDeleteNote.getInstance(note,position).
                 show(requireActivity().getSupportFragmentManager(),null);
-
     }
     //Click
     @Override
@@ -111,7 +110,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         if(isLandscape())//Без анимации так надо сохранится от бесконечного добавления
             fragmentManager.beginTransaction().replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note)).addToBackStack(null).commit();
     }
-    public void deleteNote(CardNote note)
+    public void deleteNote(CardNote note,int pos)
     {
         source.delete(note.getId());
         if(current_card_note==note)
@@ -119,7 +118,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
             if(source.getSize()!=0)
                 current_card_note=source.getAll().get(0);
         }
-        adapters.SetNote(source.getAll());
+        adapters.delete(source.getAll(),pos);
         updateCount();
         if(isLandscape())
             showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),true);

@@ -3,6 +3,7 @@ package ru.gb.veber.homework_6_notes.hom_9;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import ru.gb.veber.homework_6_notes.notes.CardNote;
 
 public class DialogDeleteNote extends DialogFragment {
 
-    public static final String CARDNOTE= "CARDNOTE";
+    public static final String NOTE= "NOTE";
     public static final String POSITION= "POSITION";
 
     private CardNote note;
@@ -26,7 +27,8 @@ public class DialogDeleteNote extends DialogFragment {
     {
         DialogDeleteNote dialog = new DialogDeleteNote();
         Bundle bundle= new Bundle();
-        bundle.putSerializable(CARDNOTE,note);
+        bundle.putSerializable(NOTE,note);
+        bundle.putInt(POSITION,position);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -35,17 +37,15 @@ public class DialogDeleteNote extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        note= (CardNote) bundle.getSerializable(CARDNOTE);
-
+        note= (CardNote) bundle.getSerializable(NOTE);
+        int position = bundle.getInt(POSITION);
         String name="";
         String date="";
-        String desc="";
 
         if(note!=null)
         {
             name=note.getCountry();
             date=note.getCapital();
-            desc=note.getPopulation();
         }
         View dialog= LayoutInflater.from(requireContext()).inflate(R.layout.delete_dialog,null);
 
@@ -64,7 +64,7 @@ public class DialogDeleteNote extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(note!=null)
-                    ((DialogController)requireActivity()).delete(note);
+                    ((DialogController)requireActivity()).delete(note,position);
                 dialogInterface.dismiss();
             }
         });

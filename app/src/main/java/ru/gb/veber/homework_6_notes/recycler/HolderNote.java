@@ -64,7 +64,7 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
         switch (item.getItemId())
         {
             case R.id.delete_popam_menu:
-                listner.onLondNoteClick(note);
+                listner.onLondNoteClick(note,getAdapterPosition());
                 return true;
         }
         return false;

@@ -197,9 +197,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             super.onBackPressed();
     }
     @Override
-    public void delete(CardNote note) {
+    public void delete(CardNote note,int position) {
         fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
-        fragment.deleteNote(note);
+        fragment.deleteNote(note,position);
     }
     @Override
     public void backClick() {
