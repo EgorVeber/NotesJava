@@ -14,7 +14,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view"
-            style="@style/card_style">
+            style="@style/card_style_base">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,8 +50,8 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_edit_note"
-                style="@style/btn_save_card_fragment" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_edit_note"
+            style="@style/btn_save_card_fragment" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

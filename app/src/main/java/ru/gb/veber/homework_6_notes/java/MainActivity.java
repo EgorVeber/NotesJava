@@ -48,12 +48,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private TextView item_count;
     private TextView profile_name;
 
-   private MenuItem item_plus;
-   private MenuItem item_reverse;
-   private MenuItem item_sort_id;
-   private MenuItem item_sort_name;
-   private MenuItem searchItem;
-   private SearchView searchView;
+    private MenuItem item_plus;
+    private MenuItem item_reverse;
+    private MenuItem item_sort_id;
+    private MenuItem item_sort_name;
+    private MenuItem searchItem;
+    private SearchView searchView;
 
 
     @Override
@@ -78,16 +78,16 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         setSupportActionBar(toolbar);
 
-            initDraver();//Пока только для PORT
+        initDraver();//Пока только для PORT
 
-            //Обновляем кол-во заметок и профиль
-            View header = navigationView.getHeaderView(0);
+        //Обновляем кол-во заметок и профиль
+        View header = navigationView.getHeaderView(0);
 
-            item_count = header.findViewById(R.id.item_count);
-            item_count.setText(""+fragment.getItemCount());
+        item_count = header.findViewById(R.id.item_count);
+        item_count.setText(""+fragment.getItemCount());
 
-            profile_name= header.findViewById(R.id.profile_name);
-            profile_name.setText(getProfileName);
+        profile_name= header.findViewById(R.id.profile_name);
+        profile_name.setText(getProfileName);
     }
     private void initDraver()
     {
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         navigationView= findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-           return metodSetNavigationItemSelectedListener(id);
+            return metodSetNavigationItemSelectedListener(id);
         });
     }
     //Меню Драйвера
@@ -113,11 +113,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 break;
             case R.id.settings_drawer_exit:
                 showFragment(R.id.fragment_container,new SettingFragment(),true);
-            break;
+                break;
             case R.id.exit_item_draver:
-                    finish();
+                finish();
 
-              break;
+                break;
         }
         drawerLayout.close();
         return false;
@@ -200,10 +200,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void delete(CardNote note,int position) {
         fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
         fragment.deleteNote(note,position);
+        toastMessage("Delete note:"+note.getCountry());
     }
     @Override
     public void backClick() {
         finish();
+        toastMessage(getResources().getString(R.string.exit_dialog));
     }
     public void showFragment(int container, Fragment fragment,boolean flag)
     {

@@ -2,14 +2,19 @@
 <resources>
 
     <!-- Карточка -->
-    <style name="card_style" >
+    <style name="card_style_theme1" parent="card_style_base" >
+        <item name="android:backgroundTint">@color/back_card_view</item>
+    </style>
+    <style name="card_style_theme2" parent="card_style_base" >
+        <item name="android:backgroundTint">#EC6B4B</item>
+    </style>
+    <style name="card_style_base">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:layout_marginLeft">@dimen/margin_card_view</item>
         <item name="android:layout_marginRight">@dimen/margin_card_view</item>
-        <item name="android:backgroundTint">@color/back_card_view</item>
         <item name="cardCornerRadius">@dimen/radius_card_view</item>
     </style>
     <!-- Карточка item -->
@@ -42,8 +47,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/card_item_color</item>
-        <item name="android:textSize">@dimen/card_text_size_item_edit</item>
         <item name="android:backgroundTint">@color/back_card_view</item>
+        <item name="android:textSize">@dimen/card_text_size_item_edit</item>
     </style>
     <style name="text_edit_layout_card.description">
         <item name="android:gravity">top|start</item>

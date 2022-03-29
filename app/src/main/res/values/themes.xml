@@ -19,7 +19,7 @@
 
         <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
 
-        <!-- <item name="cardViewStyle">@style/card_style</item> -->
+        <item name="cardViewStyle">@style/card_style_theme1</item>
         <!-- <item name="android:textViewStyle">@style/fragment_textview_title.big</item> -->
        <!-- <item name=“materialButtonStyle”>@Widget.MyApp.ButtonStyle</item> -->
         <!-- <item name="searchViewStyle">@style/MySearchVieswStyle</item>-->
@@ -37,7 +37,7 @@
       <item name="android:actionMenuTextColor">@color/white</item>
 
       <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
-      <item name="cardViewStyle">@style/card_style</item>
+      <item name="cardViewStyle">@style/card_style_theme2</item>
       <item name="android:textViewStyle">@style/fragment_textview_title</item>
   </style>
 </resources>
