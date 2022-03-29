@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Homework_6_notes" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Homework_6_notes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -11,6 +11,33 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="actionOverflowButtonStyle">@style/toolbar_main_style</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenu</item>
+        <item name="drawerArrowStyle">@style/DrawerIconStyle</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
+        <item name="cardViewStyle">@style/card_style</item>
+
         <!-- Customize your theme here. -->
     </style>
+    <style name="Theme.Homework_6_notes.Test" >
+        <item name="colorPrimary">@color/ThemeCustom2colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/ThemeCustom2colorPrimaryVariant</item>
+        <item name="colorOnPrimary">#AEC257</item>
+        <item name="colorAccent">#8FDCAF</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="actionOverflowButtonStyle">@style/toolbar_main_style</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenu</item>
+        <item name="drawerArrowStyle">@style/DrawerIconStyle</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
+        <item name="cardViewStyle">@style/card_style.theme2</item>
+
+    </style>
+
+
 </resources>

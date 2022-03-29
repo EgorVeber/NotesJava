@@ -10,5 +10,8 @@ public interface CardNoteSourse  {
     void delete (int id);
     List<CardNote> getAll();
     int getSize();
+    void sortReverse  ();
+    void sortName ();
+    void sortId ();
 
 }

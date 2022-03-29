@@ -4,6 +4,9 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ru.gb.veber.homework_6_notes.R;
@@ -85,7 +88,7 @@ public class CardNoteSourseImpl implements CardNoteSourse {
         for (int i = 0; i <notes.size() ; i++) {
             if(notes.get(i).getId()==id)
             {
-                notes.remove(id);
+                notes.remove(i);
                 break;
             }
         }
@@ -98,5 +101,30 @@ public class CardNoteSourseImpl implements CardNoteSourse {
     @Override
     public int getSize() {
         return notes.size();
+    }
+
+    @Override
+    public void sortReverse() {
+        Collections.reverse(notes);
+    }
+    @Override
+    public void sortName() {
+        Collections.sort(notes);
+    }
+    @Override
+    public void sortId() {
+        Collections.sort(notes,new ComparatorId());
+    }
+}
+class ComparatorId implements Comparator<CardNote>{
+
+    public int compare(CardNote a, CardNote b){
+
+        if(a.getId()> b.getId())
+            return 1;
+        else if(a.getId()< b.getId())
+            return -1;
+        else
+            return 0;
     }
 }

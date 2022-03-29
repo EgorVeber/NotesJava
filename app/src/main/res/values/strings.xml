@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">homework_6_notes</string>
+    <string name="app_name">Notes</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_delete">Delete</string>
     <string name="btn_sava">Save</string>
     <string-array name="country">
         <item>@string/country1</item>
@@ -97,4 +99,11 @@
     <string name="country">Название заметки:</string>
     <string name="capital">Дата:</string>
     <string name="population">Описание:</string>
+    <string name="main">Главная</string>
+    <string name="exit">Выход</string>
+    <string name="settings">Настройки</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="my_cool_style">Стандартная</string>
+    <string name="material_light">Тестовая</string>
 </resources>

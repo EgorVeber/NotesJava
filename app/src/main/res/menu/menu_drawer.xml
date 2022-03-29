@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/main_item_draver"
+        android:icon="@drawable/ic_baseline_domain_24"
+        android:title="@string/main" />
+    <item
+        android:id="@+id/settings_drawer_exit"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/settings" />
+    <item
+        android:id="@+id/exit_item_draver"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
+        android:title="@string/exit" />
+</menu>
