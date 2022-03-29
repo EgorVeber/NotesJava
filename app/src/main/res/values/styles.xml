@@ -190,8 +190,13 @@
         <item name="android:layout_margin">@dimen/margin_btn_save</item>
         <item name="android:text">@string/btn_sava</item>
         <item name="android:layout_gravity">right</item>
-        <item name="android:backgroundTint">@color/toolbar_color</item>
         <item name="cornerRadius">@dimen/radius_card_view</item>
+    </style>
+    <style name="btn_save_tint_them_1" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/toolbar_color</item>
+    </style>
+    <style name="btn_save_tint_them_2" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/new_color_5</item>
     </style>
     <!-- /ButtonSaveCard -->
 

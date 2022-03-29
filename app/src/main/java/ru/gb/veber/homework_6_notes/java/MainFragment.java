@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.hom_9.DialogDeleteNote;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -122,6 +124,14 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         updateCount();
         if(isLandscape())
             showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),true);
+
+        Snackbar.make(requireActivity().findViewById(R.id.lll1), "SnackBar with Action",
+                Snackbar.LENGTH_INDEFINITE)// висит пока не нажмем на другую кнопку
+                .setAction("Push me", view -> back_delete(note))
+                .show();
+    }
+    private void back_delete(CardNote note) {
+        addSourseAdapter(note);
     }
     public void updateCount()
     {

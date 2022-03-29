@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Pattern;
@@ -111,6 +112,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     public void save_button_profile_name_click()
     {
         getProfileName = profile_name.getText().toString();
+
 
         if (checkLogin.matcher(getProfileName).matches())
         {

@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void delete(CardNote note,int position) {
         fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
         fragment.deleteNote(note,position);
-        toastMessage("Delete note:"+note.getCountry());
+        toastMessage("Заметка:"+note.getCountry()+" удалена");
     }
     @Override
     public void backClick() {

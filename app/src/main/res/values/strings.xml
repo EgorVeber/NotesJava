@@ -10,7 +10,7 @@
     <string name="population">Описание:</string>
     <string name="main">Главная</string>
     <string name="exit">Выход</string>
-    <string name="exit_dialog">Exit the application?</string>
+    <string name="exit_dialog">Exit the application</string>
     <string name="settings">Настройки</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
