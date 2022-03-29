@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ public class DialogDeleteNote extends DialogFragment {
     public static final String POSITION= "POSITION";
 
     private CardNote note;
-
+    AlertDialog alertDialog;
     public static DialogDeleteNote getInstance(CardNote note,int position)
     {
         DialogDeleteNote dialog = new DialogDeleteNote();
@@ -51,23 +52,24 @@ public class DialogDeleteNote extends DialogFragment {
 
         TextView dialogName=dialog.findViewById(R.id.edit_country);
         TextView dialogDate=dialog.findViewById(R.id.edit_capital);
+        Button PositiveButton =dialog.findViewById(R.id.PositiveButton);
+        Button NegativeButton =dialog.findViewById(R.id.NegativeButton);
+
+        PositiveButton.setOnClickListener(view -> {
+            if(note!=null)
+                ((DialogController)requireActivity()).delete(note,position);
+            dismiss();
+        });
+        NegativeButton.setOnClickListener(view -> dismiss());
+
+
         dialogName.setText(name);
         dialogDate.setText(date);
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(),R.style.CustomDialogTheme);
-
         builder.setTitle("Удалить заметку ?");
         builder.setView(dialog).setCancelable(true);
-        builder.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());//отмена действи
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if(note!=null)
-                    ((DialogController)requireActivity()).delete(note,position);
-                dialogInterface.dismiss();
-            }
-        });
         return builder.create();
     }
 }

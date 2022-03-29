@@ -270,6 +270,26 @@
         <item name="android:textAppearanceSearchResultTitle">@color/new_color_7</item>
     </style>-->
 
+    <!-- Snackbar-->
+    <style name="snackbar_style" parent="@style/Widget.MaterialComponents.Snackbar">
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+    <style name="snackbar_button" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">@color/card_item_color</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/btn_save_edit</item>
+        <item name="android:layout_margin">@dimen/margin_btn_save</item>
+        <item name="android:text">@string/btn_sava</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="cornerRadius">@dimen/radius_card_view</item>
+    </style>
+
+    <style name="snackbar_text" parent="@style/Widget.MaterialComponents.Snackbar.TextView">
+        <item name="android:textColor">@color/card_item_color</item>
+    </style>
+    <!--  /Snackbar-->
+
     <!--  AlertDialog-->
     <style name="CustomDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@color/white</item>

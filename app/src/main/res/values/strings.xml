@@ -23,4 +23,6 @@
     <string name="description">Описание</string>
     <string name="hide_menu">Скрыть меню</string>
     <string name="profile">Имя профиля</string>
+    <string name="none">cancel</string>
+    <string name="yes">ok</string>
 </resources>

@@ -109,11 +109,15 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         current_card_note=note_add;
         adapters.SetNote(source.getAll());
         updateCount();
-        if(isLandscape())//Без анимации так надо сохранится от бесконечного добавления
-            fragmentManager.beginTransaction().replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note)).addToBackStack(null).commit();
     }
     public void deleteNote(CardNote note,int pos)
     {
+        //TODO проверить id шники и сделать стиль в тему уже есть
+        Snackbar.make(requireActivity().findViewById(R.id.anchor_snack), "Вернуть заметку "+note.getCountry()+"?",
+                Snackbar.LENGTH_SHORT)// висит пока не нажмем на другую кнопку
+                .setAction("ДА", view -> back_delete(note,pos))
+                .show();
+
         source.delete(note.getId());
         if(current_card_note==note)
         {
@@ -122,16 +126,13 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         }
         adapters.delete(source.getAll(),pos);
         updateCount();
-        if(isLandscape())
-            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),true);
 
-        Snackbar.make(requireActivity().findViewById(R.id.lll1), "SnackBar with Action",
-                Snackbar.LENGTH_INDEFINITE)// висит пока не нажмем на другую кнопку
-                .setAction("Push me", view -> back_delete(note))
-                .show();
     }
-    private void back_delete(CardNote note) {
-        addSourseAdapter(note);
+    private void back_delete(CardNote note,int pos) {
+        source.res_create(note,pos);
+        current_card_note=note;
+        adapters.res_delete(source.getAll(),pos);
+        updateCount();
     }
     public void updateCount()
     {
@@ -140,6 +141,8 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         {
             item_count.setText(String.valueOf(getItemCount()));
         }
+        if(isLandscape())//Без анимации так надо сохранится от бесконечного добавления
+            fragmentManager.beginTransaction().replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note)).addToBackStack(null).commit();
     }
     public int getItemCount()
     {

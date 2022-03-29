@@ -50,7 +50,13 @@ public class CardNoteSourseImpl implements CardNoteSourse {
         notes.add(note);
         return id;
     }
-
+    @Override
+    public int res_create(CardNote note,int pos) {
+        int id= counter++;
+        note.setId(id);
+        notes.add(pos,note);
+        return id;
+    }
     @Override
     public CardNote read(int id) {
         for (int i = 0; i <notes.size() ; i++) {
