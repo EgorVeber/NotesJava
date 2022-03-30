@@ -25,4 +25,6 @@
     <string name="profile">Имя профиля</string>
     <string name="none">cancel</string>
     <string name="yes">ok</string>
+    <string name="NotesNotification">NotesNotification</string>
+    <string name="NotificationDescription">None description</string>
 </resources>

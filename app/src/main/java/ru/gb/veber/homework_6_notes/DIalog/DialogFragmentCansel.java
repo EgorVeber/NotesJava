@@ -1,19 +1,13 @@
-package ru.gb.veber.homework_6_notes.hom_9;
+package ru.gb.veber.homework_6_notes.DIalog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import ru.gb.veber.homework_6_notes.R;
 

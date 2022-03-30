@@ -1,9 +1,7 @@
-package ru.gb.veber.homework_6_notes.hom_9;
+package ru.gb.veber.homework_6_notes.DIalog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

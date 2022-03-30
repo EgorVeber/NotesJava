@@ -63,12 +63,9 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO isLandscape что не вкидывалдо на главную после применения темы.
-        // Надо подуамть что можно с этим сделать
-        // Скорее всего просто очиститьв все и выдрать сеттингс фрагмент
         Log.d(TAG, String.valueOf(requireActivity().getSupportFragmentManager().getBackStackEntryCount()));
-        if (isLandscape()) // Возможно дело не в этом
-            requireActivity().getSupportFragmentManager().popBackStack();//При перевороте показваем списки
+        if (isLandscape())
+            requireActivity().getSupportFragmentManager().popBackStack();
     }
     @Nullable
     @Override
@@ -112,8 +109,6 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     public void save_button_profile_name_click()
     {
         getProfileName = profile_name.getText().toString();
-
-
         if (checkLogin.matcher(getProfileName).matches())
         {
             textInputLayout.setError(null);
