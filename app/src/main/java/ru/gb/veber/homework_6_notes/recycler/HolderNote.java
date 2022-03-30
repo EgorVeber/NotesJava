@@ -21,10 +21,9 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
     private CardNote note;
 
     PopupMenu popupMenu;
-    AdapterNote.OnNoteClickListner listner;
+    OnNoteClickListner listner;
 
-    //Принимает view тоесть элемент   itemView - xml наш
-    public HolderNote(@NonNull View itemView, AdapterNote.OnNoteClickListner listner) {
+    public HolderNote(@NonNull View itemView, OnNoteClickListner listner) {
         super(itemView);
 
         this.listner=listner;
@@ -41,8 +40,6 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
             //Теперь когда мы щелкаем можем передавать данные о ноте на которой щелкаем
             listner.onNoteClick(note);// элемент может сообщать всем на какую произощел щелчок
         });
-
-        //TODO потом переделать
         itemView.setOnLongClickListener(view ->{
             popupMenu.show();
             return false;

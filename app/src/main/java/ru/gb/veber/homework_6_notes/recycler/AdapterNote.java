@@ -28,7 +28,6 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
     @Override
     public HolderNote onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.card_note_item, parent, false); // в какой элемент надуваем
 
@@ -63,19 +62,10 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
         this.listner = listner;
     }
 
-    public interface OnNoteClickListner
-    {
-        void onNoteClick(CardNote note);
-        void onLondNoteClick(CardNote note,int position);
-    }
     @Override
     public Filter getFilter() {
         return examplFilter;
     }
-
-
-
-
     private Filter examplFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {

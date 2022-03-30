@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
 
     public static final String MainFragmentTag ="MainFragmentTag";
     private static final String NOTES_CHANNEL_ID = "NOTES_CHANNEL_ID";
+    private static final String SettingFragmentTag = "SettingFragmentTag";
 
     //SharedPreferences
     private SharedPreferences prefs;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
 
     private  MainFragment fragment;
     private  FragmentManager fragmentManager;
+    private SettingFragment settingFragment;
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -58,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
     private MenuItem item_sort_name;
     private MenuItem searchItem;
     private SearchView searchView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,15 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
         showToolBar();
         if(savedInstanceState==null)
             fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment,MainFragmentTag).commit();
+        else
+        {
+            settingFragment= (SettingFragment) fragmentManager.findFragmentByTag(SettingFragmentTag);
+            if(settingFragment==null)
+            {
+                for (int i=0;i<fragmentManager.getBackStackEntryCount();i++)
+                    fragmentManager.popBackStack();
+            }
+        }
     }
     private void init() {
 
@@ -129,7 +139,8 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
             case R.id.settings_drawer_exit:
                 for (int i=0;i<fragmentManager.getBackStackEntryCount();i++)
                     fragmentManager.popBackStack();//Очищаем все в стеке
-                showFragment(R.id.fragment_container,new SettingFragment(),true);
+                fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out)
+                        .replace(R.id.fragment_container,new SettingFragment(),SettingFragmentTag).addToBackStack(null).commit();
                 break;
             case R.id.exit_item_draver:
                 finish();
@@ -146,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
         item_reverse = menu.findItem(R.id.sort_reverse_toolbar_main);
         item_sort_id = menu.findItem(R.id.sort_id_toolbar_main);
         item_sort_name= menu.findItem(R.id.sort_name_toolbar_main);
-
         searchItem = menu.findItem(R.id.search_toolbar_main);
         searchView = (SearchView) searchItem.getActionView();
 
@@ -157,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                fragment.getAdapter().getFilter().filter(newText);
+                fragment.filter(newText);
                 return false;
             }
         });
@@ -221,7 +231,6 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
         fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
         fragment.deleteNote(note,position);
     }
-
     @Override//DialogBack
     public void actionNote(int command, CardNote note) {
         fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);

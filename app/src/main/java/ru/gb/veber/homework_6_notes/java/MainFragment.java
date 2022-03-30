@@ -5,14 +5,19 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -27,9 +32,10 @@ import ru.gb.veber.homework_6_notes.notes.CardNote;
 import ru.gb.veber.homework_6_notes.notes.CardNoteSourse;
 import ru.gb.veber.homework_6_notes.notes.CardNoteSourseImpl;
 import ru.gb.veber.homework_6_notes.recycler.AdapterNote;
+import ru.gb.veber.homework_6_notes.recycler.OnNoteClickListner;
 
 
-public class MainFragment extends Fragment implements AdapterNote.OnNoteClickListner {
+public class MainFragment extends Fragment implements OnNoteClickListner {
 
     private static final int PENDING_REQUEST_ID = 446;
     private static final String NOTES_CHANNEL_ID = "NOTES_CHANNEL_ID";
@@ -74,6 +80,10 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
                 current_card_note = source.getAll().get(0);
             showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),false);
         }
+    }
+    public void filter(String text)
+    {
+        adapters.getFilter().filter(text);
     }
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -191,8 +201,5 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public boolean isLandscape() {
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
-    }
-    public AdapterNote getAdapter() {
-        return adapters;
     }
 }
