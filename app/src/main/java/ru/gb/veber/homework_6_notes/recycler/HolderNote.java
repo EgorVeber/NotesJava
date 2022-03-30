@@ -2,6 +2,7 @@ package ru.gb.veber.homework_6_notes.recycler;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +15,7 @@ import ru.gb.veber.homework_6_notes.notes.CardNote;
 
 public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItemClickListener {
 
-
+    private ImageView imageView;
     private TextView country;
     private TextView capital;
     private TextView population;
@@ -28,17 +29,19 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
 
         this.listner=listner;
 
-        //Ссылки которые в послдестви буду переопределять
         country=itemView.findViewById(R.id.country);
         capital=itemView.findViewById(R.id.capital);
         population=itemView.findViewById(R.id.population);
+        imageView=itemView.findViewById(R.id.note_menu);
 
         popupMenu= new PopupMenu(itemView.getContext(),itemView);
         popupMenu.inflate(R.menu.popap_menu);
 
         itemView.setOnClickListener(view -> {
-            //Теперь когда мы щелкаем можем передавать данные о ноте на которой щелкаем
-            listner.onNoteClick(note);// элемент может сообщать всем на какую произощел щелчок
+            listner.onNoteClick(note);
+        });
+        imageView.setOnClickListener(view -> {
+            popupMenu.show();
         });
         itemView.setOnLongClickListener(view ->{
             popupMenu.show();

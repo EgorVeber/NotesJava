@@ -19,17 +19,16 @@
     </style>
     <!-- Карточка item -->
     <style name="card_item_style">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/card_text_size_item</item>
         <item name="android:textColor">@color/card_item_color</item>
         <item name="android:layout_marginLeft">@dimen/margin_title</item>
         <item name="android:layout_marginRight">@dimen/margin_title</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:gravity">right</item>
     </style>
     <style name="card_item_style.Title">
         <item name="android:textColor">@color/title_card_color</item>
+        <item name="android:gravity">center</item>
     </style>
     <!-- /Карточка -->
 
