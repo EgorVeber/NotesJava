@@ -1,5 +1,6 @@
 package ru.gb.veber.homework_6_notes.recycler;
 
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
         population=itemView.findViewById(R.id.population);
         imageView=itemView.findViewById(R.id.note_menu);
 
-        popupMenu= new PopupMenu(itemView.getContext(),itemView);
+        popupMenu= new PopupMenu(itemView.getContext(),itemView, Gravity.RIGHT);
         popupMenu.inflate(R.menu.popap_menu);
 
         itemView.setOnClickListener(view -> {
