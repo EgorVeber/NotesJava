@@ -4,7 +4,7 @@
     <dimen name="radius_card_view">10dp</dimen>
     <dimen name="margin_card_view">10dp</dimen>
 
-    <dimen name="btn_save_edit">15sp</dimen>
+    <dimen name="btn_save_edit">25sp</dimen>
 
     <dimen name="margin_btn_save">@dimen/margin_btn_save_land</dimen>
     <dimen name="margin_btn_save_port">10dp</dimen>

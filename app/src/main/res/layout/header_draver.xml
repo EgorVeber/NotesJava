@@ -1,43 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@color/purple_200"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/header_gradient">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="20dp"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_baseline_tag_faces_24"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/circle_card_view"
+        style="@style/circle_card_view"
+        tools:ignore="MissingConstraints">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            style="@style/circle_card_view_image" />
+    </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/profile_name"
-        android:layout_width="wrap_content"
-        android:textColor="@color/teal_700"
-        android:layout_marginLeft="20dp"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:text="Профиль"/>
+        style="@style/profile_name_header"
+        tools:ignore="MissingConstraints" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
     <TextView
-        android:layout_width="wrap_content"
-        android:textColor="@color/teal_700"
-        android:layout_marginLeft="20dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="Заметок:"/>
+        android:id="@+id/notes_header_textview"
+        style="@style/notes_text"
+        tools:ignore="MissingConstraints" />
+
     <TextView
         android:id="@+id/item_count"
-        android:layout_width="wrap_content"
-        android:textColor="@color/teal_700"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        />
-    </LinearLayout>
-</LinearLayout>
+        style="@style/notes_text_num"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,5 @@
 package ru.gb.veber.homework_6_notes.java;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,38 +7,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.navigation.NavigationView;
-
-import java.util.List;
+import com.google.android.material.snackbar.Snackbar;
 
 import ru.gb.veber.homework_6_notes.R;
+import ru.gb.veber.homework_6_notes.hom_9.DialogDeleteNote;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
 import ru.gb.veber.homework_6_notes.notes.CardNoteSourse;
 import ru.gb.veber.homework_6_notes.notes.CardNoteSourseImpl;
 import ru.gb.veber.homework_6_notes.recycler.AdapterNote;
 
 
-public class MainFragment extends Fragment implements AdapterNote.OnNoteClickListner{
+public class MainFragment extends Fragment implements AdapterNote.OnNoteClickListner {
 
 
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
+    private static final String TAG = "sdsd";
     private CardNote current_card_note;
     private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;
     private AdapterNote adapters;
-    TextView item_count;
+    private TextView item_count;
 
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
     private void init(View view)
     {
@@ -71,7 +67,8 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
             else
                 current_card_note = source.getAll().get(0);
             //Показываем без BackStack один раз при перевороте чтобы пересоздавался
-            showLandEditFragment(current_card_note,false);
+            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note),false);
+            //showLandEditFragment(current_card_note,false);
         }
     }
     @Override
@@ -84,12 +81,10 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
 
     //Popum click delete
     @Override
-    public void onLondNoteClick(CardNote note)
+    public void onLondNoteClick(CardNote note,int position)
     {
-        source.delete(note.getId());
-        adapters.SetNote(source.getAll());
-        item_count = requireActivity().findViewById(R.id.item_count);
-        item_count.setText(String.valueOf(getItemCount()));
+        DialogDeleteNote.getInstance(note,position).
+                show(requireActivity().getSupportFragmentManager(),null);
     }
     //Click
     @Override
@@ -98,30 +93,45 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         if (isLandscape())
         {
             if(current_card_note!=note)//Не хочу чтобы текущий всегда заново показывался
-                showLandEditFragment(note,true); //показываем уже с BackStack
+                showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(note),true);
         }
         else
-            showPortEditFragment(note);
+            showFragment(R.id.fragment_container,EditNoteFragment.newInstance(note),true);
         current_card_note = note;
     }
-
-
     //CRUD
     public void updateSourseAdapter(CardNote note) {
         source.update(note);
         adapters.SetNote(source.getAll());
     }
-    public void deleteSourseAdapter(CardNote note_del) {
-        source.delete(note_del.getId());
-        if(source.getSize()!=0)
-            current_card_note=source.getAll().get(0);
-        adapters.SetNote(source.getAll());
-        updateCount();
-    }
     public void addSourseAdapter(CardNote note_add) {
         source.create(note_add);
         current_card_note=note_add;
         adapters.SetNote(source.getAll());
+        updateCount();
+    }
+    public void deleteNote(CardNote note,int pos)
+    {
+        //TODO проверить id шники и сделать стиль в тему уже есть
+        Snackbar.make(requireActivity().findViewById(R.id.anchor_snack), "Вернуть заметку "+note.getCountry()+"?",
+                Snackbar.LENGTH_SHORT)// висит пока не нажмем на другую кнопку
+                .setAction("ДА", view -> back_delete(note,pos))
+                .show();
+
+        source.delete(note.getId());
+        if(current_card_note==note)
+        {
+            if(source.getSize()!=0)
+                current_card_note=source.getAll().get(0);
+        }
+        adapters.delete(source.getAll(),pos);
+        updateCount();
+
+    }
+    private void back_delete(CardNote note,int pos) {
+        source.res_create(note,pos);
+        current_card_note=note;
+        adapters.res_delete(source.getAll(),pos);
         updateCount();
     }
     public void updateCount()
@@ -131,12 +141,13 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         {
             item_count.setText(String.valueOf(getItemCount()));
         }
+        if(isLandscape())//Без анимации так надо сохранится от бесконечного добавления
+            fragmentManager.beginTransaction().replace(R.id.edit_fragment_container,EditNoteFragment.newInstance(current_card_note)).addToBackStack(null).commit();
     }
     public int getItemCount()
     {
         return source.getSize();
     }
-
     //Сортировки
     public void sortReverse() {
         source.sortReverse();
@@ -150,28 +161,18 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         source.sortId();
         adapters.SetNote(source.getAll());
     }
-    //Фрагменты TODO передалать на один Show
-    public void showLandEditFragment(CardNote note,boolean check)
-    {
-        if(check)
-            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(note),true);
-        else
-            showFragment(R.id.edit_fragment_container,EditNoteFragment.newInstance(note),false);
-    }
-    public void showPortEditFragment(CardNote note)
-    {
-        showFragment(R.id.fragment_container,EditNoteFragment.newInstance(note),true);
-    }
     public void showFragment(int container, Fragment fragment,boolean flag)
     {
         if(flag)
-            fragmentManager.beginTransaction().replace(container,fragment).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).addToBackStack(null).commit();
         else
-            fragmentManager.beginTransaction().replace(container,fragment).commit();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).commit();
     }
-
     public boolean isLandscape() {
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
+    }
+    public AdapterNote getAdapter() {
+        return adapters;
     }
 }

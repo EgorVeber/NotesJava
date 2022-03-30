@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="purple_200">#75a478</color>
-    <color name="purple_500">#66bb6a</color>
-    <color name="purple_700">#338a3e</color>
+    <color name="toolbar_color">#66bb6a</color>
+    <color name="status_bar_color">#338a3e</color>
     <color name="card_item_color">#087f23</color>
     <color name="title_card_color">#086500</color>
     <color name="teal_200">#66bb6a</color>
@@ -11,13 +11,24 @@
     <color name="white">#FFFFFFFF</color>
     <color name="back_card_view">#A9CFA5</color>
 
-
-
-
-
-
     <color name="ThemeCustom2colorPrimary">#7e57c2</color>
     <color name="ThemeCustom2colorPrimaryVariant">#4d2c91</color>
     <color name="ThemeCustom2colorOnPrimary">#b085f5</color>
     <color name="ThemeCustom2colorAccent">#65499c</color>
+
+
+
+    <color name="drawer_icon_tint">#086500</color>
+    <color name="drawer_text_color">#338a3e</color>
+
+
+    <color name="new_color_1">#009688</color>
+    <color name="new_color_2">#00695C</color>
+    <color name="new_color_3">#4DB6AC</color>
+
+    <color name="new_color_4">#FB0B0B</color>
+    <color name="new_color_5">#DD2C00</color>
+    <color name="new_color_6">#AA00FF</color>
+    <color name="new_color_7">#00B8D4</color>
+
 </resources>
