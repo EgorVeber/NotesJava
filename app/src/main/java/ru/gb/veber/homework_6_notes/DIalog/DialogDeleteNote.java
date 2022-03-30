@@ -22,7 +22,6 @@ public class DialogDeleteNote extends DialogFragment {
     public static final String POSITION= "POSITION";
 
     private CardNote note;
-    AlertDialog alertDialog;
     public static DialogDeleteNote getInstance(CardNote note,int position)
     {
         DialogDeleteNote dialog = new DialogDeleteNote();
