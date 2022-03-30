@@ -44,7 +44,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     private FragmentManager fragmentManager;
     public static final String EditNoteFragmentTag= "EditNoteFragmentTag";
 
-    private int notifi_id=0;
+    private int notify_id =0;
     private void init(View view)
     {
         RecyclerView list= view.findViewById(R.id.list);
@@ -127,7 +127,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         current_card_note=note_add;
         adapters.SetNote(source.getAll());
         updateCount();
-        showNotification(NOTES_CHANNEL_ID, "Заметка добавлена",descriprion,R.drawable.ic_baseline_plus_one_24,++notifi_id);
+        showNotification(NOTES_CHANNEL_ID, "Заметка добавлена",descriprion,R.drawable.ic_baseline_plus_one_24,++notify_id);
     }
     public void deleteNote(CardNote note,int pos)
     {
@@ -144,7 +144,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
         adapters.delete(source.getAll(),pos);
         updateCount();
         String descriprion = note.getCountry() + " "+note.getCapital()+" "+note.getPopulation();
-        showNotification(NOTES_CHANNEL_ID, "Заметка удалена",descriprion,R.drawable.ic_baseline_delete_forever_24,++notifi_id);
+        showNotification(NOTES_CHANNEL_ID, "Заметка удалена",descriprion,R.drawable.ic_baseline_delete_forever_24,++notify_id);
     }
     private void back_delete(CardNote note,int pos) {
         source.res_create(note,pos);

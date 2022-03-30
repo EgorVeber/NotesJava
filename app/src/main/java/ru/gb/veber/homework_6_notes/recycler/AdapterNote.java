@@ -73,6 +73,9 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
         return examplFilter;
     }
 
+
+
+
     private Filter examplFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
