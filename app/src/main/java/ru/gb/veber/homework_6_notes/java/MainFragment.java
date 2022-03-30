@@ -75,6 +75,7 @@ public class MainFragment extends Fragment implements AdapterNote.OnNoteClickLis
     public void onSaveInstanceState(@NonNull Bundle outState) {
         if(current_card_note==null&&source.getSize()!=0)
             current_card_note = source.getAll().get(0);
+
         outState.putSerializable(CURRENT_CARD_NOTE, current_card_note);
         super.onSaveInstanceState(outState);
     }

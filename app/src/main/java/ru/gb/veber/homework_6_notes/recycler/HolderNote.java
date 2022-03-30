@@ -48,7 +48,6 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
             return false;
         });
         popupMenu.setOnMenuItemClickListener(this);
-
     }
     void bind(CardNote note)
     {

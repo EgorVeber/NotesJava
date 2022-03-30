@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -98,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         toggle.syncState();
 
         navigationView= findViewById(R.id.navigation_view);
+
+
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
             return metodSetNavigationItemSelectedListener(id);
@@ -112,11 +115,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     fragmentManager.popBackStack();//Очищаем все в стеке
                 break;
             case R.id.settings_drawer_exit:
+                for (int i=0;i<fragmentManager.getBackStackEntryCount();i++)
+                    fragmentManager.popBackStack();//Очищаем все в стеке
                 showFragment(R.id.fragment_container,new SettingFragment(),true);
                 break;
             case R.id.exit_item_draver:
                 finish();
-
                 break;
         }
         drawerLayout.close();
@@ -217,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         boolean chechBox = prefs.getBoolean(KEY_CHECKBOX,false);
         if(chechBox)
             getSupportActionBar().hide();
+        getSupportActionBar().setSubtitle("ListNotes");
     }
     private int getThemePref() {
         int NumTheme = prefs.getInt(KEY_THEME, 0);
