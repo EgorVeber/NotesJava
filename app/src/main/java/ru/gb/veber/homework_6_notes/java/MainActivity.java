@@ -26,11 +26,10 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 import ru.gb.veber.homework_6_notes.R;
-import ru.gb.veber.homework_6_notes.DIalog.DialogController;
-import ru.gb.veber.homework_6_notes.DIalog.DialogFragmentCansel;
+import ru.gb.veber.homework_6_notes.DIalog.DialogBack;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
 
-public class MainActivity extends AppCompatActivity implements  DialogController {
+public class MainActivity extends AppCompatActivity implements ActivityController {
 
     public static final String MainFragmentTag ="MainFragmentTag";
     private static final String NOTES_CHANNEL_ID = "NOTES_CHANNEL_ID";
@@ -211,18 +210,27 @@ public class MainActivity extends AppCompatActivity implements  DialogController
     public void onBackPressed() {
         if(fragmentManager.getBackStackEntryCount()==0)
         {
-            DialogFragmentCansel cansel = new DialogFragmentCansel();
+            DialogBack cansel = new DialogBack();
             cansel.show(getSupportFragmentManager(),null);
         }
         else
             super.onBackPressed();
     }
-    @Override
+    @Override//DialogDeleteNote
     public void delete(CardNote note,int position) {
         fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
         fragment.deleteNote(note,position);
     }
-    @Override
+
+    @Override//DialogBack
+    public void actionNote(int command, CardNote note) {
+        fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
+        if(command==0)
+            fragment.updateSourseAdapter(note);
+        else
+            fragment.addSourseAdapter(note);
+    }
+    @Override //DialogBack
     public void backClick() {
         finish();
         toastMessage(getResources().getString(R.string.exit_dialog));
