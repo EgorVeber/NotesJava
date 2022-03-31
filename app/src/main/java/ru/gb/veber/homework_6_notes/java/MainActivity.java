@@ -121,8 +121,6 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
         toggle.syncState();
 
         navigationView= findViewById(R.id.navigation_view);
-
-
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
             return metodSetNavigationItemSelectedListener(id);
@@ -139,8 +137,7 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
             case R.id.settings_drawer_exit:
                 for (int i=0;i<fragmentManager.getBackStackEntryCount();i++)
                     fragmentManager.popBackStack();//Очищаем все в стеке
-                fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out)
-                        .replace(R.id.fragment_container,new SettingFragment(),SettingFragmentTag).addToBackStack(null).commit();
+                showFragment(R.id.fragment_container,new SettingFragment(),true);
                 break;
             case R.id.exit_item_draver:
                 finish();

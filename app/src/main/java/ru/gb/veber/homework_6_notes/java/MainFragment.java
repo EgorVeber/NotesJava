@@ -21,6 +21,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,6 +45,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
     private static final String TAG = "MainFragment";
 
+    private RecyclerView recyclerView;
     private CardNote current_card_note;
     private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;
     private AdapterNote adapters;
@@ -55,15 +57,19 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     private int notify_id =0;
     private void init(View view)
     {
-        RecyclerView list= view.findViewById(R.id.list);
+        recyclerView= view.findViewById(R.id.list);
         adapters = new AdapterNote();
         adapters.SetNote(source.getAll());
         adapters.setOnNoteCliclListner(this);
-        list.setHasFixedSize(true);
-        list.setAdapter(adapters);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapters);
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        //animator.setAddDuration(500);
+        //animator.setRemoveDuration(500);
+        recyclerView.setItemAnimator(animator);
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
-        list.addItemDecoration(itemDecoration);
+        recyclerView.addItemDecoration(itemDecoration);
         fragmentManager=requireActivity().getSupportFragmentManager();
     }
     @Nullable
@@ -137,8 +143,10 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         String descriprion = note_add.getCountry() + " "+note_add.getCapital()+" "+note_add.getPopulation();
         source.create(note_add);
         current_card_note=note_add;
-        adapters.SetNote(source.getAll());
+        //adapters.SetNote(source.getAll());
+        adapters.notifyItemInserted(source.getSize()-1);
         updateCount();
+        //  recyclerView.scrollToPosition(source.getSize()-1);
         showNotification(NOTES_CHANNEL_ID, "Заметка добавлена",descriprion,R.drawable.ic_baseline_plus_one_24,++notify_id);
     }
     public void deleteNote(CardNote note,int pos)
@@ -154,6 +162,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
                 current_card_note=source.getAll().get(0);
         }
         adapters.delete(source.getAll(),pos);
+
         updateCount();
         String descriprion = note.getCountry() + " "+note.getCapital()+" "+note.getPopulation();
         showNotification(NOTES_CHANNEL_ID, "Заметка удалена",descriprion,R.drawable.ic_baseline_delete_forever_24,++notify_id);
@@ -162,8 +171,9 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         source.res_create(note,pos);
         current_card_note=note;
         adapters.res_delete(source.getAll(),pos);
+        recyclerView.scrollToPosition(pos);
+       // recyclerView.smoothScrollToPosition(pos);
         updateCount();
-
     }
     public void updateCount()
     {
