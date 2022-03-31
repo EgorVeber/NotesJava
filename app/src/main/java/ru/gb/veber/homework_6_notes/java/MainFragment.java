@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,6 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     private static final String NOTES_CHANNEL_ID = "NOTES_CHANNEL_ID";
 
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
-    private static final String TAG = "MainFragment";
 
     private RecyclerView recyclerView;
     private CardNote current_card_note;
@@ -67,6 +67,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
         recyclerView.addItemDecoration(itemDecoration);
         fragmentManager=requireActivity().getSupportFragmentManager();
+
     }
     @Nullable
     @Override
@@ -140,9 +141,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         source.create(note_add);
         current_card_note=note_add;
         //adapters.SetNote(source.getAll());
-        adapters.notifyItemInserted(source.getSize()-1);
         updateCount();
-        //  recyclerView.scrollToPosition(source.getSize()-1);
         showNotification(NOTES_CHANNEL_ID, "Заметка добавлена",descriprion,R.drawable.ic_baseline_plus_one_24,++notify_id);
     }
     public void deleteNote(CardNote note,int pos)
@@ -158,7 +157,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
                 current_card_note=source.getAll().get(0);
         }
         adapters.delete(source.getAll(),pos);
-
+        //recyclerView.smoothScrollToPosition(source.getSize() - 1);
         updateCount();
         String descriprion = note.getName() + " "+new SimpleDateFormat("dd-MM-yy").format(note.getDateDate())+" "+note.getDescription();
         showNotification(NOTES_CHANNEL_ID, "Заметка удалена",descriprion,R.drawable.ic_baseline_delete_forever_24,++notify_id);
@@ -167,8 +166,8 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         source.res_create(note,pos);
         current_card_note=note;
         adapters.res_delete(source.getAll(),pos);
-        recyclerView.scrollToPosition(pos);
-       // recyclerView.smoothScrollToPosition(pos);
+        //recyclerView.scrollToPosition(pos);
+        recyclerView.smoothScrollToPosition(pos);
         updateCount();
     }
     public void updateCount()
