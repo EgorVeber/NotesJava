@@ -1,6 +1,7 @@
 package ru.gb.veber.homework_6_notes.recycler;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,14 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
     @Override
     public void onBindViewHolder(@NonNull HolderNote holder, int position) {
         holder.bind(notes.get(position));
+//        if(holder.adapter_position==position){
+//            holder.capital.setTextColor(Color.parseColor("#567845"));
+//        }
+//        else
+//        {
+//         //   holder.row_linearlayout.setBackgroundColor(Color.parseColor("#ffffff"));
+//            holder.capital.setTextColor(Color.parseColor("#ffffff"));
+//        }
     }
     @Override
     public int getItemCount() {

@@ -119,7 +119,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     {
         Log.d(TAG, "UpdateEditData() called with: note = [" + note + "]");
         edit_capital.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDateDate()));
-
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

@@ -29,7 +29,7 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
     private PopupMenu popupMenu;
     private OnNoteClickListner listner;
     private Fragment fragment;
-    public CardView cardView;
+
 
     public HolderNote(@NonNull View itemView, OnNoteClickListner listner,Fragment fragment) {
         super(itemView);
@@ -43,22 +43,27 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
 
         popupMenu= new PopupMenu(itemView.getContext(),itemView, Gravity.RIGHT);
         popupMenu.inflate(R.menu.popap_menu);
-        cardView=itemView.findViewById(R.id.card_view_item);
-
 
         country.setOnClickListener(view -> {
-            country.showContextMenu(10,10);
+            //int x =getLayoutPosition();
+            country.showContextMenu();
+            //country.showContextMenu(10,10);
         });
+        registerContextMenu(country);
+
         itemView.setOnClickListener(view -> {
             listner.onNoteClick(note);
         });
+
         imageView.setOnClickListener(view -> {
             popupMenu.show();
         });
+
         itemView.setOnLongClickListener(view ->{
             popupMenu.show();
             return false;
         });
+
         popupMenu.setOnMenuItemClickListener(this);
     }
     void bind(CardNote note)
@@ -71,12 +76,14 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
     }
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+
         switch (item.getItemId())
         {
             case R.id.delete_popam_menu:
                 listner.onLondNoteClick(note,getAdapterPosition());
                 return true;
             case R.id.new_item_popam_menu:
+                //adapter_position=getAdapterPosition();
                 //capital.setTextColor(fragment.getCaontext().getResources().getColor(R.color.new_color_6));
                 //listner.onColorNoteClick(note,getAdapterPosition());
                 return true;

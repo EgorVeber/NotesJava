@@ -59,6 +59,7 @@ public class DialogDate extends DialogFragment {
 
         button.setOnClickListener(view1 -> {
             note.setDateDate(getDateFromDatePicker());
+
             ((ActivityController)requireActivity()).dateUpdate(note);
             dismiss();
         });
