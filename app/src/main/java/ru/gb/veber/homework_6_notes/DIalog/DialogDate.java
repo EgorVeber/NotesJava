@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -30,9 +31,11 @@ public class DialogDate extends DialogFragment {
     private static final String TAG = "DialogDate";
     DatePicker datePicker;
     private static final String CARD_NOTE = "CARD_NOTE";
+    private ViewModelDialog viewModelDialog;
 
     Button button;
     CardNote note;
+
     public static DialogDate getInstance(CardNote note) {
         DialogDate fragment = new DialogDate();
         Bundle args = new Bundle();
@@ -40,6 +43,15 @@ public class DialogDate extends DialogFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+        viewModelDialog.getDate().observe
+                (this, s -> initDatePicker(s.getDateDate()));
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,16 +67,16 @@ public class DialogDate extends DialogFragment {
         }
         button= view.findViewById(R.id.PositiveButtonDate);
         datePicker = view.findViewById(R.id.inputDate);
-        initDatePicker(note.getDateDate());
+        //initDatePicker(note.getDateDate());
 
         button.setOnClickListener(view1 -> {
             note.setDateDate(getDateFromDatePicker());
-
-            ((ActivityController)requireActivity()).dateUpdate(note);
+            //((ActivityController)requireActivity()).dateUpdate(note);
+            viewModelDialog.secondSay(note);//передали данные в EditText
             dismiss();
+
         });
     }
-
     private void initDatePicker(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

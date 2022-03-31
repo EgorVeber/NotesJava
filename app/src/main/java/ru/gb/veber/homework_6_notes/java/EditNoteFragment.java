@@ -13,18 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import ru.gb.veber.homework_6_notes.DIalog.DialogDate;
+import ru.gb.veber.homework_6_notes.DIalog.ViewModelDialog;
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
 
@@ -36,15 +39,17 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     private static final String CardNoteKey = "CardNoteKey";
     private static final String MENU_ITEM = "MENU_ITEM";
     private static final String TAG = "EditNoteFragment";
-
     private CardNote note;
-   private Button save_button;
-   private EditText edit_country;
-   private EditText edit_capital;
-   private EditText edit_population;
-   private Boolean check_saveInstance_menu=false;
-
+    private Button save_button;
+    private EditText edit_country;
+    private EditText edit_capital;
+    private EditText edit_population;
+    private Boolean check_saveInstance_menu=false;
     private ActionBar actionBar;
+
+
+
+    private ViewModelDialog viewModelDialog;
 
     public static EditNoteFragment newInstance(CardNote note)
     {
@@ -59,6 +64,12 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        viewModelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+        //Подписали на данные из диалога
+        viewModelDialog.getSecondInput().observe
+                (this, s -> edit_capital.setText(new SimpleDateFormat("dd-MM-yy").format(s.getDateDate())));
+
         if (savedInstanceState != null)
         {
             check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);
@@ -103,7 +114,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
         if (actionBar != null)
             actionBar.setSubtitle("CardNote");
-
         save_button = view.findViewById(R.id.save_edit_note);
         save_button.setOnClickListener(this);
         edit_country = view.findViewById(R.id.edit_country);
@@ -113,11 +123,11 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         edit_capital.setOnClickListener(view1 -> dateClick());
     }
     private void dateClick() {
-         DialogDate.getInstance(note).show(requireActivity().getSupportFragmentManager(),null);
+        DialogDate.getInstance(note).show(requireActivity().getSupportFragmentManager(),null);
+        viewModelDialog.DateSay(note);//передали данные в EditText
     }
     public void UpdateEditData(CardNote note)
     {
-        Log.d(TAG, "UpdateEditData() called with: note = [" + note + "]");
         edit_capital.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDateDate()));
     }
     @Override

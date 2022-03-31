@@ -239,12 +239,12 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
             fragment.addSourseAdapter(note);
     }
 
-    @Override
-    public void dateUpdate(CardNote note) {
-        Log.d(TAG, "dateUpdate() called with: note = [" + note + "]");
-       EditNoteFragment noteFragment= (EditNoteFragment)fragmentManager.findFragmentByTag(EditNoteFragmentTag);
-       noteFragment.UpdateEditData(note);
-    }
+//    @Override
+//    public void dateUpdate(CardNote note) {
+//        Log.d(TAG, "dateUpdate() called with: note = [" + note + "]");
+//       EditNoteFragment noteFragment= (EditNoteFragment)fragmentManager.findFragmentByTag(EditNoteFragmentTag);
+//       noteFragment.UpdateEditData(note);
+//    }
     @Override //DialogBack
     public void backClick() {
         finish();
