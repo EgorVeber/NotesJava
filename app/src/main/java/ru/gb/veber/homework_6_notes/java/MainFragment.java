@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
+
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.DIalog.DialogDeleteNote;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -134,7 +136,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         adapters.SetNote(source.getAll());
     }
     public void addSourseAdapter(CardNote note_add) {
-        String descriprion = note_add.getName() + " "+note_add.getDateText()+" "+note_add.getDescription();
+        String descriprion = note_add.getName() + " "+new SimpleDateFormat("dd-MM-yy").format(note_add.getDateDate())+" "+note_add.getDescription();
         source.create(note_add);
         current_card_note=note_add;
         //adapters.SetNote(source.getAll());
@@ -158,7 +160,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         adapters.delete(source.getAll(),pos);
 
         updateCount();
-        String descriprion = note.getName() + " "+note.getDateText()+" "+note.getDescription();
+        String descriprion = note.getName() + " "+new SimpleDateFormat("dd-MM-yy").format(note.getDateDate())+" "+note.getDescription();
         showNotification(NOTES_CHANNEL_ID, "Заметка удалена",descriprion,R.drawable.ic_baseline_delete_forever_24,++notify_id);
     }
     private void back_delete(CardNote note,int pos) {

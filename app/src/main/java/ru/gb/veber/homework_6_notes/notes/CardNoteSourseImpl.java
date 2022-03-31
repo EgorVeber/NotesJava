@@ -8,17 +8,18 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import ru.gb.veber.homework_6_notes.R;
 
 public class CardNoteSourseImpl implements CardNoteSourse {
 
-    private static final String TAG = "sdfdsf";
     private int counter = 0;
-    private Resources resources;
     static CardNoteSourseImpl sourse;
     private ArrayList<CardNote> notes = new ArrayList<>();
+    Calendar calendar = new GregorianCalendar();
 
     public static CardNoteSourseImpl getInstance()
     {
@@ -26,23 +27,33 @@ public class CardNoteSourseImpl implements CardNoteSourse {
         {
             sourse= new CardNoteSourseImpl();
         }
-        Log.d(TAG, "getInstance() called");
         return sourse;
     }
     public CardNoteSourseImpl()
     {
-        create(new CardNote("Дом","06.03.22","Убратся дома хотябы раз за неделю", Calendar.getInstance().getTime()));
-        create(new CardNote("Стоматолог","09.03.22","Записан на 12:00",Calendar.getInstance().getTime()));
-        create(new CardNote("Кино","15.03.22","Сходить на что нибудь",Calendar.getInstance().getTime()));
-        create(new CardNote("Спортзал","99.99.99","Мб когда нибудь",Calendar.getInstance().getTime()));
-        create(new CardNote("Android","10.03.22","Заниматся разработкой, по практиковатся с Intent и приступать к фрагментам + почитать и сделать примеи TextInputLayout ",Calendar.getInstance().getTime()));
-        create(new CardNote("Вебинар","04.03.22","Успеть к  20:00",Calendar.getInstance().getTime()));
-        create(new CardNote("Работа","11.03.22","Не забыть что отпуск закончился",Calendar.getInstance().getTime()));
-        create(new CardNote("Дом","06.03.22","Забрать смеситель",Calendar.getInstance().getTime()));
-        create(new CardNote("Подарки","05.03.22","Подумать о подарках",Calendar.getInstance().getTime()));
-        create(new CardNote("Отпуск","04.03.22","Подписать заявление на отпуск",Calendar.getInstance().getTime()));
-        create(new CardNote("8 Марта","07.03.22","Забрать подарки",Calendar.getInstance().getTime()));
-        create(new CardNote("Врач","11.03.22","Запись к офтальмологу",Calendar.getInstance().getTime()));
+        calendar.set(2022, Calendar.MARCH, 23);
+        create(new CardNote("Дом","Убратся дома хотябы раз за неделю", calendar.getTime()));
+        create(new CardNote("Стоматолог","Записан на 12:00",calendar.getTime()));
+        calendar.set(2022, Calendar.MAY, 21);
+        create(new CardNote("Кино","Сходить на что нибудь",calendar.getTime()));
+        calendar.set(2022, Calendar.FEBRUARY, 22);
+        create(new CardNote("Спортзал","Мб когда нибудь",calendar.getTime()));
+        calendar.set(2022, Calendar.JANUARY, 23);
+        create(new CardNote("Android","Заниматся разработкой, по практиковатся с Intent и приступать к фрагментам + почитать и сделать примеи TextInputLayout ",calendar.getTime()));
+        calendar.set(2022, Calendar.MARCH, 31);
+        create(new CardNote("Вебинар","Успеть к  20:00",calendar.getTime()));
+        calendar.set(2022, Calendar.MARCH, 21);
+        create(new CardNote("Работа","Не забыть что отпуск закончился",calendar.getTime()));
+        calendar.set(2022, Calendar.MARCH, 12);
+        create(new CardNote("Дом","Забрать смеситель",calendar.getTime()));
+        calendar.set(2022, Calendar.MARCH, 11);
+        create(new CardNote("Подарки","Подумать о подарках",calendar.getTime()));
+        calendar.set(2022, Calendar.MARCH, 9);
+        create(new CardNote("Отпуск","Подписать заявление на отпуск",calendar.getTime()));
+        calendar.set(2022, Calendar.MARCH, 2);
+        create(new CardNote("8 Марта","Забрать подарки",calendar.getTime()));
+        calendar.set(2022, Calendar.MARCH, 1);
+        create(new CardNote("Врач","Запись к офтальмологу",calendar.getTime()));
     }
     @Override
     public int create(CardNote note) {

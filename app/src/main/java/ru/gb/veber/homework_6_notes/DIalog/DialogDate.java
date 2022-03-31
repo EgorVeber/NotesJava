@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import ru.gb.veber.homework_6_notes.R;
+import ru.gb.veber.homework_6_notes.java.ActivityController;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
 
 public class DialogDate extends DialogFragment {
@@ -52,12 +53,10 @@ public class DialogDate extends DialogFragment {
         datePicker = view.findViewById(R.id.inputDate);
         initDatePicker(note.getDateDate());
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                note.setDateDate(getDateFromDatePicker());
-                dismiss();
-            }
+        button.setOnClickListener(view1 -> {
+            note.setDateDate(getDateFromDatePicker());
+            ((ActivityController)requireActivity()).dateUpdate(note);
+            dismiss();
         });
     }
 

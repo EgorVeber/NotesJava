@@ -8,7 +8,6 @@ public class CardNote implements Serializable,Comparable<CardNote> {
     public static final String NOTE="NOTE";
     private int id;
     private String name;
-    private String dateText;
     private String description;
     private Date dateDate;
 
@@ -29,9 +28,8 @@ public class CardNote implements Serializable,Comparable<CardNote> {
         return id;
     }
 
-    public CardNote(String name, String dateText, String description, Date dateDate) {
+    public CardNote(String name,  String description, Date dateDate) {
         this.name = name;
-        this.dateText = dateText;
         this.description = description;
         this.dateDate = dateDate;
     }
@@ -44,13 +42,7 @@ public class CardNote implements Serializable,Comparable<CardNote> {
         this.name = name;
     }
 
-    public String getDateText() {
-        return dateText;
-    }
 
-    public void setDateText(String dateText) {
-        this.dateText = dateText;
-    }
 
     public String getDescription() {
         return description;
@@ -66,7 +58,6 @@ public class CardNote implements Serializable,Comparable<CardNote> {
         return "CardNote{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", dateText='" + dateText + '\'' +
                 ", description='" + description + '\'' +
                 ", dateDate=" + dateDate +
                 '}';

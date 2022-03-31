@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
     public static final String EditNoteFragmentTag ="EditNoteFragmentTag";
     private static final String NOTES_CHANNEL_ID = "NOTES_CHANNEL_ID";
     private static final String SettingFragmentTag = "SettingFragmentTag";
+    private static final String TAG = "MainActivity";
 
     //SharedPreferences
     private SharedPreferences prefs;
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
             case R.id.settings_drawer_exit:
                 for (int i=0;i<fragmentManager.getBackStackEntryCount();i++)
                     fragmentManager.popBackStack();//Очищаем все в стеке
-                showFragment(R.id.fragment_container,new SettingFragment(),true);
+                showFragment(R.id.fragment_container,new SettingFragment(),SettingFragmentTag,true);
                 break;
             case R.id.exit_item_draver:
                 finish();
@@ -194,9 +196,9 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
         {
             case R.id.add_item_toolbar_main:
                 if(isLandscape())
-                    showFragment(R.id.edit_fragment_container,new EditNoteFragment(),true);
+                    showFragment(R.id.edit_fragment_container,new EditNoteFragment(),EditNoteFragmentTag,true);
                 else
-                    showFragment(R.id.fragment_container,new EditNoteFragment(),true);
+                    showFragment(R.id.fragment_container,new EditNoteFragment(),EditNoteFragmentTag,true);
                 return true;
             case R.id.sort_reverse_toolbar_main:
                 fragment.sortReverse();
@@ -239,20 +241,21 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
 
     @Override
     public void dateUpdate(CardNote note) {
-        fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
-
+        Log.d(TAG, "dateUpdate() called with: note = [" + note + "]");
+       EditNoteFragment noteFragment= (EditNoteFragment)fragmentManager.findFragmentByTag(EditNoteFragmentTag);
+       noteFragment.UpdateEditData(note);
     }
     @Override //DialogBack
     public void backClick() {
         finish();
         toastMessage(getResources().getString(R.string.exit_dialog));
     }
-    public void showFragment(int container, Fragment fragment,boolean flag)
+    public void showFragment(int container, Fragment fragment,String Tag,boolean flag)
     {
         if(flag)
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment,Tag).addToBackStack(null).commit();
         else
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment).commit();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out).replace(container,fragment,Tag).commit();
     }
     private void showToolBar() {
         boolean chechBox = prefs.getBoolean(KEY_CHECKBOX,false);

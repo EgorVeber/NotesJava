@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.java.ActivityController;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -43,7 +46,7 @@ public class DialogDeleteNote extends DialogFragment {
         if(note!=null)
         {
             name=note.getName();
-            date=note.getDateText();
+            date=new SimpleDateFormat("dd-MM-yy").format(note.getDateDate());
         }
         View dialog= LayoutInflater.from(requireContext()).inflate(R.layout.delete_dialog,null);
 

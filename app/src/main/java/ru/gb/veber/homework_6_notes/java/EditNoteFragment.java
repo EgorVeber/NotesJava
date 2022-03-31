@@ -4,6 +4,7 @@ import static ru.gb.veber.homework_6_notes.java.MainActivity.MainFragmentTag;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,8 +35,9 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     //Ключ для аргументов фрагмента
     private static final String CardNoteKey = "CardNoteKey";
     private static final String MENU_ITEM = "MENU_ITEM";
+    private static final String TAG = "EditNoteFragment";
 
-   private CardNote note;
+    private CardNote note;
    private Button save_button;
    private EditText edit_country;
    private EditText edit_capital;
@@ -113,7 +115,12 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     private void dateClick() {
          DialogDate.getInstance(note).show(requireActivity().getSupportFragmentManager(),null);
     }
+    public void UpdateEditData(CardNote note)
+    {
+        Log.d(TAG, "UpdateEditData() called with: note = [" + note + "]");
+        edit_capital.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDateDate()));
 
+    }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         if(!isLandscape()&& !check_saveInstance_menu)
@@ -147,21 +154,21 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view)
     {
-        //TODO переделать на интерфейсы
         MainFragment fragment= (MainFragment)requireActivity().getSupportFragmentManager().findFragmentByTag(MainFragmentTag);
         if(getArguments()!=null)
         {
             if(note!=null && fragment!=null)
             {
                 note.setName(edit_country.getText().toString());
-                note.setDateText(edit_capital.getText().toString());
+                //note.setDateDate(Calendar.getInstance().getTime());
+                //note.setDateDate(edit_capital.getText().toString());
                 note.setDescription(edit_population.getText().toString());
                 ((ActivityController)requireActivity()).actionNote(0,note);
             }
         }
         else
         {
-           note= new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString(), Calendar.getInstance().getTime());
+           note= new CardNote(edit_country.getText().toString(),edit_population.getText().toString(), Calendar.getInstance().getTime());
             ((ActivityController)requireActivity()).actionNote(1,note);
         }
         if(!isLandscape())
