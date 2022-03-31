@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +42,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     private static final String NOTES_CHANNEL_ID = "NOTES_CHANNEL_ID";
 
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
+    private static final String TAG = "MainFragment";
 
     private CardNote current_card_note;
     private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;

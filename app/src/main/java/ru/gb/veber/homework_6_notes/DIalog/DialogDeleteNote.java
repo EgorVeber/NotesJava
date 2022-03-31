@@ -31,7 +31,6 @@ public class DialogDeleteNote extends DialogFragment {
         dialog.setArguments(bundle);
         return dialog;
     }
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
