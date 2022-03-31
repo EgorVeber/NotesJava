@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -76,7 +75,7 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (CardNote note : notesFull) {
                     //startsWith
-                    if (note.getCountry().toLowerCase().contains(filterPattern))
+                    if (note.getName().toLowerCase().contains(filterPattern))
                         filterList.add(note);
                 }
             }

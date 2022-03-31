@@ -42,8 +42,8 @@ public class DialogDeleteNote extends DialogFragment {
 
         if(note!=null)
         {
-            name=note.getCountry();
-            date=note.getCapital();
+            name=note.getName();
+            date=note.getDateText();
         }
         View dialog= LayoutInflater.from(requireContext()).inflate(R.layout.delete_dialog,null);
 

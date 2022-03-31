@@ -6,4 +6,5 @@ public interface ActivityController {
     void backClick();
     void delete(CardNote city,int position);
     void actionNote(int command, CardNote note);
+    void dateUpdate(CardNote note);
 }

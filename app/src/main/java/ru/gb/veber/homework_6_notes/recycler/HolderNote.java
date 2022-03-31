@@ -5,11 +5,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.SimpleDateFormat;
 
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -54,9 +55,10 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
     {
         // note содержимым переопределить TextView
         this.note=note;
-        country.setText(note.getCountry());
-        capital.setText(note.getCapital());
-        population.setText(note.getPopulation());
+        country.setText(note.getName());
+        capital.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDateDate()));
+        population.setText(note.getDescription());
+
     }
 
     @Override

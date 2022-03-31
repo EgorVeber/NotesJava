@@ -4,21 +4,15 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -140,7 +134,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         adapters.SetNote(source.getAll());
     }
     public void addSourseAdapter(CardNote note_add) {
-        String descriprion = note_add.getCountry() + " "+note_add.getCapital()+" "+note_add.getPopulation();
+        String descriprion = note_add.getName() + " "+note_add.getDateText()+" "+note_add.getDescription();
         source.create(note_add);
         current_card_note=note_add;
         //adapters.SetNote(source.getAll());
@@ -151,7 +145,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     }
     public void deleteNote(CardNote note,int pos)
     {
-        Snackbar.make(requireActivity().findViewById(R.id.anchor_snack), "Вернуть заметку "+note.getCountry()+"?",
+        Snackbar.make(requireActivity().findViewById(R.id.anchor_snack), "Вернуть заметку "+note.getName()+"?",
                 Snackbar.LENGTH_SHORT)// висит пока не нажмем на другую кнопку
                 .setAction("ДА", view -> back_delete(note,pos))
                 .show();
@@ -164,7 +158,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         adapters.delete(source.getAll(),pos);
 
         updateCount();
-        String descriprion = note.getCountry() + " "+note.getCapital()+" "+note.getPopulation();
+        String descriprion = note.getName() + " "+note.getDateText()+" "+note.getDescription();
         showNotification(NOTES_CHANNEL_ID, "Заметка удалена",descriprion,R.drawable.ic_baseline_delete_forever_24,++notify_id);
     }
     private void back_delete(CardNote note,int pos) {

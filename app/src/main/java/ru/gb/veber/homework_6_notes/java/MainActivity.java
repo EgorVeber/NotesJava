@@ -32,6 +32,7 @@ import ru.gb.veber.homework_6_notes.notes.CardNote;
 public class MainActivity extends AppCompatActivity implements ActivityController {
 
     public static final String MainFragmentTag ="MainFragmentTag";
+    public static final String EditNoteFragmentTag ="EditNoteFragmentTag";
     private static final String NOTES_CHANNEL_ID = "NOTES_CHANNEL_ID";
     private static final String SettingFragmentTag = "SettingFragmentTag";
 
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
             channel1.setDescription(description);
             NotificationManagerCompat.from(this).createNotificationChannel(channel1);
         }
-
         init();
         showToolBar();
         if(savedInstanceState==null)
@@ -235,6 +235,12 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
             fragment.updateSourseAdapter(note);
         else
             fragment.addSourseAdapter(note);
+    }
+
+    @Override
+    public void dateUpdate(CardNote note) {
+        fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
+
     }
     @Override //DialogBack
     public void backClick() {
