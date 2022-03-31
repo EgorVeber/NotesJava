@@ -36,20 +36,20 @@ public class DialogDate extends DialogFragment {
     Button button;
     CardNote note;
 
-    public static DialogDate getInstance(CardNote note) {
-        DialogDate fragment = new DialogDate();
-        Bundle args = new Bundle();
-        args.putSerializable(CARD_NOTE, note);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    public static DialogDate getInstance(CardNote note) {
+//        DialogDate fragment = new DialogDate();
+//        Bundle args = new Bundle();
+//        args.putSerializable(CARD_NOTE, note);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
         viewModelDialog.getDate().observe
-                (this, s -> initDatePicker(s.getDateDate()));
+                (this, s -> initDatePicker(s.getDateDate(),s));
     }
 
     @Nullable
@@ -77,7 +77,8 @@ public class DialogDate extends DialogFragment {
 
         });
     }
-    private void initDatePicker(Date date) {
+    private void initDatePicker(Date date,CardNote notes) {
+        note=notes;
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         this.datePicker.init(calendar.get(Calendar.YEAR),

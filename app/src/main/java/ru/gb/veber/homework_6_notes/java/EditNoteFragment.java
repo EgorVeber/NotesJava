@@ -123,7 +123,8 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         edit_capital.setOnClickListener(view1 -> dateClick());
     }
     private void dateClick() {
-        DialogDate.getInstance(note).show(requireActivity().getSupportFragmentManager(),null);
+        //DialogDate.getInstance(note).show(requireActivity().getSupportFragmentManager(),null);
+        new DialogDate().show(requireActivity().getSupportFragmentManager(),null);
         viewModelDialog.DateSay(note);//передали данные в EditText
     }
     public void UpdateEditData(CardNote note)
