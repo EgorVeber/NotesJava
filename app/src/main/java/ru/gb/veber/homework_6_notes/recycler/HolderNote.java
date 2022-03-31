@@ -58,9 +58,7 @@ public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnM
         country.setText(note.getName());
         capital.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDateDate()));
         population.setText(note.getDescription());
-
     }
-
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId())
