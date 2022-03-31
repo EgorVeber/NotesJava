@@ -25,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import ru.gb.veber.homework_6_notes.DIalog.DialogDate;
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
 
@@ -108,14 +109,13 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         edit_country = view.findViewById(R.id.edit_country);
         edit_capital = view.findViewById(R.id.edit_capital);
         edit_population = view.findViewById(R.id.edit_population);
-        TextInputLayout textInputLayout = view.findViewById(R.id.TextInputLayout);
-        textInputLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(requireActivity(),note.toString(),Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        edit_capital.setOnClickListener(view1 -> dateClick());
     }
+    private void dateClick() {
+        new DialogDate().show(requireActivity().getSupportFragmentManager(),null);
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         if(!isLandscape()&& !check_saveInstance_menu)
