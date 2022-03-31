@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,16 +55,9 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Очищаем стек тк при перевороче экрана воссаздает всеь стек, в даннм случии один лишний будет
-//        if (savedInstanceState != null&&isLandscape())
-//        {
-//            requireActivity().getSupportFragmentManager().popBackStack();
-//            check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);//Нужно чтобы не рисовать меню занова если переворачиваем
-//        }
-        //При рекреете попробывать очищать весть стек кроме последней транзакции
         if (savedInstanceState != null)
         {
-            check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);//Нужно чтобы не рисовать меню занова если переворачиваем
+            check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);
             if(isLandscape())
             {
                 requireActivity().getSupportFragmentManager().popBackStack();
@@ -75,7 +67,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         check_saveInstance_menu=true;
-        outState.putBoolean(MENU_ITEM, check_saveInstance_menu);
+        outState.putBoolean(MENU_ITEM, true);
         super.onSaveInstanceState(outState);
     }
     @Nullable
@@ -104,8 +96,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     }
     private void init(View view) {
         setHasOptionsMenu(true);
-        //В onCreate с помощью setHasOptionsMenu включаем режим вывода элементов фрагмента в ActionBar.
-        //Эта строчка говорит о том, что у фрагмента должен быть доступ к меню Активити.
         actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
         if (actionBar != null)
             actionBar.setSubtitle("CardNote");
@@ -128,8 +118,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.back_memu_item_edit_note_fargment)
             requireActivity().getSupportFragmentManager().popBackStack();
-        else
-            Toast.makeText(requireActivity(),"Repost",Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
     public void initMenu(Menu menu)
@@ -160,14 +148,13 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
                 note.setCountry(edit_country.getText().toString());
                 note.setCapital(edit_capital.getText().toString());
                 note.setPopulation(edit_population.getText().toString());
-                fragment.updateSourseAdapter(note);
-
+                ((ActivityController)requireActivity()).actionNote(0,note);
             }
         }
         else
         {
            note= new CardNote(edit_country.getText().toString(),edit_capital.getText().toString(),edit_population.getText().toString());
-           fragment.addSourseAdapter(note);
+            ((ActivityController)requireActivity()).actionNote(1,note);
         }
         if(!isLandscape())
             requireActivity().getSupportFragmentManager().popBackStack();

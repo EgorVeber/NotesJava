@@ -1,7 +1,9 @@
 package ru.gb.veber.homework_6_notes.recycler;
 
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,41 +16,39 @@ import ru.gb.veber.homework_6_notes.notes.CardNote;
 
 public class HolderNote extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItemClickListener {
 
-
+    private ImageView imageView;
     private TextView country;
     private TextView capital;
     private TextView population;
     private CardNote note;
 
     PopupMenu popupMenu;
-    AdapterNote.OnNoteClickListner listner;
+    OnNoteClickListner listner;
 
-    //Принимает view тоесть элемент   itemView - xml наш
-    public HolderNote(@NonNull View itemView, AdapterNote.OnNoteClickListner listner) {
+    public HolderNote(@NonNull View itemView, OnNoteClickListner listner) {
         super(itemView);
 
         this.listner=listner;
 
-        //Ссылки которые в послдестви буду переопределять
         country=itemView.findViewById(R.id.country);
         capital=itemView.findViewById(R.id.capital);
         population=itemView.findViewById(R.id.population);
+        imageView=itemView.findViewById(R.id.note_menu);
 
-        popupMenu= new PopupMenu(itemView.getContext(),itemView);
+        popupMenu= new PopupMenu(itemView.getContext(),itemView, Gravity.RIGHT);
         popupMenu.inflate(R.menu.popap_menu);
 
         itemView.setOnClickListener(view -> {
-            //Теперь когда мы щелкаем можем передавать данные о ноте на которой щелкаем
-            listner.onNoteClick(note);// элемент может сообщать всем на какую произощел щелчок
+            listner.onNoteClick(note);
         });
-
-        //TODO потом переделать
+        imageView.setOnClickListener(view -> {
+            popupMenu.show();
+        });
         itemView.setOnLongClickListener(view ->{
             popupMenu.show();
             return false;
         });
         popupMenu.setOnMenuItemClickListener(this);
-
     }
     void bind(CardNote note)
     {

@@ -1,9 +1,7 @@
-package ru.gb.veber.homework_6_notes.hom_9;
+package ru.gb.veber.homework_6_notes.DIalog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import ru.gb.veber.homework_6_notes.R;
+import ru.gb.veber.homework_6_notes.java.ActivityController;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
 
 public class DialogDeleteNote extends DialogFragment {
@@ -57,7 +56,7 @@ public class DialogDeleteNote extends DialogFragment {
 
         PositiveButton.setOnClickListener(view -> {
             if(note!=null)
-                ((DialogController)requireActivity()).delete(note,position);
+                ((ActivityController)requireActivity()).delete(note,position);
             dismiss();
         });
         NegativeButton.setOnClickListener(view -> dismiss());

@@ -5,13 +5,17 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,14 +26,15 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 import ru.gb.veber.homework_6_notes.R;
-import ru.gb.veber.homework_6_notes.hom_9.DialogController;
-import ru.gb.veber.homework_6_notes.hom_9.DialogFragmentCansel;
+import ru.gb.veber.homework_6_notes.DIalog.DialogBack;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, DialogController {
+public class MainActivity extends AppCompatActivity implements ActivityController {
 
     public static final String MainFragmentTag ="MainFragmentTag";
-    private static final String TAG = "MainActivity";
+    private static final String NOTES_CHANNEL_ID = "NOTES_CHANNEL_ID";
+    private static final String SettingFragmentTag = "SettingFragmentTag";
+
     //SharedPreferences
     private SharedPreferences prefs;
     public static final String FILE_PROFILE = "FILE_PROFILE";
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private  MainFragment fragment;
     private  FragmentManager fragmentManager;
+    private SettingFragment settingFragment;
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -55,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private MenuItem searchItem;
     private SearchView searchView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +68,28 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setTheme(getThemePref());
         setContentView(R.layout.activity_main);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channel_name=getResources().getString(R.string.NotesNotification);
+            String description = getResources().getString(R.string.NotificationDescription);
+            int channel= NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel1= new NotificationChannel(NOTES_CHANNEL_ID,channel_name,channel);
+            channel1.setDescription(description);
+            NotificationManagerCompat.from(this).createNotificationChannel(channel1);
+        }
+
         init();
         showToolBar();
         if(savedInstanceState==null)
             fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment,MainFragmentTag).commit();
+        else
+        {
+            settingFragment= (SettingFragment) fragmentManager.findFragmentByTag(SettingFragmentTag);
+            if(settingFragment==null)
+            {
+                for (int i=0;i<fragmentManager.getBackStackEntryCount();i++)
+                    fragmentManager.popBackStack();
+            }
+        }
     }
     private void init() {
 
@@ -98,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         toggle.syncState();
 
         navigationView= findViewById(R.id.navigation_view);
+
+
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
             return metodSetNavigationItemSelectedListener(id);
@@ -112,11 +137,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     fragmentManager.popBackStack();//Очищаем все в стеке
                 break;
             case R.id.settings_drawer_exit:
-                showFragment(R.id.fragment_container,new SettingFragment(),true);
+                for (int i=0;i<fragmentManager.getBackStackEntryCount();i++)
+                    fragmentManager.popBackStack();//Очищаем все в стеке
+                fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,R.anim.fage_out)
+                        .replace(R.id.fragment_container,new SettingFragment(),SettingFragmentTag).addToBackStack(null).commit();
                 break;
             case R.id.exit_item_draver:
                 finish();
-
                 break;
         }
         drawerLayout.close();
@@ -130,11 +157,20 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         item_reverse = menu.findItem(R.id.sort_reverse_toolbar_main);
         item_sort_id = menu.findItem(R.id.sort_id_toolbar_main);
         item_sort_name= menu.findItem(R.id.sort_name_toolbar_main);
-
         searchItem = menu.findItem(R.id.search_toolbar_main);
         searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(this);
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                fragment.filter(newText);
+                return false;
+            }
+        });
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
@@ -148,17 +184,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         });
         return super.onCreateOptionsMenu(menu);
     }
-
     private void hideTollbarItem(boolean flag) {
         item_plus.setVisible(flag);
         item_reverse.setVisible(flag);
         item_sort_id.setVisible(flag);
         item_sort_name.setVisible(flag);
-    }
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        fragment.getAdapter().getFilter().filter(newText);
-        return true;
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -190,18 +220,26 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void onBackPressed() {
         if(fragmentManager.getBackStackEntryCount()==0)
         {
-            DialogFragmentCansel cansel = new DialogFragmentCansel();
+            DialogBack cansel = new DialogBack();
             cansel.show(getSupportFragmentManager(),null);
         }
         else
             super.onBackPressed();
     }
-    @Override
+    @Override//DialogDeleteNote
     public void delete(CardNote note,int position) {
         fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
         fragment.deleteNote(note,position);
     }
-    @Override
+    @Override//DialogBack
+    public void actionNote(int command, CardNote note) {
+        fragment= (MainFragment)fragmentManager.findFragmentByTag(MainFragmentTag);
+        if(command==0)
+            fragment.updateSourseAdapter(note);
+        else
+            fragment.addSourseAdapter(note);
+    }
+    @Override //DialogBack
     public void backClick() {
         finish();
         toastMessage(getResources().getString(R.string.exit_dialog));
@@ -217,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         boolean chechBox = prefs.getBoolean(KEY_CHECKBOX,false);
         if(chechBox)
             getSupportActionBar().hide();
+        getSupportActionBar().setSubtitle("ListNotes");
     }
     private int getThemePref() {
         int NumTheme = prefs.getInt(KEY_THEME, 0);
@@ -233,10 +272,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public boolean toastMessage(String s)
     {
         Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
-        return true;
-    }
-    @Override
-    public boolean onQueryTextSubmit(String query) {
         return true;
     }
 }
