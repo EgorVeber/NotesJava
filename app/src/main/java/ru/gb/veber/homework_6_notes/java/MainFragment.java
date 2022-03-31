@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,7 +58,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     private void init(View view)
     {
         recyclerView= view.findViewById(R.id.list);
-        adapters = new AdapterNote();
+        adapters = new AdapterNote(this);
         adapters.SetNote(source.getAll());
         adapters.setOnNoteCliclListner(this);
         recyclerView.setHasFixedSize(true);
@@ -118,6 +122,12 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         DialogDeleteNote.getInstance(note,position).
                 show(requireActivity().getSupportFragmentManager(),null);
     }
+
+    @Override
+    public void onColorNoteClick(CardNote note, int adapterPosition) {
+        
+    }
+
     //Click
     @Override
     public void onNoteClick(CardNote note) {
@@ -208,5 +218,25 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     public boolean isLandscape() {
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
+    }
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = requireActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu_toolbar_main, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            // TODO оставим для примера
+            case R.id.add_item_toolbar_main:
+                //Toast.makeText(requireContext(),"add_item_toolbar_main",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.sort_id_toolbar_main:
+               // Toast.makeText(requireContext(),"sort_id_toolbar_main",Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 }
