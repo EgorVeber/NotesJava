@@ -47,7 +47,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
     private Boolean check_saveInstance_menu=false;
     private ActionBar actionBar;
     private Date data_note;
-
+    private SimpleDateFormat format_edit = new SimpleDateFormat("dd.MM.yyyy");
 
     private ViewModelDialog viewModelDialog;
 
@@ -66,10 +66,10 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         viewModelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
-        //Подписали на данные из диалога
-//        viewModelDialog.getSecondInput().observe
-//                (this, s -> edit_capital.setText(new SimpleDateFormat("dd-MM-yy").format(s)));
+        //Подписали на данные из диалога в EditText
 
+//        viewModelDialog.getSecondInput().observe
+//                (this, s ->data_note=s);
         if (savedInstanceState != null)
         {
             check_saveInstance_menu= savedInstanceState.getBoolean(MENU_ITEM);
@@ -99,17 +99,15 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
             if(note!=null)
             {
 
-                //viewModelDialog.secondSay(note.getDateDate());
                 edit_country.setText(note.getName());
-                edit_capital.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDateDate()));
+                edit_capital.setText(format_edit.format(note.getDateDate()));
                 edit_population.setText(note.getDescription());
                 data_note=note.getDateDate();
             }
         }
         else
         {
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            edit_capital.setText(format.format(new Date()));
+            edit_capital.setText(format_edit.format(new Date()));
             data_note=new Date();
         }
     }
@@ -127,14 +125,13 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         edit_capital.setOnClickListener(view1 -> dateClick());
     }
     private void dateClick() {
-
-        DialogDate.getInstance(data_note).show(requireActivity().getSupportFragmentManager(),null);
-        //viewModelDialog.DateSay(note.getDateDate());
+        viewModelDialog.DateSay(data_note);
+        new  DialogDate().show(requireActivity().getSupportFragmentManager(),null);
     }
     public void UpdateEditData(Date date)
     {
         data_note=date;
-        edit_capital.setText(new SimpleDateFormat("dd-MM-yy").format(date));
+        edit_capital.setText(format_edit.format(data_note));
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
