@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Date;
+
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.DIalog.DialogBack;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -239,12 +241,11 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
             fragment.addSourseAdapter(note);
     }
 
-//    @Override
-//    public void dateUpdate(CardNote note) {
-//        Log.d(TAG, "dateUpdate() called with: note = [" + note + "]");
-//       EditNoteFragment noteFragment= (EditNoteFragment)fragmentManager.findFragmentByTag(EditNoteFragmentTag);
-//       noteFragment.UpdateEditData(note);
-//    }
+    @Override
+    public void dateUpdate(Date date) {
+       EditNoteFragment noteFragment= (EditNoteFragment)fragmentManager.findFragmentByTag(EditNoteFragmentTag);
+       noteFragment.UpdateEditData(date);
+    }
     @Override //DialogBack
     public void backClick() {
         finish();

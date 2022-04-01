@@ -151,6 +151,8 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         source.create(note_add);
         current_card_note=note_add;
         //adapters.SetNote(source.getAll());
+        adapters.notifyItemInserted(source.getSize()-1);
+        recyclerView.smoothScrollToPosition(source.getSize()-1);
         updateCount();
         showNotification(NOTES_CHANNEL_ID, "Заметка добавлена",descriprion,R.drawable.ic_baseline_plus_one_24,++notify_id);
     }

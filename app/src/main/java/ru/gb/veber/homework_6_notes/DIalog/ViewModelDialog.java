@@ -11,23 +11,23 @@ import ru.gb.veber.homework_6_notes.notes.CardNote;
 public class ViewModelDialog extends ViewModel {
 
     //Чтобы вернуть данные
-    private MutableLiveData<CardNote> secondInput = new MutableLiveData<>();
-    public void secondSay(CardNote text)
+    private MutableLiveData<Date> secondInput = new MutableLiveData<>();
+    public void secondSay(Date text)
     {
         secondInput.postValue(text);
     }
-    public LiveData<CardNote> getSecondInput()
+    public LiveData<Date> getSecondInput()
     {
         return secondInput;
     }
 
-    private MutableLiveData<CardNote> dateInput = new MutableLiveData<>();
-    public void DateSay(CardNote text)
-    {
-        dateInput.postValue(text);
-    }
-    public LiveData<CardNote> getDate()
-    {
-        return dateInput;
-    }
+//    private MutableLiveData<Date> dateInput = new MutableLiveData<>();
+//    public void DateSay(Date text)
+//    {
+//        dateInput.postValue(text);
+//    }
+//    public LiveData<Date> getDate()
+//    {
+//        return dateInput;
+//    }
 }
