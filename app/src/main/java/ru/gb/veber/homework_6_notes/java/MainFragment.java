@@ -57,6 +57,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     private FragmentManager fragmentManager;
     public static final String EditNoteFragmentTag= "EditNoteFragmentTag";
 
+
     private SimpleDateFormat format_edit = new SimpleDateFormat("dd.MM.yyyy");
     private int notify_id =0;
     private void init(View view)
