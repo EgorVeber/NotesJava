@@ -44,9 +44,7 @@ public class CardNoteSourseImpl implements CardNoteSourse {
     public CardNoteSourseImpl()
     {
         prefs= AppContext.getInstance().getSharedPreferences(FILE_PROFILE, Context.MODE_PRIVATE);
-
         notes= (ArrayList<CardNote>) getAll();
-        calendar.set(2022, Calendar.MARCH, 23);
     }
     @Override
     public int create(CardNote note) {
