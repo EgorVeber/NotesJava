@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements ActivityControlle
     public static final String KEY_THEME ="KeyTheme";
     public static final String KEY_PROFILE = "PROFILE_NAME";
     public static final String KEY_CHECKBOX = "KeyCheckbox";
-    String getProfileName="Profile_name";
+    private String getProfileName="Profile_name";
 
     private  MainFragment fragment;
     private  FragmentManager fragmentManager;

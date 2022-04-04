@@ -163,13 +163,18 @@
     <!-- /layout/header_draver -->
 
     <!-- TitileTextFragment -->
+    <style name="text_view_style_theme1" >
+        <item name="android:textColor">@color/teal_200</item>
+    </style>
+    <style name="text_view_style_theme2" >
+        <item name="android:textColor">@color/new_color_4</item>
+    </style>
     <style name="fragment_textview_title" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:text">@string/title_text</item>
         <item name="android:layout_margin">@dimen/margin_title</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/teal_200</item>
         <item name="android:textSize">@dimen/title_text_size</item>
     </style>
     <style name="fragment_textview_title.big" >
