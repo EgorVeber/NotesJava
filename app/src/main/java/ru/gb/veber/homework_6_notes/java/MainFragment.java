@@ -4,27 +4,30 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import java.text.SimpleDateFormat;
 
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.DIalog.DialogDeleteNote;
@@ -42,6 +45,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
 
     private static final String CURRENT_CARD_NOTE = "CURRENT_CARD_NOTE";
 
+    private RecyclerView recyclerView;
     private CardNote current_card_note;
     private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;
     private AdapterNote adapters;
@@ -53,16 +57,21 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     private int notify_id =0;
     private void init(View view)
     {
-        RecyclerView list= view.findViewById(R.id.list);
-        adapters = new AdapterNote();
+        recyclerView= view.findViewById(R.id.list);
+        adapters = new AdapterNote(this);
         adapters.SetNote(source.getAll());
         adapters.setOnNoteCliclListner(this);
-        list.setHasFixedSize(true);
-        list.setAdapter(adapters);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapters);
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        //animator.setAddDuration(500);
+        //animator.setRemoveDuration(500);
+        recyclerView.setItemAnimator(animator);
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
-        list.addItemDecoration(itemDecoration);
+        recyclerView.addItemDecoration(itemDecoration);
         fragmentManager=requireActivity().getSupportFragmentManager();
+
     }
     @Nullable
     @Override
@@ -113,6 +122,12 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         DialogDeleteNote.getInstance(note,position).
                 show(requireActivity().getSupportFragmentManager(),null);
     }
+
+    @Override
+    public void onColorNoteClick(CardNote note, int adapterPosition) {
+        
+    }
+
     //Click
     @Override
     public void onNoteClick(CardNote note) {
@@ -132,16 +147,18 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         adapters.SetNote(source.getAll());
     }
     public void addSourseAdapter(CardNote note_add) {
-        String descriprion = note_add.getCountry() + " "+note_add.getCapital()+" "+note_add.getPopulation();
+        String descriprion = note_add.getName() + " "+new SimpleDateFormat("dd-MM-yy").format(note_add.getDateDate())+" "+note_add.getDescription();
         source.create(note_add);
         current_card_note=note_add;
-        adapters.SetNote(source.getAll());
+        //adapters.SetNote(source.getAll());
+        adapters.notifyItemInserted(source.getSize()-1);
+        recyclerView.smoothScrollToPosition(source.getSize()-1);
         updateCount();
         showNotification(NOTES_CHANNEL_ID, "Заметка добавлена",descriprion,R.drawable.ic_baseline_plus_one_24,++notify_id);
     }
     public void deleteNote(CardNote note,int pos)
     {
-        Snackbar.make(requireActivity().findViewById(R.id.anchor_snack), "Вернуть заметку "+note.getCountry()+"?",
+        Snackbar.make(requireActivity().findViewById(R.id.anchor_snack), "Вернуть заметку "+note.getName()+"?",
                 Snackbar.LENGTH_SHORT)// висит пока не нажмем на другую кнопку
                 .setAction("ДА", view -> back_delete(note,pos))
                 .show();
@@ -152,16 +169,18 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
                 current_card_note=source.getAll().get(0);
         }
         adapters.delete(source.getAll(),pos);
+        //recyclerView.smoothScrollToPosition(source.getSize() - 1);
         updateCount();
-        String descriprion = note.getCountry() + " "+note.getCapital()+" "+note.getPopulation();
+        String descriprion = note.getName() + " "+new SimpleDateFormat("dd-MM-yy").format(note.getDateDate())+" "+note.getDescription();
         showNotification(NOTES_CHANNEL_ID, "Заметка удалена",descriprion,R.drawable.ic_baseline_delete_forever_24,++notify_id);
     }
     private void back_delete(CardNote note,int pos) {
         source.res_create(note,pos);
         current_card_note=note;
         adapters.res_delete(source.getAll(),pos);
+        //recyclerView.scrollToPosition(pos);
+        recyclerView.smoothScrollToPosition(pos);
         updateCount();
-
     }
     public void updateCount()
     {
@@ -201,5 +220,25 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     public boolean isLandscape() {
         return getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
+    }
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = requireActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu_toolbar_main, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            // TODO оставим для примера
+            case R.id.add_item_toolbar_main:
+                //Toast.makeText(requireContext(),"add_item_toolbar_main",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.sort_id_toolbar_main:
+               // Toast.makeText(requireContext(),"sort_id_toolbar_main",Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 }

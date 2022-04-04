@@ -1,6 +1,7 @@
 package ru.gb.veber.homework_6_notes.recycler;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +9,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -23,20 +24,32 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
     private List<CardNote> notesFull;
     private OnNoteClickListner listner;
 
+    private Fragment fragment;
 
+    public AdapterNote(Fragment fragment)
+    {
+            this.fragment = fragment;
+    }
     @NonNull
     @Override
     public HolderNote onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        Context  context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.card_note_item, parent, false); // в какой элемент надуваем
-
-        return new HolderNote(view, listner);//view нужен чтобы создать Holder который будет сожержать
+        return new HolderNote(view, listner,fragment);//view нужен чтобы создать Holder который будет сожержать
     }
 
     @Override
     public void onBindViewHolder(@NonNull HolderNote holder, int position) {
         holder.bind(notes.get(position));
+//        if(holder.adapter_position==position){
+//            holder.capital.setTextColor(Color.parseColor("#567845"));
+//        }
+//        else
+//        {
+//         //   holder.row_linearlayout.setBackgroundColor(Color.parseColor("#ffffff"));
+//            holder.capital.setTextColor(Color.parseColor("#ffffff"));
+//        }
     }
     @Override
     public int getItemCount() {
@@ -76,7 +89,7 @@ public class AdapterNote extends RecyclerView.Adapter<HolderNote> implements Fil
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (CardNote note : notesFull) {
                     //startsWith
-                    if (note.getCountry().toLowerCase().contains(filterPattern))
+                    if (note.getName().toLowerCase().contains(filterPattern))
                         filterList.add(note);
                 }
             }

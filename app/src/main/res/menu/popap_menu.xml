@@ -5,4 +5,9 @@
         android:orderInCategory="1"
         android:title="Удалить"
         />
+    <item
+        android:id="@+id/new_item_popam_menu"
+        android:orderInCategory="1"
+        android:title="Закрасить"
+        />
 </menu>

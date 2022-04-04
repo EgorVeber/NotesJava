@@ -31,10 +31,12 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/text_input_layout_card"
+                    android:id="@+id/TextInputLayout"
                     android:hint="@string/Data"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_capital"
+                        android:focusable="false"
                         style="@style/text_edit_layout_card"
                         />
                 </com.google.android.material.textfield.TextInputLayout>

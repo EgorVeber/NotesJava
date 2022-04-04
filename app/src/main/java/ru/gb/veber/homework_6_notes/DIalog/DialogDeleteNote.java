@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.java.ActivityController;
 import ru.gb.veber.homework_6_notes.notes.CardNote;
@@ -22,7 +25,6 @@ public class DialogDeleteNote extends DialogFragment {
     public static final String POSITION= "POSITION";
 
     private CardNote note;
-    AlertDialog alertDialog;
     public static DialogDeleteNote getInstance(CardNote note,int position)
     {
         DialogDeleteNote dialog = new DialogDeleteNote();
@@ -32,7 +34,6 @@ public class DialogDeleteNote extends DialogFragment {
         dialog.setArguments(bundle);
         return dialog;
     }
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -44,8 +45,8 @@ public class DialogDeleteNote extends DialogFragment {
 
         if(note!=null)
         {
-            name=note.getCountry();
-            date=note.getCapital();
+            name=note.getName();
+            date=new SimpleDateFormat("dd-MM-yy").format(note.getDateDate());
         }
         View dialog= LayoutInflater.from(requireContext()).inflate(R.layout.delete_dialog,null);
 
