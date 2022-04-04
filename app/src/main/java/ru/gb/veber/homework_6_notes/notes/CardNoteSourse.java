@@ -6,9 +6,10 @@ public interface CardNoteSourse  {
 
     int create(CardNote note);
     int res_create(CardNote notem,int pos);
-    CardNote read(int id);
     void update (CardNote note);
     void delete (int id);
+
+    CardNote read(int id);
     List<CardNote> getAll();
     int getSize();
     void sortReverse  ();
