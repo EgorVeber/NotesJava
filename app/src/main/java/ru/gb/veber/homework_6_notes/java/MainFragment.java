@@ -28,6 +28,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import ru.gb.veber.homework_6_notes.R;
 import ru.gb.veber.homework_6_notes.DIalog.DialogDeleteNote;
@@ -48,18 +50,22 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
     private RecyclerView recyclerView;
     private CardNote current_card_note;
     private CardNoteSourse source = CardNoteSourseImpl.getInstance() ;
+    private List<CardNote> cardNotes;
     private AdapterNote adapters;
     private TextView item_count;
 
     private FragmentManager fragmentManager;
     public static final String EditNoteFragmentTag= "EditNoteFragmentTag";
 
+    private SimpleDateFormat format_edit = new SimpleDateFormat("dd.MM.yyyy");
     private int notify_id =0;
     private void init(View view)
     {
         recyclerView= view.findViewById(R.id.list);
         adapters = new AdapterNote(this);
+
         adapters.SetNote(source.getAll());
+        cardNotes=  source.getAll();
         adapters.setOnNoteCliclListner(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapters);
@@ -71,7 +77,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
         recyclerView.addItemDecoration(itemDecoration);
         fragmentManager=requireActivity().getSupportFragmentManager();
-
+        updateCount();
     }
     @Nullable
     @Override
@@ -122,12 +128,6 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         DialogDeleteNote.getInstance(note,position).
                 show(requireActivity().getSupportFragmentManager(),null);
     }
-
-    @Override
-    public void onColorNoteClick(CardNote note, int adapterPosition) {
-        
-    }
-
     //Click
     @Override
     public void onNoteClick(CardNote note) {
@@ -147,7 +147,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         adapters.SetNote(source.getAll());
     }
     public void addSourseAdapter(CardNote note_add) {
-        String descriprion = note_add.getName() + " "+new SimpleDateFormat("dd-MM-yy").format(note_add.getDateDate())+" "+note_add.getDescription();
+        String descriprion = note_add.getName() + " "+format_edit.format(note_add.getDateDate())+" "+note_add.getDescription();
         source.create(note_add);
         current_card_note=note_add;
         //adapters.SetNote(source.getAll());
@@ -163,6 +163,7 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
                 .setAction("ДА", view -> back_delete(note,pos))
                 .show();
         source.delete(note.getId());
+
         if(current_card_note==note)
         {
             if(source.getSize()!=0)
@@ -171,8 +172,8 @@ public class MainFragment extends Fragment implements OnNoteClickListner {
         adapters.delete(source.getAll(),pos);
         //recyclerView.smoothScrollToPosition(source.getSize() - 1);
         updateCount();
-        String descriprion = note.getName() + " "+new SimpleDateFormat("dd-MM-yy").format(note.getDateDate())+" "+note.getDescription();
-        showNotification(NOTES_CHANNEL_ID, "Заметка удалена",descriprion,R.drawable.ic_baseline_delete_forever_24,++notify_id);
+        String description = note.getName() + " "+format_edit.format(note.getDateDate())+" "+note.getDescription();
+        showNotification(NOTES_CHANNEL_ID, "Заметка удалена",description,R.drawable.ic_baseline_delete_forever_24,++notify_id);
     }
     private void back_delete(CardNote note,int pos) {
         source.res_create(note,pos);

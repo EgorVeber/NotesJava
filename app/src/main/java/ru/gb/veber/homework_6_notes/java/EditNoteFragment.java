@@ -98,7 +98,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
             note=(CardNote)getArguments().getSerializable(CardNoteKey);
             if(note!=null)
             {
-
                 edit_country.setText(note.getName());
                 edit_capital.setText(format_edit.format(note.getDateDate()));
                 edit_population.setText(note.getDescription());

@@ -20,6 +20,7 @@ public class ViewModelDialog extends ViewModel {
 //    {
 //        return secondInput;
 //    }
+    //Чтобы передать в календарь
 
     private MutableLiveData<Date> dateInput = new MutableLiveData<>();
     public void DateSay(Date text)

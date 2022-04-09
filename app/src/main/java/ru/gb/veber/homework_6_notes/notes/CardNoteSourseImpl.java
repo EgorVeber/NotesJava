@@ -1,7 +1,12 @@
 package ru.gb.veber.homework_6_notes.notes;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,13 +18,20 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import ru.gb.veber.homework_6_notes.R;
+import ru.gb.veber.homework_6_notes.java.AppContext;
 
 public class CardNoteSourseImpl implements CardNoteSourse {
 
     private int counter = 0;
     static CardNoteSourseImpl sourse;
-    private ArrayList<CardNote> notes = new ArrayList<>();
-    Calendar calendar = new GregorianCalendar();
+    private ArrayList<CardNote> notes ;
+    private  Calendar calendar = new GregorianCalendar();
+
+    private SharedPreferences prefs;
+
+    public static final String FILE_PROFILE = "FILE_PROFILE";
+    public static final String KEY_NOTES ="KEY_NOTES";
+    private Gson gson = new Gson();
 
     public static CardNoteSourseImpl getInstance()
     {
@@ -31,35 +43,15 @@ public class CardNoteSourseImpl implements CardNoteSourse {
     }
     public CardNoteSourseImpl()
     {
-        calendar.set(2022, Calendar.MARCH, 23);
-        create(new CardNote("Дом","Убратся дома хотябы раз за неделю", calendar.getTime()));
-        create(new CardNote("Стоматолог","Записан на 12:00",calendar.getTime()));
-        calendar.set(2022, Calendar.MAY, 21);
-        create(new CardNote("Кино","Сходить на что нибудь",calendar.getTime()));
-        calendar.set(2022, Calendar.FEBRUARY, 22);
-        create(new CardNote("Спортзал","Мб когда нибудь",calendar.getTime()));
-        calendar.set(2022, Calendar.JANUARY, 23);
-        create(new CardNote("Android","Заниматся разработкой, по практиковатся с Intent и приступать к фрагментам + почитать и сделать примеи TextInputLayout ",calendar.getTime()));
-        calendar.set(2022, Calendar.MARCH, 31);
-        create(new CardNote("Вебинар","Успеть к  20:00",calendar.getTime()));
-        calendar.set(2022, Calendar.MARCH, 21);
-        create(new CardNote("Работа","Не забыть что отпуск закончился",calendar.getTime()));
-        calendar.set(2022, Calendar.MARCH, 12);
-        create(new CardNote("Дом","Забрать смеситель",calendar.getTime()));
-        calendar.set(2022, Calendar.MARCH, 11);
-        create(new CardNote("Подарки","Подумать о подарках",calendar.getTime()));
-        calendar.set(2022, Calendar.MARCH, 9);
-        create(new CardNote("Отпуск","Подписать заявление на отпуск",calendar.getTime()));
-        calendar.set(2022, Calendar.MARCH, 2);
-        create(new CardNote("8 Марта","Забрать подарки",calendar.getTime()));
-        calendar.set(2022, Calendar.MARCH, 1);
-        create(new CardNote("Врач","Запись к офтальмологу",calendar.getTime()));
+        prefs= AppContext.getInstance().getSharedPreferences(FILE_PROFILE, Context.MODE_PRIVATE);
+        notes= (ArrayList<CardNote>) getAll();
     }
     @Override
     public int create(CardNote note) {
         int id= counter++;
         note.setId(id);
         notes.add(note);
+        updateProfileFile();
         return id;
     }
     @Override
@@ -67,6 +59,7 @@ public class CardNoteSourseImpl implements CardNoteSourse {
         int id= counter++;
         note.setId(id);
         notes.add(pos,note);
+        updateProfileFile();
         return id;
     }
     @Override
@@ -89,6 +82,7 @@ public class CardNoteSourseImpl implements CardNoteSourse {
                 break;
             }
         }
+        updateProfileFile();
     }
 
     @Override
@@ -100,12 +94,29 @@ public class CardNoteSourseImpl implements CardNoteSourse {
                 break;
             }
         }
+        updateProfileFile();
+    }
+    public void updateProfileFile()
+    {
+        String data =gson.toJson(notes);//будет сериализован
+        prefs.edit().putString(KEY_NOTES,data).apply();
     }
     @Override
     public List<CardNote> getAll() {
+        String data = prefs.getString(KEY_NOTES,"{}");
+        try {
+            notes = gson.fromJson(data,new TypeToken<List<CardNote>>(){}.getType());
+        }
+        catch (Exception e)
+        {
+            Log.d("happy", "Exception: " + e.getMessage());
+        }
+        if(notes==null)
+        {
+            notes= new ArrayList<>();
+        }
         return notes;
     }
-
     @Override
     public int getSize() {
         return notes.size();
@@ -114,14 +125,17 @@ public class CardNoteSourseImpl implements CardNoteSourse {
     @Override
     public void sortReverse() {
         Collections.reverse(notes);
+        updateProfileFile();
     }
     @Override
     public void sortName() {
         Collections.sort(notes);
+        updateProfileFile();
     }
     @Override
     public void sortId() {
         Collections.sort(notes,new ComparatorId());
+        updateProfileFile();
     }
 }
 class ComparatorId implements Comparator<CardNote>{
