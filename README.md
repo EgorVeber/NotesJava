@@ -25,4 +25,5 @@
 - В Landscape ориентации отображаются сразу два фрагмента основной и детальный просмотр.
 - Есть сортировки и поиск по заметкам.
 ---
-[alt text](https://github.com/EgorVeber/NotesJava/blob/master/1.png?raw=true)
+### Фото
+[Image](https://github.com/EgorVeber/NotesJava/blob/master/1.png?raw=true)
