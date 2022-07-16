@@ -26,4 +26,10 @@
 - Есть сортировки и поиск по заметкам.
 ---
 ### Фото
-[Image](https://github.com/EgorVeber/NotesJava/blob/master/1.png?raw=true)
+[Главный экран со всеми заметками](https://github.com/EgorVeber/NotesJava/blob/master/1.png?raw=true)  
+[Экран редактироавания заметки](https://github.com/EgorVeber/NotesJava/blob/master/2.png?raw=true)  
+[Календарь](https://github.com/EgorVeber/NotesJava/blob/master/3.png?raw=true)  
+[Поиск](https://github.com/EgorVeber/NotesJava/blob/master/4.png?raw=true)  
+[Drawer](https://github.com/EgorVeber/NotesJava/blob/master/5.png?raw=true)  
+[Экран настроек](https://github.com/EgorVeber/NotesJava/blob/master/6.png?raw=true)  
+[Landscape](https://github.com/EgorVeber/NotesJava/blob/master/7.png?raw=true)
